@@ -7,6 +7,3 @@
 # review when someone opens a pull request.
 * @bethanyann
 * @coffee2theorems
-* @HumayoonRafei
-
-
