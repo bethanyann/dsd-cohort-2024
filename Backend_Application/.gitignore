@@ -1,8 +1,12 @@
 # Created by https://www.toptal.com/developers/gitignore/api/java,maven
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,maven
 
+# ENV
+/src/main/resources/env.properties
+
 ### Java ###
 # Compiled class file
+/target/*
 *.class
 
 # Log file
@@ -45,5 +49,8 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+# IntelliJ files
+.idea
 
 # End of https://www.toptal.com/developers/gitignore/api/java,maven
