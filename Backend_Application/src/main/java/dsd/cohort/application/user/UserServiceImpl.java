@@ -14,16 +14,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getUserByEmail(String email) {
         UserEntity user = userRepository.findByEmail(email);
+        if(user != null){
+            return user;
+        }
         return null;
     }
 
     @Override
     public boolean userExists(String email) {
+        UserEntity user = userRepository.findByEmail(email);
+        if(user != null){
+            return true;
+        }
         return false;
     }
 
     @Override
-    public boolean createUser(UserEntity user) {
-        return false;
+    public UserEntity createUser(UserEntity user) {
+        var newUser = userRepository.save(user);
+        if(newUser != null){
+            return newUser;
+        }
+        return null;
     }
 }

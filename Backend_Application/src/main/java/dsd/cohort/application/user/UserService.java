@@ -10,5 +10,5 @@ public interface UserService {
 
     boolean userExists(String email);
 
-    boolean createUser(UserEntity user);
+    UserEntity createUser(UserEntity user);
 }

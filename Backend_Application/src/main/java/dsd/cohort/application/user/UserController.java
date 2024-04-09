@@ -1,15 +1,34 @@
 package dsd.cohort.application.user;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
 
-    @GetMapping("/")
-    public String test() {
-        return "this is a user test";
+    private UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping("/createuser")
+    public UserEntity createUser(@RequestBody UserEntity user){
+        var userCreated = userService.createUser(user);
+        if(userCreated != null){
+        return userCreated;
+        }
+        return null;
+    }
+
+    @GetMapping("/getuserbyemail")
+    public UserEntity getUserByEmail(@RequestBody String userEmail){
+        return userService.getUserByEmail(userEmail);
+    }
+
+    @GetMapping("/userexist")
+    public boolean userExist(@RequestBody String userEmail){
+        return userService.userExists(userEmail);
+
     }
 }
