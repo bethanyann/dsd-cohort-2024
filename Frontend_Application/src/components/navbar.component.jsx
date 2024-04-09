@@ -17,7 +17,7 @@ function Navbar() {
           </Grid>
           {/* Sign in button on the right-hand side */}
           <Grid item>
-            <Button variant="outlined" color="primary">Sign In</Button>
+            <Button href ="/login" variant="outlined" color="primary">Sign In</Button>
           </Grid>
         </Grid>
       </Toolbar>
