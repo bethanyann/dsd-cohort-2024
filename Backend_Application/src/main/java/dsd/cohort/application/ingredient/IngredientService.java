@@ -7,7 +7,7 @@ public interface IngredientService {
 
     IngredientEntity getIngredientById(Long id);
 
-    IngredientEntity getIngredientByDescription(String description);
+    IngredientEntity getIngredientByName(String name);
 
     boolean createIngredient(IngredientEntity ingredient);
 

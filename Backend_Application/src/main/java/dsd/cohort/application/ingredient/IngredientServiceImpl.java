@@ -17,8 +17,8 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public IngredientEntity getIngredientByDescription(String description) {
-        return ingredientRepository.findByDescription(description);
+    public IngredientEntity getIngredientByName(String name) {
+        return ingredientRepository.findByDescription(name);
     }
 
     @Override

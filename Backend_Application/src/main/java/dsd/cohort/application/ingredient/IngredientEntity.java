@@ -18,6 +18,28 @@ public class IngredientEntity {
     @Column(name = "ingredient_id", nullable = false)
     private Long id;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "food_id", unique = true)
+    private String foodId;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "calories")
+    private int calories;
+
+    @Column(name = "protein")
+    private int protein;
+
+    @Column(name = "fat")
+    private int fat;
+
+    @Column(name = "carbs")
+    private int carbs;
+
+    @Column(name = "fiber")
+    private int fiber;
+
+    @Column(name = "image_url")
+    private String imageUrl;
+
 }
