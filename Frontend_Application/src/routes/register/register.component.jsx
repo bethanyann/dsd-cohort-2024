@@ -10,7 +10,7 @@ import { useState } from "react";
 import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import IconButton from "@mui/material/IconButton"
+import IconButton from "@mui/material/IconButton";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -167,7 +167,7 @@ const Register = () => {
                 error={errors.confirmPassword !== ''}
                 helperText={errors.confirmPassword}
               />
-              <Button type="submit" variant="contained" color="primary" fullWidth>
+              <Button type="submit" variant="contained" color="primary" style={{ marginTop: '16px' }} fullWidth>
                 Register
               </Button>
             </form>
