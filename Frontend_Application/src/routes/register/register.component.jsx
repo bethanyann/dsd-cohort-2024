@@ -9,7 +9,7 @@ import Link from '@mui/material/Link';
 import { useState } from 'react';
 import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
-// import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import IconButton from '@mui/material/IconButton';
 
 const Register = () => {
@@ -89,7 +89,7 @@ const Register = () => {
         to='/'
         aria-label='back'
         style={{ position: 'absolute', top: '10px', left: '10px' }}>
-        {/* <ArrowBackIcon /> */}
+        <ArrowBackIcon />
       </IconButton>
       <Grid container alignItems='center' justifyContent='center' style={{ minHeight: '100vh' }}>
         <Grid item xs={10} sm={6} md={8}>
