@@ -1,12 +1,12 @@
-import { Outlet } from "react-router-dom";
-import CssBaseline from "@mui/material/CssBaseline";
-import Grid from "@mui/material/Grid";
+import { Outlet } from 'react-router-dom';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
-import { useState } from "react";
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
+import { useState } from 'react';
 import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -19,13 +19,13 @@ const Register = () => {
     username: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
   const [errors, setErrors] = useState({
     username: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
 
   const handleChange = (e) => {
@@ -80,90 +80,85 @@ const Register = () => {
     }
   };
 
-
   return (
     <div>
       <Outlet />
       <CssBaseline />
-      <IconButton component={RouterLink} to="/" aria-label="back" style={{ position: 'absolute', top: '10px', left: '10px' }}>
+      <IconButton
+        component={RouterLink}
+        to='/'
+        aria-label='back'
+        style={{ position: 'absolute', top: '10px', left: '10px' }}>
         <ArrowBackIcon />
       </IconButton>
-      <Grid
-        container
-        alignItems="center"
-        justifyContent="center"
-        style={{ minHeight: '100vh' }}
-      >
+      <Grid container alignItems='center' justifyContent='center' style={{ minHeight: '100vh' }}>
         <Grid item xs={10} sm={6} md={8}>
-          <Box
-            elevation={3}
-            sx={{ p: 3 }}
-            boxShadow={3}>
-            <Typography variant="h5" align="center" gutterBottom>
+          <Box elevation={3} sx={{ p: 3 }} boxShadow={3}>
+            <Typography variant='h5' align='center' gutterBottom>
               Create an Account
             </Typography>
             <form onSubmit={handleRegistration}>
               <TextField
                 fullWidth
-                label="First Name"
-                name="firstName"
+                label='First Name'
+                name='firstName'
                 value={formData.firstName}
                 onChange={handleChange}
-                variant="outlined"
-                margin="normal"
+                variant='outlined'
+                margin='normal'
               />
               <TextField
                 fullWidth
-                label="Last Name"
-                name="lastName"
+                label='Last Name'
+                name='lastName'
                 value={formData.lastName}
                 onChange={handleChange}
-                variant="outlined"
-                margin="normal"
+                variant='outlined'
+                margin='normal'
               />
               <TextField
                 fullWidth
-                label="Username"
-                name="username"
+                label='Username'
+                name='username'
                 value={formData.username}
                 onChange={handleChange}
-                variant="outlined"
-                margin="normal"
+                variant='outlined'
+                margin='normal'
                 error={errors.username !== ''}
                 helperText={errors.username}
               />
               <TextField
                 fullWidth
-                label="Email"
-                name="email"
+                label='Email'
+                name='email'
                 value={formData.email}
                 onChange={handleChange}
-                variant="outlined"
-                margin="normal"
+                variant='outlined'
+                margin='normal'
                 error={errors.email !== ''}
                 helperText={errors.email}
               />
               <TextField
                 fullWidth
-                label="Password"
-                type="password"
-                name="password"
+                label='Password'
+                type='password'
+                name='password'
                 value={formData.password}
                 onChange={handleChange}
-                variant="outlined"
-                margin="normal"
+                variant='outlined'
+                margin='normal'
                 error={errors.password !== ''}
                 helperText={errors.password}
               />
               <TextField
                 fullWidth
-                label="Confirm Password"
-                type="password"
-                name="confirmPassword"
+                label='Confirm Password'
+                type='password'
+                name='confirmPassword'
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                variant="outlined"
-                margin="normal"
+                variant='outlined'
+                margin='normal'
                 error={errors.confirmPassword !== ''}
                 helperText={errors.confirmPassword}
               />
@@ -171,9 +166,9 @@ const Register = () => {
                 Register
               </Button>
             </form>
-            <Typography variant="body2" align="center" style={{ marginTop: 10 }}>
+            <Typography variant='body2' align='center' style={{ marginTop: 10 }}>
               Already have an account?{' '}
-              <Link href="/login" underline="hover">
+              <Link href='/login' underline='hover'>
                 Log in Here
               </Link>
             </Typography>
