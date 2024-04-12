@@ -6,6 +6,7 @@ import "./index.css";
 
 import Login from "./routes/login/login.component.jsx";
 import Register from "./routes/register/register.component.jsx";
+import MyRecipes from "./routes/myrecipes/myrecipes.component.jsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "myrecipes",
+        element: <MyRecipes />,
       },
     ],
   },
