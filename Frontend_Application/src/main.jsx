@@ -6,7 +6,11 @@ import "./index.css";
 
 import Login from "./routes/login/login.component.jsx";
 import Register from "./routes/register/register.component.jsx";
+<<<<<<< HEAD
 import MyRecipes from "./routes/myrecipes/myrecipes.component.jsx";
+=======
+import Dashboard from "./routes/dasboard/dashboard.component.jsx";
+>>>>>>> main
 
 const router = createBrowserRouter([
   {
@@ -22,8 +26,13 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
+<<<<<<< HEAD
         path: "myrecipes",
         element: <MyRecipes />,
+=======
+        path: "dashboard",
+        element: <Dashboard />,
+>>>>>>> main
       },
     ],
   },
