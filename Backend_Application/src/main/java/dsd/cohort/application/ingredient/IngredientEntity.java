@@ -1,5 +1,9 @@
 package dsd.cohort.application.ingredient;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import dsd.cohort.application.recipe.RecipeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,4 +46,7 @@ public class IngredientEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @ManyToMany(mappedBy = "ingredients")
+    private Set<RecipeEntity> recipes = new HashSet<>();
+        
 }
