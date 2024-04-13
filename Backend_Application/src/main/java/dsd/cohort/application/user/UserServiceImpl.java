@@ -1,29 +1,47 @@
 package dsd.cohort.application.user;
 
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
-    private UserRepository userRepository;
+    private UserRepository usersRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserServiceImpl(UserRepository usersRepository) {
+        this.usersRepository = usersRepository;
     }
 
     @Override
-    public UserEntity getUserByEmail(String email) {
-        UserEntity user = userRepository.findByEmail(email);
-        return null;
+    public Optional<UserEntity> findUserByEmail(String email) {
+        return usersRepository.findByEmail(email);
     }
 
     @Override
     public boolean userExists(String email) {
+        Optional <UserEntity> user = usersRepository.findByEmail(email);
+        if(user != null){
+            return true;
+        }
         return false;
     }
 
     @Override
-    public boolean createUser(UserEntity user) {
-        return false;
+    public UserEntity createUser(UserEntity user) {
+        var newUser = usersRepository.save(user);
+        if(newUser != null){
+            return newUser;
+        }
+        return null;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return usersRepository.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("User not found"));
     }
 }
