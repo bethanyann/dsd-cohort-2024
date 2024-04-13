@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 @Service
 public interface IngredientService {
 
-    IngredientEntity getIngredientById(Long id);
+    IngredientEntity getIngredientByFoodId(String foodId);
 
-    IngredientEntity getIngredientByName(String name);
+    IngredientEntity ingredientExists(String foodId);
 
-    boolean createIngredient(IngredientEntity ingredient);
+    IngredientEntity createIngredient(String ingredient);
 
 }

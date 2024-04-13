@@ -12,26 +12,31 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public IngredientEntity getIngredientById(Long id) {
-        return ingredientRepository.findById(id).orElse(null);
+    public IngredientEntity getIngredientByFoodId(String foodId) {
+        return ingredientExists(foodId);
     }
 
     @Override
-    public IngredientEntity getIngredientByName(String name) {
-        return ingredientRepository.findByDescription(name);
+    public IngredientEntity ingredientExists(String foodId) {
+        IngredientEntity ingredient = ingredientRepository.findByFoodId(foodId);
+
+        if(ingredient == null) {
+            return createIngredient(foodId);
+        }
+
+        return ingredient;
     }
 
     @Override
-    public boolean createIngredient(IngredientEntity ingredient) {
-        if(ingredient==null) {
-            return false;
-        }
+    public IngredientEntity createIngredient(String foodId) {
 
-        if(ingredientRepository.existsById(ingredient.getId())) {
-            return false;
-        }
+        // TODO: API Call
 
-        ingredientRepository.save(ingredient);
-        return true;
+        IngredientEntity ingredientEntity = new IngredientEntity();
+
+        // TODO: Set all fields
+
+        ingredientRepository.save(ingredientEntity);
+        return null;
     }
 }
