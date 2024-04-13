@@ -2,17 +2,16 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
-export default function FreeSolo() {
+export default function SearchRecipesBar() {
   return (
     <Autocomplete
-      freeSolo
-      id='recipe-search-bar'
+      id="recipe-search-bar"
       disableClearable
       options={recipes.map((recipe) => recipe.title)}
       renderInput={(params) => (
         <TextField
           {...params}
-          label='Search for Recipes'
+          label="Search for Recipes"
           InputProps={{
             ...params.InputProps,
             type: "search",
