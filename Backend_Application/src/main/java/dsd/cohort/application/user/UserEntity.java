@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import dsd.cohort.application.ingredient.IngredientEntity;
 import dsd.cohort.application.recipe.RecipeEntity;
 
 import java.util.HashSet;
@@ -45,6 +45,9 @@ public class UserEntity {
 
     @OneToMany
     private Set<RecipeEntity> favoriteRecipes = new HashSet<>();
+
+    @OneToMany
+    private Set<IngredientEntity> groceryList = new HashSet<>();
 
     // TODO: add preferences
 }

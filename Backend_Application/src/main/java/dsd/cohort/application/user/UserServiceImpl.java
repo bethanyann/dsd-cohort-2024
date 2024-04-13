@@ -1,9 +1,12 @@
 package dsd.cohort.application.user;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
+import dsd.cohort.application.ingredient.IngredientEntity;
+import dsd.cohort.application.ingredient.IngredientRepository;
 import dsd.cohort.application.recipe.RecipeEntity;
 import dsd.cohort.application.recipe.RecipeRepository;
 
@@ -12,10 +15,12 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository usersRepository;
     private RecipeRepository recipeRepository;
+    private IngredientRepository ingredientRepository;
 
-    public UserServiceImpl(UserRepository usersRepository, RecipeRepository recipeRepository) {
+    public UserServiceImpl(UserRepository usersRepository, RecipeRepository recipeRepository, IngredientRepository ingredientRepository) {
         this.usersRepository = usersRepository;
         this.recipeRepository = recipeRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     @Override
@@ -78,7 +83,45 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserEntity> getAll() {
-
         return usersRepository.findAll();
+    }
+
+    @Override
+    public Set<RecipeEntity> getUserFavorites(String email) {
+
+        UserEntity user = usersRepository.findByEmail(email);
+        if (user != null) {
+            return user.getFavoriteRecipes();
+        }
+        return null;
+    }
+
+    @Override
+    public Set<IngredientEntity> getGroceryList(String email) {
+
+        UserEntity user = usersRepository.findByEmail(email);
+        if (user != null) {
+            return user.getGroceryList();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean removeFromGroceryList(String email, String foodId) {
+        UserEntity user = usersRepository.findByEmail(email);
+        IngredientEntity ingredient = ingredientRepository.findByFoodId(foodId);
+
+        if (user != null && ingredient != null) {
+
+            if (!user.getGroceryList().contains(ingredient)) {
+                return false;
+            }
+
+            user.getGroceryList().remove(ingredient);
+            usersRepository.save(user);
+            return true;
+        }
+
+        return false;
     }
 }
