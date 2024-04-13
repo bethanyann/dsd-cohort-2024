@@ -2,11 +2,9 @@ package dsd.cohort.application.recipe;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
 public class RecipeDTO {
 
   private String recipeId;
