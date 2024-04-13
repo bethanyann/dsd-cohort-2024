@@ -22,29 +22,32 @@ public class IngredientEntity {
     @Column(name = "ingredient_id", nullable = false)
     private Long id;
 
+    // primary search field
     @Column(name = "food_id", unique = true)
     private String foodId;
 
-    @Column(name = "name")
+    @Column(name = "food")
     private String name;
 
-    @Column(name = "calories")
-    private int calories;
-
-    @Column(name = "protein")
-    private int protein;
-
-    @Column(name = "fat")
-    private int fat;
-
-    @Column(name = "carbs")
-    private int carbs;
-
-    @Column(name = "fiber")
-    private int fiber;
+    // represents the name of the ingredient
+    @Column(name = "text")
+    private String text;
 
     @Column(name = "image_url")
     private String imageUrl;
+
+    // represents the count of measures
+    @Column(name = "quantity")
+    private int quantity;
+
+    @Column(name = "measure", nullable = true)
+    private String measure;
+
+    @Column(name = "weight")
+    private double weight;
+
+    @Column(name = "food_category")
+    private String foodCategory;
 
     @ManyToMany(mappedBy = "ingredients")
     private Set<RecipeEntity> recipes = new HashSet<>();
