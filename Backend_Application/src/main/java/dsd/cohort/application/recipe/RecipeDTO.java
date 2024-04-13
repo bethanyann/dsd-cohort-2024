@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RecipeDTO {
 
-  private Long id;
+  private String recipeId;
   private String name;
   private String description;
   private int yield;
@@ -20,4 +20,6 @@ public class RecipeDTO {
   private int fat;
   private int carbs;
   private int calories;
+  // private List<IngredientDTO> ingredients;
+
 }

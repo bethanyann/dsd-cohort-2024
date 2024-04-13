@@ -15,32 +15,24 @@ public class RecipeServiceImpl implements RecipeService {
 
     // Return a recipe if it exists in the database by id
     @Override
-    public RecipeEntity getRecipeById(Long id) {
-        return recipeRepository.findById(id).orElse(null);
+    public RecipeEntity getRecipeByRecipeId(String recipeId) {
+        return recipeRepository.findByRecipeId(recipeId);
     }
 
     // Return a recipe if it exists in the database by name
     @Override
-    public RecipeEntity getRecipeByName(String name) {
-        return recipeRepository.findByName(name);
+    public List<RecipeEntity> getRecipeByName(String name) {
+        return null;
     }
 
     @Override
-    public boolean createRecipe(RecipeEntity recipe) {
+    public RecipeEntity createRecipe(String recipeId) {
 
-        // validate recipe is not null
-        if (recipe == null) {
-            return false;
-        }
-
-        // validate recipe does not exist
-        if (recipeRepository.existsById(recipe.getId())) {
-            return false;
-        }
+        RecipeEntity recipe = new RecipeEntity();
 
         // save recipe to database
         recipeRepository.save(recipe);
-        return true;
+        return null;
     }
 
     // TODO: add pagination
@@ -49,4 +41,6 @@ public class RecipeServiceImpl implements RecipeService {
     public List<RecipeEntity> getAllRecipes() {
         return recipeRepository.findAll();
     }
+
 }
+

@@ -19,8 +19,11 @@ public class RecipeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recipe_id", nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "recipe_id", unique = true)
+    private String recipeId;
 
     @Column(name = "name")
     private String name;

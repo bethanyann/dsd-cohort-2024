@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     RecipeEntity findByName(String name);
+
+    RecipeEntity findByRecipeId(String recipeId);
 }
