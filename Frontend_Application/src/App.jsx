@@ -1,6 +1,5 @@
-import { useState } from "react";
 import "./App.css";
-import { Outlet, Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./routes/home/home.component";
 import Login from "./routes/login/login.component";
 import Register from "./routes/register/register.component";
@@ -8,8 +7,6 @@ import MyRecipes from "./routes/myrecipes/myrecipes.component";
 import Dashboard from "./routes/dasboard/dashboard.component";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <Routes>
