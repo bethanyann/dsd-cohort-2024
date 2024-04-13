@@ -17,5 +17,10 @@ Request
 response
 - status code : 200
 ```dockerfile
-User Created
+{
+    "firstName":"John",
+    "lastName":"james",
+    "email":"john@mail.com",
+    "password":"password"
+}
 ```
