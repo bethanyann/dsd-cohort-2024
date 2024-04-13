@@ -15,8 +15,8 @@ const Home = () => {
       <Grid
         container
         spacing={0}
-        alignItems='center'
-        justifyContent='flex-start' // Align content to the left
+        alignItems="center"
+        justifyContent="flex-start" // Align content to the left
         style={{ minHeight: "100vh" }}
       >
         {/* Grid item for the content */}
@@ -24,16 +24,16 @@ const Home = () => {
           <Box marginLeft={4}>
             {" "}
             {/* Add left margin for spacing */}
-            <Typography variant='h1' gutterBottom align='left'>
+            <Typography variant="h1" gutterBottom align="left">
               Come Shop with us!
             </Typography>
-            <Typography variant='body1' paragraph align='left'>
+            <Typography variant="body1" paragraph align="left">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
               eleifend justo ac libero vulputate, id fringilla dolor tempus.
             </Typography>
-            <Grid container spacing={2} justifyContent='flex-end'>
+            <Grid container spacing={2} justifyContent="flex-end">
               <Grid item marginRight={4}>
-                <Button variant='contained' color='primary' size='large'>
+                <Button variant="contained" color="primary" size="large">
                   Explore
                 </Button>
               </Grid>
@@ -44,7 +44,7 @@ const Home = () => {
         <Grid item xs={12} sm={6} md={6} lg={8}>
           <img
             src={pic}
-            alt='fresh veggie image'
+            alt="fresh veggie image"
             style={{ width: "75%", height: "75%" }}
           />
         </Grid>
