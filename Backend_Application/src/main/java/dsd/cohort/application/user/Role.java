@@ -1,4 +1,4 @@
-package dsd.cohort.application.users;
+package dsd.cohort.application.user;
 
 public enum Role {
     USER,

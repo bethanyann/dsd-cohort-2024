@@ -1,4 +1,4 @@
-package dsd.cohort.application.users;
+package dsd.cohort.application.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-public class UsersEntity implements UserDetails {
+public class UserEntity implements UserDetails {
 
     @Id
     // Spring will generate a unique id automagically

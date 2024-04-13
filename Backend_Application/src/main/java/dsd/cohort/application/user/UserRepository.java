@@ -1,4 +1,4 @@
-package dsd.cohort.application.users;
+package dsd.cohort.application.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,6 +10,6 @@ import java.util.Optional;
  * and has no frills or logic.
  */
 @Repository
-public interface UsersRepository extends JpaRepository<UsersEntity, Long> {
-    Optional <UsersEntity> findByEmail(String email);
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    Optional <UserEntity> findByEmail(String email);
 }

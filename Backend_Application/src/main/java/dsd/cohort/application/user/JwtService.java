@@ -1,4 +1,4 @@
-package dsd.cohort.application.users;
+package dsd.cohort.application.user;
 
 
 import io.jsonwebtoken.Claims;
@@ -25,7 +25,7 @@ public class JwtService {
     }
 
 
-    public String generateToken(UsersEntity user) {
+    public String generateToken(UserEntity user) {
         String token = Jwts
                 .builder()
                 .subject(user.getEmail())

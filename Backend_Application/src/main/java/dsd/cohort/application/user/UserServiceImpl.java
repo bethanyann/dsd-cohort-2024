@@ -1,4 +1,4 @@
-package dsd.cohort.application.users;
+package dsd.cohort.application.user;
 
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,22 +9,22 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UsersServiceImpl implements UsersService, UserDetailsService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
-    private UsersRepository usersRepository;
+    private UserRepository usersRepository;
 
-    public UsersServiceImpl(UsersRepository usersRepository) {
+    public UserServiceImpl(UserRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
 
     @Override
-    public Optional<UsersEntity> findUserByEmail(String email) {
+    public Optional<UserEntity> findUserByEmail(String email) {
         return usersRepository.findByEmail(email);
     }
 
     @Override
     public boolean userExists(String email) {
-        Optional <UsersEntity> user = usersRepository.findByEmail(email);
+        Optional <UserEntity> user = usersRepository.findByEmail(email);
         if(user != null){
             return true;
         }
@@ -32,7 +32,7 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
     }
 
     @Override
-    public UsersEntity createUser(UsersEntity user) {
+    public UserEntity createUser(UserEntity user) {
         var newUser = usersRepository.save(user);
         if(newUser != null){
             return newUser;
