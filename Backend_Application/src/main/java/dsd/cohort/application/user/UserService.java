@@ -2,13 +2,15 @@ package dsd.cohort.application.user;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public interface UserService {
 
 
-    UserEntity getUserByEmail(String email);
+    Optional<UserEntity> findUserByEmail(String email);
 
     boolean userExists(String email);
 
-    boolean createUser(UserEntity user);
+    UserEntity createUser(UserEntity user);
 }
