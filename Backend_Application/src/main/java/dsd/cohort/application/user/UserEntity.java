@@ -5,12 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import dsd.cohort.application.ingredient.IngredientEntity;
+import dsd.cohort.application.recipe.RecipeEntity;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The annotations below help with handling boilerplate code for the users entity
@@ -24,7 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-public class UserEntity implements UserDetails {
+public class UserEntity {
 
     @Id
     // Spring will generate a unique id automagically
@@ -44,38 +43,11 @@ public class UserEntity implements UserDetails {
     @Column(name = "password")
     private String password; // TODO: encrypt password
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @OneToMany
+    private Set<RecipeEntity> favoriteRecipes = new HashSet<>();
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
+    @OneToMany
+    private Set<IngredientEntity> groceryList = new HashSet<>();
 
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    // TODO: add grocery list and preferences
+    // TODO: add preferences
 }
