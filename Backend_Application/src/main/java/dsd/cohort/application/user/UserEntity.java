@@ -9,6 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import dsd.cohort.application.recipe.RecipeEntity;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -80,7 +82,7 @@ public class UserEntity implements UserDetails {
     }
 
     @OneToOne(mappedBy = "user")
-    private Set<String> favoriteRecipes = new HashSet<>();
+    private Set<RecipeEntity> favoriteRecipes = new HashSet<>();
 
     // TODO: add preferences
 }

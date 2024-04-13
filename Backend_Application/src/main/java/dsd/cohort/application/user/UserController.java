@@ -29,12 +29,12 @@ public class UserController {
     }
 
     @GetMapping("/addRecipe")
-    public boolean addRecipe(@RequestBody String email, @RequestBody String recipe){
-        return userService.addRecipe(email, recipe);
+    public boolean addRecipe(@RequestBody String email, @RequestBody String recipeId){
+        return userService.addRecipe(email, recipeId);
     }
 
     @DeleteMapping("/deleteRecipe")
-    public boolean deleteRecipe(@RequestBody String email, @RequestBody String recipe){
-        return false;
+    public boolean deleteRecipe(@RequestBody String email, @RequestBody String recipeId){
+        return userService.deleteRecipe(email, recipeId);
     }
 }

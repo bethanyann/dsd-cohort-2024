@@ -6,15 +6,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import dsd.cohort.application.recipe.RecipeEntity;
+import dsd.cohort.application.recipe.RecipeRepository;
+
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private UserRepository usersRepository;
+    private RecipeRepository recipeRepository;
 
-    public UserServiceImpl(UserRepository usersRepository) {
+    public UserServiceImpl(UserRepository usersRepository, RecipeRepository recipeRepository) {
         this.usersRepository = usersRepository;
+        this.recipeRepository = recipeRepository;
     }
 
     @Override
@@ -46,11 +51,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public boolean addRecipe(String email, String recipe) {
+    public boolean addRecipe(String email, String recipeId) {
 
         UserEntity user = usersRepository.findByEmail(email).orElse(null);
+        RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
 
-        if (user != null) {
+        if (user != null && recipe != null) {
             user.getFavoriteRecipes().add(recipe);
             usersRepository.save(user);
             return true;
@@ -60,11 +66,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public boolean deleteRecipe(String email, String recipe) {
+    public boolean deleteRecipe(String email, String recipeId) {
 
         UserEntity user = usersRepository.findByEmail(email).orElse(null);
+        RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
 
-        if (user != null) {
+        if (user != null && recipe != null) {
 
             if (!user.getFavoriteRecipes().contains(recipe)) {
                 return false;
