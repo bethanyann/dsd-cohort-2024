@@ -81,7 +81,7 @@ public class UserEntity implements UserDetails {
         return true;
     }
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany
     private Set<RecipeEntity> favoriteRecipes = new HashSet<>();
 
     // TODO: add preferences
