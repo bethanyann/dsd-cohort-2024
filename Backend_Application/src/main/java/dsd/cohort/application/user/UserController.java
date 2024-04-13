@@ -28,9 +28,13 @@ public class UserController {
         return userService.findUserByEmail(userEmail);
     }
 
-    @GetMapping("/userexist")
-    public boolean userExist(@RequestBody String userEmail){
-        return userService.userExists(userEmail);
+    @GetMapping("/addRecipe")
+    public boolean addRecipe(@RequestBody String email, @RequestBody String recipe){
+        return userService.addRecipe(email, recipe);
+    }
 
+    @DeleteMapping("/deleteRecipe")
+    public boolean deleteRecipe(@RequestBody String email, @RequestBody String recipe){
+        return false;
     }
 }

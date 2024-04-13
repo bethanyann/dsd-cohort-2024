@@ -10,7 +10,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The annotations below help with handling boilerplate code for the users entity
@@ -77,5 +79,8 @@ public class UserEntity implements UserDetails {
         return true;
     }
 
-    // TODO: add grocery list and preferences
+    @OneToOne(mappedBy = "user")
+    private Set<String> favoriteRecipes = new HashSet<>();
+
+    // TODO: add preferences
 }

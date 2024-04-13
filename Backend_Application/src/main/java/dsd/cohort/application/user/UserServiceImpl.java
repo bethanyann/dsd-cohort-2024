@@ -44,4 +44,37 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return usersRepository.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("User not found"));
     }
+
+    @Override
+    public boolean addRecipe(String email, String recipe) {
+
+        UserEntity user = usersRepository.findByEmail(email).orElse(null);
+
+        if (user != null) {
+            user.getFavoriteRecipes().add(recipe);
+            usersRepository.save(user);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean deleteRecipe(String email, String recipe) {
+
+        UserEntity user = usersRepository.findByEmail(email).orElse(null);
+
+        if (user != null) {
+
+            if (!user.getFavoriteRecipes().contains(recipe)) {
+                return false;
+            }
+
+            user.getFavoriteRecipes().remove(recipe);
+            usersRepository.save(user);
+            return true;
+        }
+
+        return false;
+    }
 }

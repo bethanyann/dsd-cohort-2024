@@ -13,4 +13,8 @@ public interface UserService {
     boolean userExists(String email);
 
     UserEntity createUser(UserEntity user);
+
+    boolean addRecipe(String email, String recipe);
+
+    boolean deleteRecipe(String email, String recipe);
 }
