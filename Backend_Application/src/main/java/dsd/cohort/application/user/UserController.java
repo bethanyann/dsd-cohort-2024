@@ -1,8 +1,8 @@
 package dsd.cohort.application.user;
 
-import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
-import java.util.Optional;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -14,6 +14,12 @@ public class UserController {
         this.userService = usersService;
     }
 
+    @GetMapping("/test")
+    public List<UserEntity> test(){
+        return userService.getAll();
+    }
+
+
     @PostMapping("/createuser")
     public UserEntity createUser(@RequestBody UserEntity user){
         UserEntity userCreated = userService.createUser(user);
@@ -24,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/finduserbyemail")
-    public Optional<UserEntity> findUserByEmail(@RequestBody String userEmail){
+    public UserEntity findUserByEmail(@RequestBody String userEmail){
         return userService.findUserByEmail(userEmail);
     }
 

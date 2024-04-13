@@ -33,7 +33,6 @@ public class BootstrapData implements CommandLineRunner {
       user.setPassword("testPassword");
       userRepository.save(user);
 
-
       System.out.println("Bootstrap Data Loaded");
     }
   }
