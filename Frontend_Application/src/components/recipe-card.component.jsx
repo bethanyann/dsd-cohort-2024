@@ -15,17 +15,18 @@ const PlusIcon = createSvgIcon(
 );
 
 function RecipeCard(props) {
+  const { name, description, imageUrl, protein, fat, carbs, calories } = props.recipe;
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
-        <CardMedia component="img" height="200" image="https://mui.com/static/images/cards/contemplative-reptile.jpg" alt="" />
+        <CardMedia component="img" height="200" image={imageUrl} alt={name} />
         <CardContent sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <div style={{ width: "80%" }}>
             <Typography gutterBottom variant="h5" component="div">
-              Some Recipe
+              {name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Carb: 0 | Protein: 0 | Fat: 0
+              Calories: {calories} | Carb: {carbs} | Protein: {protein} | Fat: {fat}
             </Typography>
           </div>
           <Stack direction="row" alignItems="center">
