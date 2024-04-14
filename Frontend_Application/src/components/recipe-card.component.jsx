@@ -26,7 +26,7 @@ function RecipeCard(props) {
               {name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Calories: {calories} | Carb: {carbs} | Protein: {protein} | Fat: {fat}
+              Carb: {carbs} | Protein: {protein} | Fat: {fat}
             </Typography>
           </div>
           <Stack direction="row" alignItems="center">
