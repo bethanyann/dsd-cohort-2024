@@ -3,7 +3,6 @@ package dsd.cohort.application.user;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.catalina.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,55 +15,57 @@ public class UserController {
 
     private UserService userService;
 
-    public UserController(UserService usersService) {
-        this.userService = usersService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/test")
-    public List<UserEntity> test(){
+    public List<UserEntity> test() {
         return userService.getAll();
     }
 
-
     @PostMapping("/createuser")
-    public UserEntity createUser(@RequestBody UserEntity user){
-        UserEntity userCreated = userService.createUser(user);
-        if(userCreated != null){
-        return userCreated;
+    public UserEntity createUser(@RequestBody UserEntity user) throws IllegalArgumentException {
+
+        try {
+            UserEntity userCreated = userService.createUser(user);
+            return userCreated;
+        } catch (IllegalArgumentException e) {
+            // TODO: handle exception, unable to create user
+            return null;
         }
-        return null;
     }
 
     @GetMapping("/finduserbyemail")
-    public ResponseEntity<UserEntity> findUserByEmail(@RequestParam String userEmail){
+    public ResponseEntity<UserEntity> findUserByEmail(@RequestParam String userEmail) {
         return userService.findUserByEmail(userEmail);
     }
 
     // add a recipe to a users favorites
-    @GetMapping("/addRecipe")
-    public boolean addRecipe(@RequestBody String email, @RequestBody String recipeId){
+    @GetMapping("/addrecipe")
+    public boolean addRecipe(@RequestBody String email, @RequestBody String recipeId) {
         return userService.addRecipe(email, recipeId);
     }
 
     // delete a recipe from a users favorites
-    @DeleteMapping("/deleteRecipe")
-    public boolean deleteRecipe(@RequestBody String email, @RequestBody String recipeId){
+    @DeleteMapping("/deleterecipe")
+    public boolean deleteRecipe(@RequestBody String email, @RequestBody String recipeId) {
         return userService.deleteRecipe(email, recipeId);
     }
 
     // get a users favorites
-    @GetMapping("/getUserFavorites")
-    public Set<RecipeEntity> getUserFavorites(@RequestBody String email){
+    @GetMapping("/getuserfavorites")
+    public Set<RecipeEntity> getUserFavorites(@RequestBody String email) {
         return userService.getUserFavorites(email);
     }
 
-    @GetMapping("/getGroceryList")
-    public Set<IngredientEntity> getGroceryList(@RequestBody String email){
+    @GetMapping("/getgrocerylist")
+    public ResponseEntity<Set<IngredientEntity>> getGroceryList(@RequestBody String email) {
         return userService.getGroceryList(email);
     }
 
-    @DeleteMapping("/removeFromGroceryList")
-    public boolean removeFromGroceryList(@RequestBody String email, @RequestBody String foodId){
+    @DeleteMapping("/removefromgrocerylist")
+    public boolean removeFromGroceryList(@RequestBody String email, @RequestBody String foodId) {
         return userService.removeFromGroceryList(email, foodId);
     }
 }

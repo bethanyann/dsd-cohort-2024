@@ -1,5 +1,6 @@
 package dsd.cohort.application.user;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -45,12 +46,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity createUser(UserEntity user) {
-        UserEntity newUser = usersRepository.save(user);
-        if(newUser != null){
-            return newUser;
-        }
-        return null;
+    public UserEntity createUser(UserEntity user) throws IllegalArgumentException{
+        return usersRepository.save(user);
     }
 
     @Override
@@ -104,11 +101,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<IngredientEntity> getGroceryList(String email) {
+    public ResponseEntity<Set<IngredientEntity>> getGroceryList(String email) {
 
         UserEntity user = usersRepository.findByEmail(email);
         if (user != null) {
-            return user.getGroceryList();
+            return ResponseEntity.status(HttpStatus.OK).body(user.getGroceryList());
         }
         return null;
     }
