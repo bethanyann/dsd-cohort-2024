@@ -1,5 +1,7 @@
 package dsd.cohort.application.recipe;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +18,8 @@ public class RecipeController {
     }
 
     @GetMapping("/")
-    public String getAllRecipes() {
-        return recipeService.getAllRecipes().toString();
+    public List<RecipeEntity> getAllRecipes() {
+        return recipeService.getAllRecipes();
     }
 
     @GetMapping("/{id}")
