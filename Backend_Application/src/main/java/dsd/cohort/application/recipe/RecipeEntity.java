@@ -3,6 +3,8 @@ package dsd.cohort.application.recipe;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import dsd.cohort.application.ingredient.IngredientEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,6 +22,7 @@ public class RecipeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long id;
 
     @Column(name = "recipe_id", unique = true)
