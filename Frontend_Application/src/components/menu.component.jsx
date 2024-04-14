@@ -7,6 +7,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import CottageIcon from "@mui/icons-material/Cottage";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -29,6 +30,16 @@ function Menu() {
         <ListItemButton
           sx={{ marginTop: "4rem" }}
           component={RouterLink}
+          to="/dashboard"
+        >
+          <ListItemIcon>
+            <CottageIcon />
+          </ListItemIcon>
+          <ListItemText primary="My Dashboard" />
+        </ListItemButton>
+        <ListItemButton
+          sx={{ marginTop: "4rem" }}
+          component={RouterLink}
           to="/groceries"
         >
           <ListItemIcon>
@@ -39,7 +50,7 @@ function Menu() {
         <ListItemButton
           sx={{ marginTop: "4rem" }}
           component={RouterLink}
-          to="/recipes"
+          to="/myrecipes"
         >
           <ListItemIcon>
             <RestaurantIcon />
