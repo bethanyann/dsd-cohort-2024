@@ -5,6 +5,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import { createSvgIcon } from "@mui/material/utils";
+import Stack from "@mui/material/Stack";
 
 const PlusIcon = createSvgIcon(
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6">
@@ -27,7 +28,9 @@ function RecipeCard(props) {
               Carb: 0 | Protein: 0 | Fat: 0
             </Typography>
           </div>
-          <PlusIcon />
+          <Stack direction="row" alignItems="center">
+            <PlusIcon fontSize="large" />
+          </Stack>
         </CardContent>
       </CardActionArea>
     </Card>
