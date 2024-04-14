@@ -38,7 +38,7 @@ public class BootstrapData implements CommandLineRunner {
       userRepository.save(user);
 
 
-      System.out.println("Bootstrap Data Loaded: Users");
+      System.out.println("Bootstrap Data Loaded: Users - " + userRepository.count());
     }
 
     if (recipeRepository.findAll().isEmpty()) {
@@ -59,6 +59,7 @@ public class BootstrapData implements CommandLineRunner {
       recipe.setTotalTime(20);
       recipeRepository.save(recipe);
 
+      recipe = new RecipeEntity();
       recipe.setName("Test Recipe 2");
       recipe.setDescription("You've been borgered");
       recipe.setRecipeId("Test_Borger");
@@ -73,7 +74,7 @@ public class BootstrapData implements CommandLineRunner {
       recipe.setTotalTime(2);
       recipeRepository.save(recipe);
 
-      System.out.println("Bootstrap Data Loaded: Recipes");
+      System.out.println("Bootstrap Data Loaded: Recipes - " + recipeRepository.count());
     }
   }
 }
