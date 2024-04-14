@@ -3,6 +3,8 @@ package dsd.cohort.application.user;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.catalina.User;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import dsd.cohort.application.ingredient.IngredientEntity;
@@ -34,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/finduserbyemail")
-    public UserEntity findUserByEmail(@RequestBody String userEmail){
+    public ResponseEntity<UserEntity> findUserByEmail(@RequestParam String userEmail){
         return userService.findUserByEmail(userEmail);
     }
 
