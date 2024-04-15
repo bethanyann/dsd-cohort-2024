@@ -5,12 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import dsd.cohort.application.ingredient.IngredientEntity;
+import dsd.cohort.application.recipe.RecipeEntity;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * The annotations below help with handling boilerplate code for the user entity
- * NoArgs/AllArgs use is dependent on how you create a user.
- * NoArgs will be for creating a null user if any logic needs to happen during construction
- * AllArgs will be for creating a new user with all fields
+ * The annotations below help with handling boilerplate code for the users entity
+ * NoArgs/AllArgs use is dependent on how you create a users.
+ * NoArgs will be for creating a null users if any logic needs to happen during construction
+ * AllArgs will be for creating a new users with all fields
  */
 @Entity
 @Getter
@@ -38,5 +43,11 @@ public class UserEntity {
     @Column(name = "password")
     private String password; // TODO: encrypt password
 
-    // TODO: add grocery list and preferences
+    @OneToMany
+    private Set<RecipeEntity> favoriteRecipes = new HashSet<>();
+
+    @OneToMany
+    private Set<IngredientEntity> groceryList = new HashSet<>();
+
+    // TODO: add preferences
 }
