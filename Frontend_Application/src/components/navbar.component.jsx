@@ -4,7 +4,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import logo from "../assets/green_leaf_2.png";
+import logo from "../assets/gaia_logo.png";
 
 function Navbar() {
     let navigate = useNavigate();
