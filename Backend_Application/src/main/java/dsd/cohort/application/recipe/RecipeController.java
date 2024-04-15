@@ -22,9 +22,9 @@ public class RecipeController {
         return recipeService.getAllRecipes();
     }
 
-    @GetMapping("/{id}")
-    public String getRecipeById(@RequestBody String id) {
-        return recipeService.getRecipeByRecipeId(id).toString();
+    @GetMapping("/{recipeId}")
+    public RecipeDTO getRecipeById(@RequestBody RecipeRequestDTO recipe) {
+        return recipeService.getRecipeByRecipeId(recipe.getRecipeId());
     }
 
     @GetMapping("/name/{name}")

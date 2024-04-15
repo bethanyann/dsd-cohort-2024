@@ -1,8 +1,12 @@
 package dsd.cohort.application.recipe;
 
+import java.net.http.HttpRequest;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -15,8 +19,37 @@ public class RecipeServiceImpl implements RecipeService {
 
     // Return a recipe if it exists in the database by id
     @Override
-    public RecipeEntity getRecipeByRecipeId(String recipeId) {
-        return recipeRepository.findByRecipeId(recipeId);
+    public RecipeDTO getRecipeByRecipeId(String recipeId) throws ResponseStatusException {
+        RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
+
+        if (recipe != null) {
+            // fetch recipe from API
+            // String baseUrl = "https://api.edamam.com/api/recipes/v2/";
+            // RestTemplate restTemplate = new RestTemplate();
+            // restTemplate.getForEntity(baseUrl, RecipeResponseDTO.class, recipeId);
+            // HttpRequest request = HttpRequest.newBuilder();
+            // request.header("Content-Type", "application/json");
+
+            RecipeEntity newRecipe = new RecipeEntity();
+
+            newRecipe.setRecipeId(recipe.getRecipeId());
+            newRecipe.setName(recipe.getName());
+            newRecipe.setDescription(recipe.getDescription());
+            newRecipe.setYield(recipe.getYield());
+            newRecipe.setTotalTime(recipe.getTotalTime());
+            newRecipe.setImageUrl(recipe.getImageUrl());
+            newRecipe.setUrl(recipe.getUrl());
+            newRecipe.setCalories(recipe.getCalories());
+            newRecipe.setCarbs(recipe.getCarbs());
+            newRecipe.setFat(recipe.getFat());
+            newRecipe.setProtein(recipe.getProtein());
+
+            recipeRepository.save(newRecipe);
+        }
+
+        RecipeDTO recipeDTO = new RecipeDTO();
+
+        return recipeDTO;
     }
 
     // Return a recipe if it exists in the database by name
