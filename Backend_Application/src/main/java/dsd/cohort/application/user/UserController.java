@@ -54,18 +54,18 @@ public class UserController {
     }
 
     // get a users favorites
-    @GetMapping("/getuserfavorites")
-    public Set<RecipeEntity> getUserFavorites(@RequestBody String email) {
+    @GetMapping("/getuserfavorites/{email}")
+    public Set<RecipeEntity> getUserFavorites(@PathVariable String email) {
         return userService.getUserFavorites(email);
     }
 
     @GetMapping("/getgrocerylist")
-    public ResponseEntity<Set<IngredientEntity>> getGroceryList(@RequestBody String email) {
+    public ResponseEntity<Set<IngredientEntity>> getGroceryList(@PathVariable String email) {
         return userService.getGroceryList(email);
     }
 
-    @DeleteMapping("/removefromgrocerylist")
-    public boolean removeFromGroceryList(@RequestBody String email, @RequestBody String foodId) {
+    @DeleteMapping("/removefromgrocerylist/{email}/{foodId}")
+    public boolean removeFromGroceryList(@PathVariable String email, @PathVariable String foodId) {
         return userService.removeFromGroceryList(email, foodId);
     }
 }

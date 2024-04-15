@@ -3,6 +3,7 @@ package dsd.cohort.application.recipe;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,12 +24,12 @@ public class RecipeController {
     }
 
     @GetMapping("/{recipeId}")
-    public RecipeDTO getRecipeById(@RequestBody RecipeRequestDTO recipe) {
-        return recipeService.getRecipeByRecipeId(recipe.getRecipeId());
+    public RecipeDTO getRecipeById(@PathVariable String recipe) {
+        return recipeService.getRecipeByRecipeId(recipe);
     }
 
-    @GetMapping("/name/{name}")
-    public String getRecipeByName(@RequestBody String name) {
+    @GetMapping("/search/{name}")
+    public String getRecipeByName(@PathVariable String name) {
         return recipeService.getRecipeByName(name).toString();
     }
 }
