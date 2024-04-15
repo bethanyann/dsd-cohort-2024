@@ -13,11 +13,11 @@ import dsd.cohort.application.recipe.RecipeEntity;
 @Service
 public interface UserService {
 
-    ResponseEntity<UserEntity> findUserByEmail(String email);
+    UserEntity findUserByEmail(String email);
 
     boolean userExists(String email);
 
-    UserEntity createUser(UserEntity user);
+    ResponseEntity<UserEntity> createUser(UserEntity user);
 
     boolean addRecipe(String email, String recipeId);
 

@@ -3,11 +3,13 @@ package dsd.cohort.application.user;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import dsd.cohort.application.ingredient.IngredientEntity;
 import dsd.cohort.application.recipe.RecipeEntity;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/users")
@@ -25,20 +27,20 @@ public class UserController {
     }
 
     @PostMapping("/createuser")
-    public UserEntity createUser(@RequestBody UserEntity user) throws IllegalArgumentException {
-
-        try {
-            UserEntity userCreated = userService.createUser(user);
-            return userCreated;
-        } catch (IllegalArgumentException e) {
-            // TODO: handle exception, unable to create user
-            return null;
-        }
+    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user){
+        return userService.createUser(user);
     }
 
     @GetMapping("/finduserbyemail")
-    public ResponseEntity<UserEntity> findUserByEmail(@RequestParam String userEmail) {
-        return userService.findUserByEmail(userEmail);
+    public ResponseEntity<UserEntity> findUserByEmail(@RequestParam String email) {
+        UserEntity user = userService.findUserByEmail(email);
+
+        if(user != null) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(user);
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+
     }
 
     // add a recipe to a users favorites

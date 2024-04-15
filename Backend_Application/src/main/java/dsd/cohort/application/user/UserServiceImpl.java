@@ -1,6 +1,5 @@
 package dsd.cohort.application.user;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,26 +27,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<UserEntity> findUserByEmail(String email) {
-        if(userExists(email)) {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(usersRepository.findByEmail(email));
-        }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+    public UserEntity findUserByEmail(String email) {
+        return usersRepository.findByEmail(email);
     }
 
     @Override
     public boolean userExists(String email) {
         UserEntity user = usersRepository.findByEmail(email);
-        if(user != null){
-            return true;
-        }
-        return false;
+        return user != null;
     }
 
     @Override
-    public UserEntity createUser(UserEntity user) throws IllegalArgumentException{
-        return usersRepository.save(user);
+    public ResponseEntity<UserEntity> createUser(UserEntity user) throws IllegalArgumentException {
+        try {
+            UserEntity newUser = usersRepository.save(user);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(newUser);
+        }
+        catch (IllegalArgumentException exception) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Couldn't Create User");
+        }
     }
 
     @Override
