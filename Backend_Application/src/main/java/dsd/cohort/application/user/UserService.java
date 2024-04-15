@@ -17,7 +17,7 @@ public interface UserService {
 
     boolean userExists(String email);
 
-    UserEntity createUser(UserEntity user);
+    ResponseEntity<UserEntity> createUser(UserEntity user);
 
     boolean addRecipe(String email, String recipeId);
 

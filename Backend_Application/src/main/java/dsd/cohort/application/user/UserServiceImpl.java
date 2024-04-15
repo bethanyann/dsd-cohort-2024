@@ -39,15 +39,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean userExists(String email) {
         UserEntity user = usersRepository.findByEmail(email);
-        if(user != null){
-            return true;
-        }
-        return false;
+        return user != null;
     }
 
     @Override
-    public UserEntity createUser(UserEntity user) throws IllegalArgumentException{
-        return usersRepository.save(user);
+    public ResponseEntity<UserEntity> createUser(UserEntity user) throws IllegalArgumentException {
+        try {
+            UserEntity newUser = usersRepository.save(user);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(newUser);
+        }
+        catch (IllegalArgumentException exception) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Couldn't Create User");
+        }
     }
 
     @Override

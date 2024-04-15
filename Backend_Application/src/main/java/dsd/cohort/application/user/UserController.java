@@ -25,15 +25,8 @@ public class UserController {
     }
 
     @PostMapping("/createuser")
-    public UserEntity createUser(@RequestBody UserEntity user) throws IllegalArgumentException {
-
-        try {
-            UserEntity userCreated = userService.createUser(user);
-            return userCreated;
-        } catch (IllegalArgumentException e) {
-            // TODO: handle exception, unable to create user
-            return null;
-        }
+    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user){
+        return userService.createUser(user);
     }
 
     @GetMapping("/finduserbyemail")
