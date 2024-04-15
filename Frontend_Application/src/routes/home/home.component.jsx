@@ -8,12 +8,12 @@ import Landing from "../../components/landing.component.jsx";
 import DashboardPage from "../dasboard/dashboard.component.jsx";
 
 const Home = () => {
-  const userName = "";
+  const userName = "Mittens";
   return (
     <div>
       <Outlet />
       <Navbar />
-      // If user is present, show dashboard // If not, place landing page
+      {/* If user is present, show dashboard // If not, place landing page */}
       {userName ? <DashboardPage /> : <Landing />}
     </div>
   );

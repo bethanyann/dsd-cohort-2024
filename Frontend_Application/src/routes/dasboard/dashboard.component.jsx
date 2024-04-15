@@ -5,6 +5,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Menu from "../../components/menu.component.jsx";
 import SearchRecipesBar from "../../components/SearchRecipesBar.jsx";
+import RecipeCardContainer from "../../components/recipe-card-container.component.jsx";
 
 function DashboardPage() {
   // Replace 'userName' with the actual user's name from state or props
@@ -20,6 +21,7 @@ function DashboardPage() {
             Welcome, {userName}'s Dashboard
           </Typography>
           <SearchRecipesBar />
+          <RecipeCardContainer />
         </Grid>
         <Grid item>
           <Menu />
