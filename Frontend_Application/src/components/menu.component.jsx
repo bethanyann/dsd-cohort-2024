@@ -7,6 +7,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import CottageIcon from "@mui/icons-material/Cottage";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -23,38 +24,48 @@ function Menu() {
   }));
 
   return (
-    <Drawer variant="permanent">
+    <Drawer variant='permanent'>
       <DrawerHeader />
       <List>
         <ListItemButton
           sx={{ marginTop: "4rem" }}
           component={RouterLink}
-          to="/mygrocerylist"
+          to='/dashboard'
+        >
+          <ListItemIcon>
+            <CottageIcon />
+          </ListItemIcon>
+          <ListItemText primary='My Dashboard' />
+        </ListItemButton>
+        <ListItemButton
+          sx={{ marginTop: "4rem" }}
+          component={RouterLink}
+          to='/groceries'
         >
           <ListItemIcon>
             <ShoppingBagIcon />
           </ListItemIcon>
-          <ListItemText primary="My Grocery List" />
+          <ListItemText primary='My Grocery List' />
         </ListItemButton>
         <ListItemButton
           sx={{ marginTop: "4rem" }}
           component={RouterLink}
-          to="/recipes"
+          to='/myrecipes'
         >
           <ListItemIcon>
             <RestaurantIcon />
           </ListItemIcon>
-          <ListItemText primary=" My Recipes" />
+          <ListItemText primary=' My Recipes' />
         </ListItemButton>
         <ListItemButton
           sx={{ marginTop: "4rem" }}
           component={RouterLink}
-          to="/settings"
+          to='/settings'
         >
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
-          <ListItemText primary="Dietary Preferences" />
+          <ListItemText primary='Dietary Preferences' />
         </ListItemButton>
       </List>
     </Drawer>
