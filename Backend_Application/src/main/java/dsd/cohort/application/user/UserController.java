@@ -31,8 +31,8 @@ public class UserController {
         return userService.createUser(user);
     }
 
-    @GetMapping("/finduserbyemail")
-    public ResponseEntity<UserEntity> findUserByEmail(@RequestParam String email) {
+    @GetMapping("/finduserbyemail/{email}")
+    public ResponseEntity<UserEntity> findUserByEmail(@PathVariable String email) {
         UserEntity user = userService.findUserByEmail(email);
 
         if(user != null) {
