@@ -28,7 +28,15 @@ public class UserController {
 
     @PostMapping("/createuser")
     public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user){
-        return userService.createUser(user);
+
+        try {
+            UserEntity newUser = userService.createUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(newUser);
+        }
+        catch (Exception exception) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Couldn't Create User");
+        }
     }
 
     @GetMapping("/finduserbyemail")

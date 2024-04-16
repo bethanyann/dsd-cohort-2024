@@ -1,6 +1,7 @@
 package dsd.cohort.application.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,7 @@ public class UserEntity {
     @Column(name = "last_name")
     private String lastName;
 
+    @NotBlank
     @Column(name = "email", unique = true)
     private String email;
 

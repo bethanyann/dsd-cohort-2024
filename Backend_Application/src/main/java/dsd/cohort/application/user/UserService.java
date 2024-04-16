@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import dsd.cohort.application.ingredient.IngredientEntity;
 import dsd.cohort.application.recipe.RecipeEntity;
+import org.springframework.web.client.HttpServerErrorException;
 
 
 @Service
@@ -17,7 +18,7 @@ public interface UserService {
 
     boolean userExists(String email);
 
-    ResponseEntity<UserEntity> createUser(UserEntity user);
+    UserEntity createUser(UserEntity user) throws HttpServerErrorException.InternalServerError;
 
     boolean addRecipe(String email, String recipeId);
 
