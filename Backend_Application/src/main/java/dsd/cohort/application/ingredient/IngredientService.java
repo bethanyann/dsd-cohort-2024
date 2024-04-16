@@ -9,6 +9,6 @@ public interface IngredientService {
 
     IngredientEntity ingredientExists(String foodId);
 
-    IngredientEntity createIngredient(String foodId);
+    IngredientEntity createIngredient(IngredientEntity ingredient);
 
 }

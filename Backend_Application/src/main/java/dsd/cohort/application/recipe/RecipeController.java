@@ -23,8 +23,8 @@ public class RecipeController {
     }
 
     @GetMapping("/{recipeId}")
-    public RecipeEntity getRecipeById(@PathVariable String recipe) {
-        return recipeService.getRecipeByRecipeId(recipe);
+    public RecipeEntity getRecipeById(@PathVariable String recipeId) {
+        return recipeService.getRecipeByRecipeId(recipeId);
     }
 
     @GetMapping("/search/{name}")

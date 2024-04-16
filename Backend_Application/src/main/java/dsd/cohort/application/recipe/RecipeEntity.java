@@ -47,16 +47,16 @@ public class RecipeEntity {
     private String url;
 
     @Column(name = "protein")
-    private Integer protein;
+    private double protein;
 
     @Column(name = "fat")
-    private Integer fat;
+    private double fat;
 
     @Column(name = "carbs")
-    private Integer carbs;
+    private double carbs;
 
     @Column(name = "calories")
-    private Integer calories;
+    private double calories;
 
     @ManyToMany
     @JoinTable( name = "recipe_ingredient",
@@ -64,4 +64,23 @@ public class RecipeEntity {
         inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
     private Set<IngredientEntity> ingredients = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return "RecipeEntity{" +
+                "id=" + id +
+                ", recipeId='" + recipeId + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", yield=" + yield +
+                ", totalTime=" + totalTime +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", url='" + url + '\'' +
+                ", protein=" + protein +
+                ", fat=" + fat +
+                ", carbs=" + carbs +
+                ", calories=" + calories +
+                ", ingredients=" + ingredients +
+                '}';
+    }
 }
