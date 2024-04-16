@@ -1,14 +1,18 @@
 package dsd.cohort.application.user;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import dsd.cohort.application.ingredient.IngredientEntity;
 import dsd.cohort.application.ingredient.IngredientRepository;
 import dsd.cohort.application.recipe.RecipeEntity;
 import dsd.cohort.application.recipe.RecipeRepository;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,8 +28,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity findUserByEmail(String email) {
-        return usersRepository.findByEmail(email);
+    public ResponseEntity<UserEntity> findUserByEmail(String email) {
+        if(userExists(email)) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(usersRepository.findByEmail(email));
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
     }
 
     @Override
@@ -38,12 +46,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity createUser(UserEntity user) {
-        UserEntity newUser = usersRepository.save(user);
-        if(newUser != null){
-            return newUser;
-        }
-        return null;
+    public UserEntity createUser(UserEntity user) throws IllegalArgumentException{
+        return usersRepository.save(user);
     }
 
     @Override
@@ -97,11 +101,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<IngredientEntity> getGroceryList(String email) {
+    public ResponseEntity<Set<IngredientEntity>> getGroceryList(String email) {
 
         UserEntity user = usersRepository.findByEmail(email);
         if (user != null) {
-            return user.getGroceryList();
+            return ResponseEntity.status(HttpStatus.OK).body(user.getGroceryList());
         }
         return null;
     }

@@ -4,13 +4,13 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import logo from "../assets/green_leaf_2.png";
+import logo from "../assets/gaia_logo.png";
 
 function Navbar() {
     let navigate = useNavigate();
 
     return (
-        <AppBar position="fixed" style={{ width: '100%' }} sx={{ backgroundColor: 'transparent' }}>
+        <AppBar position="fixed" style={{ width: '100%' }} sx={{ backgroundColor: 'transparent', zIndex: (theme) => theme.zIndex.drawer + 1  }}>
             <Toolbar>
                 <Grid container alignItems="center" justifyContent="space-between">
                     {/* Logo on the left-hand side */}

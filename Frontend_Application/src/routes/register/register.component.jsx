@@ -11,74 +11,115 @@ import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import IconButton from "@mui/material/IconButton";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from '@mui/material/Alert';
 
 
 const Register = () => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
-  const [errors, setErrors] = useState({
-    username: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: '' }); // Clear error when input changes
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
+  const [errorSnackbarMessage, setErrorSnackbarMessage] = useState('');
+
+  const validateEmail = (email) => {
+    // Regular expression for email validation
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
   };
 
-  const handleRegistration = async (e) => {
+  const validatePassword = (password) => {
+    // Password should be at least 9 characters and include at least one number and one special character
+    const re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{9,}$/;
+    return re.test(password);
+  };
+
+  const handleRegistration = (e) => {
     e.preventDefault();
+    let newErrors = {};
 
-    const newErrors = {};
-
-    // Validation
-    if (formData.username.length < 5) {
-      newErrors.username = 'Username must be at least 5 characters long';
+    // Check for blank fields
+    for (const key in formData) {
+      if (formData[key] === '') {
+        newErrors[key] = 'This field is required';
+      }
     }
 
-    if (formData.email.trim().length === 0 || !formData.email.includes('@') || !formData.email.endsWith('.com')) {
+    // Validate email
+    if (!validateEmail(formData.email)) {
       newErrors.email = 'Invalid email address';
     }
 
-    if (formData.password.length < 9) {
-      newErrors.password = 'Password must be at least 9 characters long';
+    // Validate password
+    if (!validatePassword(formData.password)) {
+      newErrors.password = 'Password must be at least 9 characters long and contain at least one number and one special character';
     }
 
-    if (!/\d/.test(formData.password)) {
-      newErrors.password = 'Password must contain at least one number';
-    }
-
-    if (!/[a-zA-Z]/.test(formData.password)) {
-      newErrors.password = 'Password must contain at least one letter';
-    }
-
+    // Check if passwords match
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
 
-    // Update errors state
-    setErrors(newErrors);
-
-    // Submit registration data if there are no validation errors
-    if (Object.keys(newErrors).length === 0) {
-      try {
-        //TODO: change to the proper registration route
-        const response = await axios.post('http://localhost:3001/register', formData);
-        // handle successful response from backend
-        console.log(response.data);
-      } catch (error) {
-        // handle error response from backend
-        console.error('Error:', error);
-      }
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setErrorSnackbarMessage('Please fix the errors in the form');
+      setErrorSnackbarOpen(true);
+    } else {
+      // Send data to backend
+      console.log('Form submitted:', formData);
+      // Reset form and errors
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+      });
+      setErrors({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+      });
+      setSnackbarMessage('Registration successful!');
+      setSnackbarOpen(true);
     }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+    setErrors({
+      ...errors,
+      [name]: '',
+    });
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+    setErrorSnackbarOpen(false);
   };
 
   return (
@@ -98,57 +139,46 @@ const Register = () => {
             <Typography variant='h5' align='center' gutterBottom>
               Create an Account
             </Typography>
-            <form onSubmit={handleRegistration}>
+            <form onSubmit={handleRegistration} >
               <TextField
                 fullWidth
-                label='First Name'
-                name='firstName'
+                label="First Name"
+                name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
-                variant='outlined'
-                margin='normal'
+                error={!!errors.firstName}
+                helperText={errors.firstName}
+                style={{ marginBottom: '16px' }}
               />
               <TextField
                 fullWidth
-                label='Last Name'
-                name='lastName'
+                label="Last Name"
+                name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
-                variant='outlined'
-                margin='normal'
+                error={!!errors.lastName}
+                helperText={errors.lastName}
+                style={{ marginBottom: '16px' }}
               />
               <TextField
                 fullWidth
-                label='Username'
-                name='username'
-                value={formData.username}
-                onChange={handleChange}
-                variant='outlined'
-                margin='normal'
-                error={errors.username !== ''}
-                helperText={errors.username}
-              />
-              <TextField
-                fullWidth
-                label='Email'
-                name='email'
+                label="Email Address"
+                name="email"
+                type="email"
                 value={formData.email}
                 onChange={handleChange}
-                variant='outlined'
-                margin='normal'
-                error={errors.email !== ''}
+                error={!!errors.email}
                 helperText={errors.email}
+                style={{ marginBottom: '16px' }}
               />
               <TextField
                 fullWidth
-                label='Password'
-                type='password'
-                name='password'
+                label="Password"
+                name="password"
+                type="password"
                 value={formData.password}
                 onChange={handleChange}
-                variant='outlined'
-                margin='normal'
-                error={errors.password !== ''}
+                error={!!errors.password}
                 helperText={errors.password}
               />
               <TextField
@@ -163,10 +193,30 @@ const Register = () => {
                 error={errors.confirmPassword !== ''}
                 helperText={errors.confirmPassword}
               />
-              <Button type="submit" variant="contained" color="primary" style={{ marginTop: '16px' }} fullWidth>
+              <Button type='submit' variant='contained' color='primary' fullWidth style={{ marginTop: '16px' }} >
                 Register
               </Button>
             </form>
+            <Snackbar
+              anchorOrigin={{
+                vertical: 'top', 
+                horizontal: 'center' 
+              }}
+              open={snackbarOpen}
+              autoHideDuration={6000}
+              onClose={handleCloseSnackbar}
+              message={snackbarMessage}
+            />
+            <Snackbar
+              anchorOrigin={{
+                vertical: 'top', 
+                horizontal: 'center' 
+              }}
+              open={errorSnackbarOpen}
+              autoHideDuration={6000}
+              onClose={handleCloseSnackbar}
+              message={errorSnackbarMessage}
+            />
             <Typography variant='body2' align='center' style={{ marginTop: 10 }}>
               Already have an account?{' '}
               <Link href='/login' underline='hover'>
