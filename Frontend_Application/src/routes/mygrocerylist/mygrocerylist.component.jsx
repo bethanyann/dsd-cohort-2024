@@ -11,11 +11,12 @@ function MyGroceryList() {
     <>
       <Outlet />
       <Navbar />
-      <Grid container justifyContent="center" alignItems="center">
+      <Grid container justifyContent='center' alignItems='center'>
         <Grid item>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant='h3' gutterBottom>
             My Grocery List
           </Typography>
+          <SearchRecipesBar />
         </Grid>
         <Grid item>
           <Menu />
