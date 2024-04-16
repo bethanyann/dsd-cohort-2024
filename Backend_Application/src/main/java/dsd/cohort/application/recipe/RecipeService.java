@@ -10,7 +10,7 @@ public interface RecipeService {
     // Will hold a list of recipes that meet the search criteria
     List<RecipeEntity> getRecipeByName(String name);
 
-    RecipeDTO getRecipeByRecipeId(String recipeId);
+    RecipeEntity getRecipeByRecipeId(String recipeId);
 
     RecipeEntity createRecipe(String recipeId);
 

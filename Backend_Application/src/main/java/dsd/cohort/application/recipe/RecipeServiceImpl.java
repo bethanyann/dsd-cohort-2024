@@ -19,7 +19,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     // Return a recipe if it exists in the database by id
     @Override
-    public RecipeDTO getRecipeByRecipeId(String recipeId) throws ResponseStatusException {
+    public RecipeEntity getRecipeByRecipeId(String recipeId) throws ResponseStatusException {
         RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
 
         if (recipe != null) {
@@ -44,12 +44,12 @@ public class RecipeServiceImpl implements RecipeService {
             newRecipe.setFat(recipe.getFat());
             newRecipe.setProtein(recipe.getProtein());
 
+            recipe = newRecipe;
+
             recipeRepository.save(newRecipe);
         }
 
-        RecipeDTO recipeDTO = new RecipeDTO();
-
-        return recipeDTO;
+        return recipe;
     }
 
     // Return a recipe if it exists in the database by name

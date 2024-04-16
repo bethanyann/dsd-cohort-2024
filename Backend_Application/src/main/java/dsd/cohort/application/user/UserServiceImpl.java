@@ -40,7 +40,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<UserEntity> createUser(UserEntity user) throws IllegalArgumentException {
         try {
-            UserEntity newUser = usersRepository.save(user);
+            UserEntity newUser = new UserEntity();
+
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(newUser);
         }
