@@ -11,6 +11,8 @@ import dsd.cohort.application.recipe.RecipeEntity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * The annotations below help with handling boilerplate code for the users entity
  * NoArgs/AllArgs use is dependent on how you create a users.
@@ -29,6 +31,7 @@ public class UserEntity {
     // Spring will generate a unique id automagically
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false) // reference the column in the database
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long id;
 
     @Column(name = "first_name")
@@ -41,6 +44,7 @@ public class UserEntity {
     private String email;
 
     @Column(name = "password")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password; // TODO: encrypt password
 
     @OneToMany
