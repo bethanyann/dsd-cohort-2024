@@ -10,7 +10,7 @@ function Navbar() {
     let navigate = useNavigate();
 
     return (
-        <AppBar position="fixed" style={{ width: '100%' }} sx={{ backgroundColor: 'transparent' }}>
+        <AppBar position="fixed" style={{ width: '100%' }} sx={{ backgroundColor: 'transparent', zIndex: (theme) => theme.zIndex.drawer + 1  }}>
             <Toolbar>
                 <Grid container alignItems="center" justifyContent="space-between">
                     {/* Logo on the left-hand side */}

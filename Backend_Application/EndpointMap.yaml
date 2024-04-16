@@ -1,0 +1,314 @@
+openapi: "3.0.3"
+info:
+  title: "Backend_Application API"
+  description: "Backend_Application API"
+  version: "1.0.0"
+servers:
+  - url: "https://Backend_Application"
+paths:
+  /api/v0/users/addRecipe:
+    get:
+      summary: "GET api/v0/users/addRecipe"
+      operationId: "addRecipe"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "string"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "boolean"
+  /api/v0/users/createuser:
+    post:
+      summary: "POST api/v0/users/createuser"
+      operationId: "createUser"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserEntity"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserEntity"
+  /api/v0/users/deleteRecipe:
+    delete:
+      summary: "DELETE api/v0/users/deleteRecipe"
+      operationId: "deleteRecipe"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "string"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "boolean"
+  /api/v0/users/finduserbyemail:
+    get:
+      summary: "GET api/v0/users/finduserbyemail"
+      operationId: "findUserByEmail"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "string"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserEntity"
+  /api/v0/users/getGroceryList:
+    get:
+      summary: "GET api/v0/users/getGroceryList"
+      operationId: "getGroceryList"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "string"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/IngredientEntity"
+  /api/v0/users/getUserFavorites:
+    get:
+      summary: "GET api/v0/users/getUserFavorites"
+      operationId: "getUserFavorites"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "string"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/RecipeEntity"
+  /api/v0/users/removeFromGroceryList:
+    delete:
+      summary: "DELETE api/v0/users/removeFromGroceryList"
+      operationId: "removeFromGroceryList"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "string"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "boolean"
+  /api/v0/users/test:
+    get:
+      summary: "GET api/v0/users/test"
+      operationId: "test"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/UserEntity"
+  /api/v0/ingredients/{id}:
+    get:
+      summary: "GET api/v0/ingredients/{id}"
+      operationId: "getIngredientById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "string"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+  /api/v0/recipes/:
+    get:
+      summary: "GET api/v0/recipes/"
+      operationId: "getAllRecipes"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+  /api/v0/recipes/name/{name}:
+    get:
+      summary: "GET api/v0/recipes/name/{name}"
+      operationId: "getRecipeByName"
+      parameters:
+        - name: "name"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "string"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+  /api/v0/recipes/{id}:
+    get:
+      summary: "GET api/v0/recipes/{id}"
+      operationId: "getRecipeById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "string"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "string"
+components:
+  schemas:
+    IngredientEntity:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        foodId:
+          type: "string"
+        name:
+          type: "string"
+        text:
+          type: "string"
+        imageUrl:
+          type: "string"
+        quantity:
+          type: "integer"
+          format: "int32"
+        measure:
+          type: "string"
+        weight:
+          type: "number"
+          format: "double"
+        foodCategory:
+          type: "string"
+        recipes:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/RecipeEntity"
+    RecipeEntity:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        recipeId:
+          type: "string"
+        name:
+          type: "string"
+        description:
+          type: "string"
+        yield:
+          type: "integer"
+          format: "int32"
+        totalTime:
+          type: "integer"
+          format: "int32"
+        imageUrl:
+          type: "string"
+        url:
+          type: "string"
+        protein:
+          type: "integer"
+          format: "int32"
+        fat:
+          type: "integer"
+          format: "int32"
+        carbs:
+          type: "integer"
+          format: "int32"
+        calories:
+          type: "integer"
+          format: "int32"
+        ingredients:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/IngredientEntity"
+    UserEntity:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        firstName:
+          type: "string"
+        lastName:
+          type: "string"
+        email:
+          type: "string"
+        password:
+          type: "string"
+        favoriteRecipes:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/RecipeEntity"
+        groceryList:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/IngredientEntity"
