@@ -41,7 +41,7 @@ function Menu() {
         <ListItemButton
           sx={{ marginTop: "2rem" }}
           component={RouterLink}
-          to='/groceries'
+          to='/mygrocerylist'
         >
           <ListItemIcon>
             <ShoppingBagIcon />

@@ -3,11 +3,9 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Navbar from "../../components/navbar.component.jsx";
 import Menu from "../../components/menu.component";
-import SearchRecipesBar from "../../components/search-recipes-bar.component.jsx";
-import RecipeCard from "../../components/recipe-card.component.jsx";
-import RecipeCardContainer from "../../components/recipe-card-container.component.jsx";
+import DietaryPrefSwitchboard from "../../components/dietary-pref-switchboard.component.jsx";
 
-const MyRecipes = () => {
+const Settings = () => {
   return (
     <>
       <Outlet />
@@ -15,12 +13,9 @@ const MyRecipes = () => {
       <Grid container justifyContent='center' alignItems='center'>
         <Grid item>
           <Typography variant='h3' gutterBottom sx={{ p: 4 }}>
-            My Recipes
+            My Dietary Preferences
           </Typography>
-          <SearchRecipesBar />
-          <RecipeCardContainer>
-            <RecipeCard />
-          </RecipeCardContainer>
+          <DietaryPrefSwitchboard />
         </Grid>
         <Grid item>
           <Menu />
@@ -30,4 +25,4 @@ const MyRecipes = () => {
   );
 };
 
-export default MyRecipes;
+export default Settings;

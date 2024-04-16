@@ -4,7 +4,9 @@ import Navbar from "../../components/navbar.component.jsx";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Menu from "../../components/menu.component.jsx";
-import SearchRecipesBar from "../../components/SearchRecipesBar.jsx";
+import SearchIngredientBar from "../../components/search-ingredient-bar.component.jsx";
+import IngredientCardContainer from "../../components/ingredient-card-container.component.jsx";
+import IngredientCard from "../../components/ingredient-card.component.jsx";
 
 function MyGroceryList() {
   return (
@@ -13,10 +15,13 @@ function MyGroceryList() {
       <Navbar />
       <Grid container justifyContent='center' alignItems='center'>
         <Grid item>
-          <Typography variant='h3' gutterBottom>
+          <Typography variant='h3' gutterBottom sx={{ p: 4 }}>
             My Grocery List
           </Typography>
-          <SearchRecipesBar />
+          <SearchIngredientBar />
+          <IngredientCardContainer>
+            <IngredientCard />
+          </IngredientCardContainer>
         </Grid>
         <Grid item>
           <Menu />

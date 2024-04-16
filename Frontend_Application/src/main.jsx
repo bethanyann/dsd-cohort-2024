@@ -9,6 +9,7 @@ import Register from "./routes/register/register.component.jsx";
 import MyRecipes from "./routes/myrecipes/myrecipes.component.jsx";
 import Dashboard from "./routes/dashboard/dashboard.component.jsx";
 import MyGroceryList from "./routes/mygrocerylist/mygrocerylist.component.jsx";
+import Settings from "./routes/settings/settings.component.jsx";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "mygrocerylist",
         element: <MyGroceryList />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
       },
     ],
   },

@@ -6,6 +6,7 @@ import Register from "./routes/register/register.component";
 import MyRecipes from "./routes/myrecipes/myrecipes.component";
 import Dashboard from "./routes/dashboard/dashboard.component";
 import MyGroceryList from "./routes/mygrocerylist/mygrocerylist.component";
+import Settings from "./routes/settings/settings.component";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/myrecipes' element={<MyRecipes />} />
         <Route path='/mygrocerylist' element={<MyGroceryList />} />
+        <Route path='/settings' element={<Settings />} />
       </Routes>
     </>
   );

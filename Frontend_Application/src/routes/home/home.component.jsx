@@ -13,7 +13,7 @@ const Home = () => {
     <div>
       <Outlet />
       <Navbar />
-      // If user is present, show dashboard // If not, place landing page
+      {/*  If user is present, show dashboard If not, place landing page */}
       {userName ? <DashboardPage /> : <Landing />}
     </div>
   );
