@@ -44,14 +44,14 @@ public class UserController {
     }
 
     // add a recipe to a users favorites
-    @GetMapping("/addrecipe")
-    public boolean addRecipe(@RequestBody String email, @RequestBody String recipeId) {
+    @GetMapping("/addrecipe/{email}/{recipeId}")
+    public boolean addRecipe(@PathVariable String email, @PathVariable String recipeId) {
         return userService.addRecipe(email, recipeId);
     }
 
     // delete a recipe from a users favorites
-    @DeleteMapping("/deleterecipe")
-    public boolean deleteRecipe(@RequestBody String email, @RequestBody String recipeId) {
+    @DeleteMapping("/deleterecipe/{email}/{recipeId}")
+    public boolean deleteRecipe(@PathVariable String email, @PathVariable String recipeId) {
         return userService.deleteRecipe(email, recipeId);
     }
 
@@ -61,7 +61,7 @@ public class UserController {
         return userService.getUserFavorites(email);
     }
 
-    @GetMapping("/getgrocerylist")
+    @GetMapping("/getgrocerylist/{email}")
     public ResponseEntity<Set<IngredientEntity>> getGroceryList(@PathVariable String email) {
         return userService.getGroceryList(email);
     }
