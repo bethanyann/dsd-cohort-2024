@@ -1,7 +1,6 @@
 import React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import {
-  Drawer,
   List,
   ListItemButton,
   ListItemIcon,
@@ -14,21 +13,23 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { Link as RouterLink } from "react-router-dom";
 
 function Menu() {
-  const DrawerHeader = styled("div")(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-  }));
+  const menuStyle = {
+    position: 'fixed',
+    left: 0,
+    top: 64, // Adjust according to your Navbar height
+    bottom: 0,
+    width: '20%', // Adjust as needed
+    backgroundColor: '#ffffff',
+    borderRight: '1px solid #ccc',
+    padding: '16px',
+    overflowY: 'auto',
+  };
 
   return (
-    <Drawer variant="permanent">
-      <DrawerHeader />
+    <div style={menuStyle}>
       <List>
         <ListItemButton
-          sx={{ marginTop: "4rem" }}
+          sx={{ marginTop: "2rem" }}
           component={RouterLink}
           to="/dashboard"
         >
@@ -38,7 +39,7 @@ function Menu() {
           <ListItemText primary="My Dashboard" />
         </ListItemButton>
         <ListItemButton
-          sx={{ marginTop: "4rem" }}
+          sx={{ marginTop: "2rem" }}
           component={RouterLink}
           to="/groceries"
         >
@@ -48,7 +49,7 @@ function Menu() {
           <ListItemText primary="My Grocery List" />
         </ListItemButton>
         <ListItemButton
-          sx={{ marginTop: "4rem" }}
+          sx={{ marginTop: "2rem" }}
           component={RouterLink}
           to="/myrecipes"
         >
@@ -58,7 +59,7 @@ function Menu() {
           <ListItemText primary=" My Recipes" />
         </ListItemButton>
         <ListItemButton
-          sx={{ marginTop: "4rem" }}
+          sx={{ marginTop: "2rem" }}
           component={RouterLink}
           to="/settings"
         >
@@ -68,7 +69,7 @@ function Menu() {
           <ListItemText primary="Dietary Preferences" />
         </ListItemButton>
       </List>
-    </Drawer>
+    </div>
   );
 }
 
