@@ -1,8 +1,8 @@
 package dsd.cohort.application.ingredient;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,8 +16,8 @@ public class IngredientController {
     }
 
     @GetMapping("/{id}")
-    public String getIngredientById(@RequestParam String id) {
-        return ingredientService.getIngredientByFoodId(id).toString();
+    public IngredientEntity getIngredientById(@PathVariable String id) {
+        return ingredientService.getIngredientByFoodId(id);
     }
 
 }

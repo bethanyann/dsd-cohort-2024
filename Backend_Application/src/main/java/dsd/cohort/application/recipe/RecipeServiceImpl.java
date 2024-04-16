@@ -3,6 +3,7 @@ package dsd.cohort.application.recipe;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -21,12 +22,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         if (recipe != null) {
             // fetch recipe from API
-            // String baseUrl = "https://api.edamam.com/api/recipes/v2/";
-            // RestTemplate restTemplate = new RestTemplate();
-            // restTemplate.getForEntity(baseUrl, RecipeResponseDTO.class, recipeId);
-            // HttpRequest request = HttpRequest.newBuilder();
-            // request.header("Content-Type", "application/json");
-
+            
             RecipeEntity newRecipe = new RecipeEntity();
 
             newRecipe.setRecipeId(recipe.getRecipeId());
