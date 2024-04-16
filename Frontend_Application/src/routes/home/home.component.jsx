@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import pic from "../../assets/tomatoes.png";
 import Navbar from "../../components/navbar.component.jsx";
 import Landing from "../../components/landing.component.jsx";
-import DashboardPage from "../dasboard/dashboard.component.jsx";
+import DashboardPage from "../dashboard/dashboard.component.jsx";
 
 const Home = () => {
   const userName = "";
