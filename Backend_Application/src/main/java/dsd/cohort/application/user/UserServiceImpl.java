@@ -11,8 +11,6 @@ import dsd.cohort.application.ingredient.IngredientEntity;
 import dsd.cohort.application.ingredient.IngredientRepository;
 import dsd.cohort.application.recipe.RecipeEntity;
 import dsd.cohort.application.recipe.RecipeRepository;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UserServiceImpl implements UserService {
