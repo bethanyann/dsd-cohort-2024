@@ -68,13 +68,12 @@ public class UserController {
     }
 
     // delete a recipe from a users favorites
-    @DeleteMapping("/removerecipefromfavorites/{email}/{recipeId}")
+    @DeleteMapping("/removerecipefromfavorites")
     public ResponseEntity<String> deleteRecipe(@RequestBody FavoriteRequestDTO favoriteRequestDTO) {
         try {
             userService.deleteRecipe(favoriteRequestDTO.getEmail(), favoriteRequestDTO.getRecipeId());
 
-            return ResponseEntity.status(HttpStatus.NO_CONTENT)
-                    .body("Recipe Removed from user favorites");
+            return ResponseEntity.noContent().build();
         }
         catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
