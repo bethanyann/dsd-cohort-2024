@@ -11,14 +11,13 @@ import dsd.cohort.application.ingredient.IngredientEntity;
 import dsd.cohort.application.ingredient.IngredientRepository;
 import dsd.cohort.application.recipe.RecipeEntity;
 import dsd.cohort.application.recipe.RecipeRepository;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository usersRepository;
-    private RecipeRepository recipeRepository;
-    private IngredientRepository ingredientRepository;
+    private final UserRepository usersRepository;
+    private final RecipeRepository recipeRepository;
+    private final IngredientRepository ingredientRepository;
 
     public UserServiceImpl(UserRepository usersRepository, RecipeRepository recipeRepository, IngredientRepository ingredientRepository) {
         this.usersRepository = usersRepository;
@@ -27,36 +26,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity findUserByEmail(String email)  {
-        return usersRepository.findByEmail(email);
+    public UserEntity findUserByEmail(String email) {
+        return usersRepository.findByEmail(email).orElseThrow();
     }
 
     @Override
     public boolean userExists(String email) {
-        UserEntity user = usersRepository.findByEmail(email);
-        return user != null;
+        return usersRepository.findByEmail(email).isPresent();
     }
 
     @Override
-    public ResponseEntity<UserEntity> createUser(UserEntity user) throws IllegalArgumentException {
-        try {
-            UserEntity newUser = new UserEntity();
-
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(newUser);
-        }
-        catch (IllegalArgumentException exception) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Couldn't Create User");
-        }
+    public UserEntity createUser(UserEntity user) {
+        return usersRepository.save(user);
     }
 
     @Override
     public boolean addRecipe(String email, String recipeId) {
 
-        UserEntity user = usersRepository.findByEmail(email);
+        UserEntity user = usersRepository.findByEmail(email).orElseThrow();
         RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
 
-        if (user != null && recipe != null) {
+        if (userExists(email) && recipe != null) {
             user.getFavoriteRecipes().add(recipe);
             usersRepository.save(user);
             return true;
@@ -68,10 +58,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean deleteRecipe(String email, String recipeId) {
 
-        UserEntity user = usersRepository.findByEmail(email);
+        UserEntity user = usersRepository.findByEmail(email).orElseThrow();
         RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
 
-        if (user != null && recipe != null) {
+        if (userExists(email) && recipe != null) {
 
             if (!user.getFavoriteRecipes().contains(recipe)) {
                 return false;
@@ -93,8 +83,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<RecipeEntity> getUserFavorites(String email) {
 
-        UserEntity user = usersRepository.findByEmail(email);
-        if (user != null) {
+        UserEntity user = usersRepository.findByEmail(email).orElseThrow();
+        if (userExists(email)) {
             return user.getFavoriteRecipes();
         }
         return null;
@@ -103,8 +93,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<Set<IngredientEntity>> getGroceryList(String email) {
 
-        UserEntity user = usersRepository.findByEmail(email);
-        if (user != null) {
+        UserEntity user = usersRepository.findByEmail(email).orElseThrow();
+        if (userExists(email)) {
             return ResponseEntity.status(HttpStatus.OK).body(user.getGroceryList());
         }
         return null;
@@ -112,10 +102,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean removeFromGroceryList(String email, String foodId) {
-        UserEntity user = usersRepository.findByEmail(email);
+        UserEntity user = usersRepository.findByEmail(email).orElseThrow();
         IngredientEntity ingredient = ingredientRepository.findByFoodId(foodId);
 
-        if (user != null && ingredient != null) {
+        if (userExists(email) && ingredient != null) {
 
             if (!user.getGroceryList().contains(ingredient)) {
                 return false;

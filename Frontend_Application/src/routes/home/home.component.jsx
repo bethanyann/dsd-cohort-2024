@@ -5,15 +5,16 @@ import Button from "@mui/material/Button";
 import pic from "../../assets/tomatoes.png";
 import Navbar from "../../components/navbar.component.jsx";
 import Landing from "../../components/landing.component.jsx";
-import DashboardPage from "../dasboard/dashboard.component.jsx";
+import DashboardPage from "../dashboard/dashboard.component.jsx";
 
+  // If user is present, show dashboard // If not, place landing page
 const Home = () => {
   const userName = "";
   return (
     <div>
       <Outlet />
       <Navbar />
-      // If user is present, show dashboard // If not, place landing page
+      {/*  If user is present, show dashboard If not, place landing page */}
       {userName ? <DashboardPage /> : <Landing />}
     </div>
   );

@@ -21,13 +21,14 @@ const Landing = () => {
             Come Shop with us!
           </Typography>
           <Typography variant="body1" paragraph align="left">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eleifend justo ac libero vulputate, id fringilla dolor tempus.
+            Simplify Your Meal Planning: Effortlessly manage your groceries and plan meals for the week with our intuitive app.
           </Typography>
           <Grid container spacing={2} justifyContent="flex-end">
             <Grid item marginRight={4}>
-              <Button variant="contained" color="primary" size="large">
+              {/*Re-add this button for About Page if have time*/}
+              {/* <Button variant="contained" color="primary" size="large">
                 Explore
-              </Button>
+              </Button> */}
             </Grid>
           </Grid>
         </Box>

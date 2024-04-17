@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -28,19 +28,28 @@ public class UserController {
 
     @PostMapping("/createuser")
     public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user){
-        return userService.createUser(user);
+
+        try {
+            UserEntity newUser = userService.createUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(newUser);
+        }
+        catch (Exception exception) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Couldn't Create User");
+        }
     }
 
-    @GetMapping("/finduserbyemail/{email}")
-    public ResponseEntity<UserEntity> findUserByEmail(@PathVariable String email) {
-        UserEntity user = userService.findUserByEmail(email);
+    @GetMapping("/finduserbyemail")
+    public ResponseEntity<UserEntity> findUserByEmail(@RequestParam String email) {
+        try {
+            UserEntity user = userService.findUserByEmail(email);
 
-        if(user != null) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(user);
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
-
+        catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User not found");
+        }
     }
 
     // add a recipe to a users favorites
