@@ -1,6 +1,8 @@
 package dsd.cohort.application.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +29,7 @@ import java.util.Set;
 public class UserEntity {
 
     @Id
+    @JsonIgnore
     // Spring will generate a unique id automagically
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false) // reference the column in the database
@@ -39,9 +42,11 @@ public class UserEntity {
     private String lastName;
 
     @NotBlank
+    @Email
     @Column(name = "email", unique = true)
     private String email;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password; // TODO: encrypt password
 

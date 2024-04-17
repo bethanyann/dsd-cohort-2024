@@ -15,22 +15,22 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @GetMapping("/test")
     public List<UserEntity> test() {
-        return userService.getAll();
+        return userServiceImpl.getAll();
     }
 
     @PostMapping("/createuser")
     public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user){
 
         try {
-            UserEntity newUser = userService.createUser(user);
+            UserEntity newUser = userServiceImpl.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(newUser);
         }
@@ -41,41 +41,42 @@ public class UserController {
 
     @GetMapping("/finduserbyemail")
     public ResponseEntity<UserEntity> findUserByEmail(@RequestParam String email) {
-        UserEntity user = userService.findUserByEmail(email);
+        try {
+            UserEntity user = userServiceImpl.findUserByEmail(email);
 
-        if(user != null) {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(user);
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
-
+        catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User not found");
+        }
     }
 
     // add a recipe to a users favorites
     @GetMapping("/addrecipe")
     public boolean addRecipe(@RequestBody String email, @RequestBody String recipeId) {
-        return userService.addRecipe(email, recipeId);
+        return userServiceImpl.addRecipe(email, recipeId);
     }
 
     // delete a recipe from a users favorites
     @DeleteMapping("/deleterecipe")
     public boolean deleteRecipe(@RequestBody String email, @RequestBody String recipeId) {
-        return userService.deleteRecipe(email, recipeId);
+        return userServiceImpl.deleteRecipe(email, recipeId);
     }
 
     // get a users favorites
     @GetMapping("/getuserfavorites")
     public Set<RecipeEntity> getUserFavorites(@RequestBody String email) {
-        return userService.getUserFavorites(email);
+        return userServiceImpl.getUserFavorites(email);
     }
 
     @GetMapping("/getgrocerylist")
     public ResponseEntity<Set<IngredientEntity>> getGroceryList(@RequestBody String email) {
-        return userService.getGroceryList(email);
+        return userServiceImpl.getGroceryList(email);
     }
 
     @DeleteMapping("/removefromgrocerylist")
     public boolean removeFromGroceryList(@RequestBody String email, @RequestBody String foodId) {
-        return userService.removeFromGroceryList(email, foodId);
+        return userServiceImpl.removeFromGroceryList(email, foodId);
     }
 }
