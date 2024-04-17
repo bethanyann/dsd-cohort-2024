@@ -1,6 +1,8 @@
 package dsd.cohort.application.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -46,8 +48,8 @@ public class UserEntity {
     @Column(name = "email", unique = true)
     private String email;
 
-    @JsonIgnore
     @NotBlank
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "password")
     private String password; // TODO: encrypt password
 
