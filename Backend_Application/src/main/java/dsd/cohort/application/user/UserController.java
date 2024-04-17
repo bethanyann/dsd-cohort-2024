@@ -108,7 +108,14 @@ public class UserController {
     }
 
     @DeleteMapping("/removefromgrocerylist/{email}/{foodId}")
-    public boolean removeFromGroceryList(@PathVariable String email, @PathVariable String foodId) {
-        return userService.removeFromGroceryList(email, foodId);
+    public ResponseEntity<String> removeFromGroceryList(@PathVariable String email, @PathVariable String foodId) {
+        try{
+            userService.removeFromGroceryList(email, foodId);
+            return ResponseEntity.status(HttpStatus.OK).body("Item removed from user's grocery list.");
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not remove item " +
+                    "from users grocery list.");
+        }
     }
 }
