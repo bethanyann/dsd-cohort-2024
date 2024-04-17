@@ -26,7 +26,7 @@ public interface UserService {
 
     Set<RecipeEntity> getUserFavorites(String email);
 
-    ResponseEntity<Set<IngredientEntity>> getGroceryList(String email);
+    Set<IngredientEntity> getGroceryList(String email);
 
     boolean removeFromGroceryList(String email, String foodId);
 

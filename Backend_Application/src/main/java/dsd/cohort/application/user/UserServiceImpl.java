@@ -91,13 +91,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<Set<IngredientEntity>> getGroceryList(String email) {
-
-        UserEntity user = usersRepository.findByEmail(email).orElseThrow();
-        if (userExists(email)) {
-            return ResponseEntity.status(HttpStatus.OK).body(user.getGroceryList());
-        }
-        return null;
+    public Set<IngredientEntity> getGroceryList(String email) {
+        return usersRepository.findByEmail(email)
+                .orElseThrow()
+                .getGroceryList();
     }
 
     @Override

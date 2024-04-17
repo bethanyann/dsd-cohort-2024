@@ -98,7 +98,13 @@ public class UserController {
 
     @GetMapping("/getgrocerylist/{email}")
     public ResponseEntity<Set<IngredientEntity>> getGroceryList(@PathVariable String email) {
-        return userService.getGroceryList(email);
+        try {
+            Set<IngredientEntity> userGroceryList = userService.getGroceryList(email);
+            return ResponseEntity.status(HttpStatus.OK).body(userGroceryList);
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not get user's grocery list");
+        }
     }
 
     @DeleteMapping("/removefromgrocerylist/{email}/{foodId}")
