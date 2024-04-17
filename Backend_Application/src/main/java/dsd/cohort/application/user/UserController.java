@@ -131,21 +131,20 @@ public class UserController {
         }
     }
 
-    @PostMapping("/userauth")
-    public ResponseEntity<String> userauth(@RequestBody UserRequestDTO userRequestDTO) {
+    @PostMapping("/auth")
+    public ResponseEntity<UserEntity> userauth(@RequestBody UserRequestDTO userRequestDTO) {
 
-        boolean auth;
+        UserEntity auth;
         try {
             auth = userService.userauth(userRequestDTO);
+            if (auth != null) {
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(auth);
+            }
         } catch (NoSuchElementException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User Not Authenticated");
+            System.out.println("User not found");
         }
 
-        if (auth) {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body("User Authenticated");
-        }
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User Not Authenticated");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 }

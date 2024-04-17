@@ -3,6 +3,7 @@ package dsd.cohort.application.bootstrap;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import dsd.cohort.application.Utils.Utility;
 import dsd.cohort.application.recipe.RecipeEntity;
 import dsd.cohort.application.recipe.RecipeRepository;
 import dsd.cohort.application.user.UserEntity;
@@ -13,10 +14,12 @@ public class BootstrapData implements CommandLineRunner {
   
   private final UserRepository userRepository;
   private final RecipeRepository recipeRepository;
+  private final Utility utility;
   
-  public BootstrapData(UserRepository userRepository, RecipeRepository recipeRepository) {
+  public BootstrapData(UserRepository userRepository, RecipeRepository recipeRepository, Utility utility) {
     this.userRepository = userRepository;
     this.recipeRepository = recipeRepository;
+    this.utility = utility;
   }
 
   @Override
@@ -27,14 +30,14 @@ public class BootstrapData implements CommandLineRunner {
       user.setFirstName("Johnny");
       user.setLastName("Test");
       user.setEmail("test@test.com");
-      user.setPassword("testPassword");
+      user.setPassword(utility.encryptString("testPassword"));
       userRepository.save(user);
 
       user = new UserEntity();
       user.setFirstName("Jane");
       user.setLastName("Test");
       user.setEmail("test2@test.com");
-      user.setPassword("testPassword");
+      user.setPassword(utility.encryptString("testPassword"));
       userRepository.save(user);
 
       user = new UserEntity();
