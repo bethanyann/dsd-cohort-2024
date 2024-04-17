@@ -53,9 +53,18 @@ public class UserController {
     }
 
     // add a recipe to a users favorites
-    @GetMapping("/addrecipe/{email}/{recipeId}")
-    public boolean addRecipe(@PathVariable String email, @PathVariable String recipeId) {
-        return userService.addRecipe(email, recipeId);
+    @PostMapping("/addrecipetofavorites")
+    public ResponseEntity<String> addRecipe(@RequestBody String email, @RequestBody String recipeId) {
+        try {
+            userService.addRecipe(email, recipeId);
+
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("Recipe added to user favorites");
+        }
+        catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Could not add recipe to user's favorites" + e.getMessage());
+        }
     }
 
     // delete a recipe from a users favorites
