@@ -10,13 +10,16 @@ public interface ApiDetails {
    * 
    * Create a new java file that implements this interface named ApiDetailsImpl.java
    * 
-   * When implementing this interface, the following variables must be defined with your API details:
+   * This will allow you to access the API with your credentials while hiding the API details.
+   * 
+   * When implementing this interface, the following private variables must be defined with your ApiDetailsImpl.java file: apiId, apiKey
    * @var apiId
    * @var apiKey
    * 
    * @return "?app_id=" + this.apiId + "&app_key=" + this.apiKey + "&type=public";
    * 
-   * This will allow you to access the API with your credentials while hiding the API details.
+   * 
+   * @see https://github.com/Dissurender/dsd-api/blob/main/APIDETAILS.MD
    */
 
   String getApiDetails();
