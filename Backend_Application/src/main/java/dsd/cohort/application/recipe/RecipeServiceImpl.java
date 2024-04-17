@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,22 +15,21 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import dsd.cohort.application.config.ApiDetailsImpl;
 import dsd.cohort.application.ingredient.IngredientEntity;
 import dsd.cohort.application.ingredient.IngredientRepository;
-import dsd.cohort.application.ingredient.IngredientServiceImpl;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
     private RecipeRepository recipeRepository;
+    private IngredientRepository ingredientRepository;
+    private ApiDetailsImpl apiDetails;
 
-    @Value("${APP_ID}")
-    private String APP_ID;
-    @Value("${APP_KEY}")
-    private String APP_KEY;
-
-    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, IngredientRepository ingredientRepository, ApiDetailsImpl apiDetails) {
         this.recipeRepository = recipeRepository;
+        this.ingredientRepository = ingredientRepository;
+        this.apiDetails = apiDetails;
     }
 
     // Return a recipe if it exists in the database by id
@@ -41,11 +39,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         if (recipe == null) {
             try {
-                recipe = fetchRecipe(recipeId);
-            } catch (JsonMappingException e) {
-                throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Issue mapping API response.");
-            } catch (JsonProcessingException e) {
-                throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Issue parsing API response.");
+                recipe = createRecipe(recipeId);
             } catch (ResponseStatusException e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to fetch recipe.");
             }
@@ -63,11 +57,19 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public RecipeEntity createRecipe(String recipeId) {
 
-        RecipeEntity recipe = new RecipeEntity();
-
-        // save recipe to database
-        recipeRepository.save(recipe);
-        return null;
+        RecipeEntity recipe;
+        // fetch recipe
+        try {
+            recipe = fetchRecipe(recipeId);
+        } catch (JsonMappingException e) {
+            System.out.println("Mapping error: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Issue mapping API response.");
+        } catch (JsonProcessingException e) {
+            System.out.println("Parsing error: " + e.getMessage());
+            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Issue parsing API response.");
+        }
+        
+        return recipe;
     }
 
     // TODO: add pagination
@@ -88,12 +90,12 @@ public class RecipeServiceImpl implements RecipeService {
 
     public RecipeEntity fetchRecipe(String recipeId)
             throws ResponseStatusException, JsonProcessingException, JsonMappingException {
+
         // build url
         String baseUrl = "";
         baseUrl += "https://api.edamam.com/api/recipes/v2";
         baseUrl += "/" + recipeId;
-        baseUrl += "?app_id=" + APP_ID;
-        baseUrl += "&app_key=" + APP_KEY + "&type=public";
+        baseUrl += apiDetails.getApiDetails();
 
         RestTemplate restTemplate = new RestTemplate();
         String response = restTemplate.getForObject(baseUrl, String.class);
@@ -141,13 +143,10 @@ public class RecipeServiceImpl implements RecipeService {
 
         // get ingredients from json
         JsonNode ingredientsJson = jsonNode.findValue("ingredients");
-        Set<IngredientEntity> ingredients = parseIngredients(ingredientsJson);
+        Set<IngredientEntity> ingredients = parseIngredients(ingredientsJson, recipeId);
         newRecipe.setIngredients(ingredients);
 
         System.out.println("\n\nSuccessful parse\n\n");
-
-        System.out.println((newRecipe instanceof RecipeEntity));
-        System.out.println("newRecipe: " + newRecipe.toString());
 
         return newRecipe;
 
@@ -160,13 +159,21 @@ public class RecipeServiceImpl implements RecipeService {
      * @param ingredientsJson the JSON node representing ingredients
      * @return a Set of IngredientEntity objects parsed from the JSON node
      */
-    public Set<IngredientEntity> parseIngredients(JsonNode ingredientsJson) {
+    public Set<IngredientEntity> parseIngredients(JsonNode ingredientsJson, String recipeId) {
         Set<IngredientEntity> ingredients = new HashSet<>();
         DecimalFormat df = new DecimalFormat("#.00");
 
         if (ingredientsJson.isArray()) {
             for (JsonNode ingredient : ingredientsJson) {
-                
+
+                String foodId = ingredient.findValue("foodId").textValue();
+                IngredientEntity existingIngredient = ingredientRepository.findByFoodId(foodId);
+
+                if (existingIngredient != null) {
+                    ingredients.add(existingIngredient);
+                    continue;
+                }
+
                 IngredientEntity newIngredient = new IngredientEntity();
 
                 newIngredient.setFoodId(ingredient.findValue("foodId").textValue());
@@ -181,6 +188,8 @@ public class RecipeServiceImpl implements RecipeService {
                 newIngredient.setWeight(Double.parseDouble(df.format(weight)));
 
                 ingredients.add(newIngredient);
+                
+                ingredientRepository.save(newIngredient);
 
             }
         }

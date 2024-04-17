@@ -40,10 +40,10 @@ public class RecipeEntity {
     @Column(name = "total_time")
     private Integer totalTime; // in minutes
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", length = 2083)
     private String imageUrl;
 
-    @Column(name = "url")
+    @Column(name = "url", length = 2083)
     private String url;
 
     @Column(name = "protein")
