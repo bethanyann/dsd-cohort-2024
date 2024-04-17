@@ -63,14 +63,24 @@ public class UserController {
         }
         catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Could not add recipe to user's favorites" + e.getMessage());
+                    "Could not add recipe to user's favorites: " + e.getMessage());
         }
     }
 
     // delete a recipe from a users favorites
-    @DeleteMapping("/deleterecipe/{email}/{recipeId}")
-    public boolean deleteRecipe(@PathVariable String email, @PathVariable String recipeId) {
-        return userService.deleteRecipe(email, recipeId);
+    @DeleteMapping("/removerecipefromfavorites/{email}/{recipeId}")
+    public ResponseEntity<String> deleteRecipe(@PathVariable String email, @PathVariable String recipeId) {
+        try {
+            userService.deleteRecipe(email, recipeId);
+
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                    .body("Recipe Removed from user favorites");
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Could not remove from user's favorites: " + e.getMessage());
+        }
+
     }
 
     // get a users favorites
