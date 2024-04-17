@@ -14,15 +14,15 @@ import { Link as RouterLink } from "react-router-dom";
 
 function Menu() {
   const menuStyle = {
-    position: 'fixed',
+    position: "fixed",
     left: 0,
     top: 64, // Adjust according to your Navbar height
     bottom: 0,
-    width: '20%', // Adjust as needed
-    backgroundColor: '#ffffff',
-    borderRight: '1px solid #ccc',
-    padding: '16px',
-    overflowY: 'auto',
+    width: "20%", // Adjust as needed
+    backgroundColor: "#ffffff",
+    borderRight: "1px solid #ccc",
+    padding: "16px",
+    overflowY: "auto",
   };
 
   return (
@@ -31,42 +31,42 @@ function Menu() {
         <ListItemButton
           sx={{ marginTop: "2rem" }}
           component={RouterLink}
-          to="/dashboard"
+          to='/dashboard'
         >
           <ListItemIcon>
             <CottageIcon />
           </ListItemIcon>
-          <ListItemText primary="My Dashboard" />
+          <ListItemText primary='My Dashboard' />
         </ListItemButton>
         <ListItemButton
           sx={{ marginTop: "2rem" }}
           component={RouterLink}
-          to="/groceries"
+          to='/mygrocerylist'
         >
           <ListItemIcon>
             <ShoppingBagIcon />
           </ListItemIcon>
-          <ListItemText primary="My Grocery List" />
+          <ListItemText primary='My Grocery List' />
         </ListItemButton>
         <ListItemButton
           sx={{ marginTop: "2rem" }}
           component={RouterLink}
-          to="/myrecipes"
+          to='/myrecipes'
         >
           <ListItemIcon>
             <RestaurantIcon />
           </ListItemIcon>
-          <ListItemText primary=" My Recipes" />
+          <ListItemText primary=' My Recipes' />
         </ListItemButton>
         <ListItemButton
           sx={{ marginTop: "2rem" }}
           component={RouterLink}
-          to="/settings"
+          to='/settings'
         >
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
-          <ListItemText primary="Dietary Preferences" />
+          <ListItemText primary='Dietary Preferences' />
         </ListItemButton>
       </List>
     </div>
