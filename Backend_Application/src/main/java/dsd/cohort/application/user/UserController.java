@@ -3,17 +3,19 @@ package dsd.cohort.application.user;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import dsd.cohort.application.ingredient.IngredientEntity;
 import dsd.cohort.application.recipe.RecipeEntity;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -25,20 +27,29 @@ public class UserController {
     }
 
     @PostMapping("/createuser")
-    public UserEntity createUser(@RequestBody UserEntity user) throws IllegalArgumentException {
+    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user){
 
         try {
-            UserEntity userCreated = userService.createUser(user);
-            return userCreated;
-        } catch (IllegalArgumentException e) {
-            // TODO: handle exception, unable to create user
-            return null;
+            UserEntity newUser = userService.createUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(newUser);
+        }
+        catch (Exception exception) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Couldn't Create User");
         }
     }
 
     @GetMapping("/finduserbyemail")
-    public ResponseEntity<UserEntity> findUserByEmail(@RequestParam String userEmail) {
-        return userService.findUserByEmail(userEmail);
+    public ResponseEntity<UserEntity> findUserByEmail(@RequestParam String email) {
+        try {
+            UserEntity user = userService.findUserByEmail(email);
+
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(user);
+        }
+        catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User not found");
+        }
     }
 
     // add a recipe to a users favorites
