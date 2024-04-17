@@ -1,10 +1,17 @@
 package dsd.cohort.application.recipe;
 
+import java.util.List;
+
+import dsd.cohort.application.ingredient.IngredientDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class RecipeDTO {
 
   private String recipeId;
@@ -18,6 +25,6 @@ public class RecipeDTO {
   private int fat;
   private int carbs;
   private int calories;
-  // private List<IngredientDTO> ingredients;
+  private List<IngredientDTO> ingredients;
 
 }

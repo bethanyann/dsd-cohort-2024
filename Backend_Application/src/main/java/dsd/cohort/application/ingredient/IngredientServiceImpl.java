@@ -1,6 +1,8 @@
 package dsd.cohort.application.ingredient;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class IngredientServiceImpl implements IngredientService {
@@ -17,26 +19,22 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public IngredientEntity ingredientExists(String foodId) {
+    public IngredientEntity ingredientExists(String foodId) throws ResponseStatusException {
         IngredientEntity ingredient = ingredientRepository.findByFoodId(foodId);
 
-        if(ingredient == null) {
-            return createIngredient(foodId);
+        if (ingredient == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ingredient not found.");
         }
 
         return ingredient;
     }
 
     @Override
-    public IngredientEntity createIngredient(String foodId) {
-
-        // TODO: API Call
+    public IngredientEntity createIngredient(IngredientEntity ingredient) {
 
         IngredientEntity ingredientEntity = new IngredientEntity();
 
-        // TODO: Set all fields
-
         ingredientRepository.save(ingredientEntity);
-        return null;
+        return ingredientEntity;
     }
 }

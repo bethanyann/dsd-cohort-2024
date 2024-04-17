@@ -1,3 +1,4 @@
 .idea
 .vscode
 .env
+Backend_Application/src/main/java/dsd/cohort/application/config/ApiDetailsImpl.java

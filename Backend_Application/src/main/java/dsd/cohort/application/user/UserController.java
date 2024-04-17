@@ -53,30 +53,30 @@ public class UserController {
     }
 
     // add a recipe to a users favorites
-    @GetMapping("/addrecipe")
-    public boolean addRecipe(@RequestBody String email, @RequestBody String recipeId) {
+    @GetMapping("/addrecipe/{email}/{recipeId}")
+    public boolean addRecipe(@PathVariable String email, @PathVariable String recipeId) {
         return userService.addRecipe(email, recipeId);
     }
 
     // delete a recipe from a users favorites
-    @DeleteMapping("/deleterecipe")
-    public boolean deleteRecipe(@RequestBody String email, @RequestBody String recipeId) {
+    @DeleteMapping("/deleterecipe/{email}/{recipeId}")
+    public boolean deleteRecipe(@PathVariable String email, @PathVariable String recipeId) {
         return userService.deleteRecipe(email, recipeId);
     }
 
     // get a users favorites
-    @GetMapping("/getuserfavorites")
-    public Set<RecipeEntity> getUserFavorites(@RequestBody String email) {
+    @GetMapping("/getuserfavorites/{email}")
+    public Set<RecipeEntity> getUserFavorites(@PathVariable String email) {
         return userService.getUserFavorites(email);
     }
 
-    @GetMapping("/getgrocerylist")
-    public ResponseEntity<Set<IngredientEntity>> getGroceryList(@RequestBody String email) {
+    @GetMapping("/getgrocerylist/{email}")
+    public ResponseEntity<Set<IngredientEntity>> getGroceryList(@PathVariable String email) {
         return userService.getGroceryList(email);
     }
 
-    @DeleteMapping("/removefromgrocerylist")
-    public boolean removeFromGroceryList(@RequestBody String email, @RequestBody String foodId) {
+    @DeleteMapping("/removefromgrocerylist/{email}/{foodId}")
+    public boolean removeFromGroceryList(@PathVariable String email, @PathVariable String foodId) {
         return userService.removeFromGroceryList(email, foodId);
     }
 }

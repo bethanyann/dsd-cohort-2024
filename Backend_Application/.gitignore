@@ -57,4 +57,7 @@ buildNumber.properties
 *.iml
 *.ipr
 
+### Secrets ###
+**/application-dev.properties
+
 # End of https://www.toptal.com/developers/gitignore/api/java,maven

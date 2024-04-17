@@ -36,7 +36,7 @@ public class IngredientEntity {
     @Column(name = "text")
     private String text;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", length = 2083)
     private String imageUrl;
 
     // represents the count of measures
