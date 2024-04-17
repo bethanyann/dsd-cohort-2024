@@ -85,8 +85,15 @@ public class UserController {
 
     // get a users favorites
     @GetMapping("/getuserfavorites/{email}")
-    public Set<RecipeEntity> getUserFavorites(@PathVariable String email) {
-        return userService.getUserFavorites(email);
+    public ResponseEntity<Set<RecipeEntity>> getUserFavorites(@PathVariable String email) {
+        try {
+            Set<RecipeEntity> userFavorites = userService.getUserFavorites(email);
+            return ResponseEntity.status(HttpStatus.OK).body(userFavorites);
+
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not get user's favorites.");
+        }
     }
 
     @GetMapping("/getgrocerylist/{email}")
