@@ -26,10 +26,18 @@ public class RecipeServiceImpl implements RecipeService {
     private IngredientRepository ingredientRepository;
     private ApiDetailsImpl apiDetails;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository, IngredientRepository ingredientRepository, ApiDetailsImpl apiDetails) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, IngredientRepository ingredientRepository,
+            ApiDetailsImpl apiDetails) {
         this.recipeRepository = recipeRepository;
         this.ingredientRepository = ingredientRepository;
         this.apiDetails = apiDetails;
+    }
+
+    // TODO: add pagination
+    // return all recipes from database
+    @Override
+    public List<RecipeEntity> getAllRecipes() {
+        return recipeRepository.findAll();
     }
 
     // Return a recipe if it exists in the database by id
@@ -68,15 +76,8 @@ public class RecipeServiceImpl implements RecipeService {
             System.out.println("Parsing error: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "Issue parsing API response.");
         }
-        
-        return recipe;
-    }
 
-    // TODO: add pagination
-    // return all recipes from database
-    @Override
-    public List<RecipeEntity> getAllRecipes() {
-        return recipeRepository.findAll();
+        return recipe;
     }
 
     /**
@@ -188,7 +189,7 @@ public class RecipeServiceImpl implements RecipeService {
                 newIngredient.setWeight(Double.parseDouble(df.format(weight)));
 
                 ingredients.add(newIngredient);
-                
+
                 ingredientRepository.save(newIngredient);
 
             }
