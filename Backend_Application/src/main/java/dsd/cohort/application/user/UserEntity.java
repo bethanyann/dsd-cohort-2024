@@ -47,6 +47,7 @@ public class UserEntity {
     private String email;
 
     @JsonIgnore
+    @NotBlank
     @Column(name = "password")
     private String password; // TODO: encrypt password
 
