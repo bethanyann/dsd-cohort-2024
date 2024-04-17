@@ -54,9 +54,9 @@ public class UserController {
 
     // add a recipe to a users favorites
     @PostMapping("/addrecipetofavorites")
-    public ResponseEntity<String> addRecipe(@RequestBody String email, @RequestBody String recipeId) {
+    public ResponseEntity<String> addRecipe(@RequestBody FavoriteRequestDTO favoriteRequestDTO) {
         try {
-            userService.addRecipe(email, recipeId);
+            userService.addRecipe(favoriteRequestDTO.getEmail(), favoriteRequestDTO.getRecipeId());
 
             return ResponseEntity.status(HttpStatus.OK)
                     .body("Recipe added to user favorites");
@@ -69,9 +69,9 @@ public class UserController {
 
     // delete a recipe from a users favorites
     @DeleteMapping("/removerecipefromfavorites/{email}/{recipeId}")
-    public ResponseEntity<String> deleteRecipe(@PathVariable String email, @PathVariable String recipeId) {
+    public ResponseEntity<String> deleteRecipe(@RequestBody FavoriteRequestDTO favoriteRequestDTO) {
         try {
-            userService.deleteRecipe(email, recipeId);
+            userService.deleteRecipe(favoriteRequestDTO.getEmail(), favoriteRequestDTO.getRecipeId());
 
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
                     .body("Recipe Removed from user favorites");
