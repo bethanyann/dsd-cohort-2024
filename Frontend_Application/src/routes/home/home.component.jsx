@@ -7,6 +7,7 @@ import Navbar from "../../components/navbar.component.jsx";
 import Landing from "../../components/landing.component.jsx";
 import DashboardPage from "../dashboard/dashboard.component.jsx";
 
+  // If user is present, show dashboard // If not, place landing page
 const Home = () => {
   const userName = "";
   return (
