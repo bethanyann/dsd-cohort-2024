@@ -1,6 +1,7 @@
 package dsd.cohort.application.user;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.springframework.http.HttpStatus;
@@ -27,14 +28,13 @@ public class UserController {
     }
 
     @PostMapping("/createuser")
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user){
+    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
 
         try {
             UserEntity newUser = userService.createUser(user);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(newUser);
-        }
-        catch (Exception exception) {
+        } catch (Exception exception) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Couldn't Create User");
         }
     }
@@ -46,8 +46,7 @@ public class UserController {
 
             return ResponseEntity.status(HttpStatus.OK)
                     .body(user);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User not found");
         }
     }
@@ -78,5 +77,23 @@ public class UserController {
     @DeleteMapping("/removefromgrocerylist/{email}/{foodId}")
     public boolean removeFromGroceryList(@PathVariable String email, @PathVariable String foodId) {
         return userService.removeFromGroceryList(email, foodId);
+    }
+
+    @PostMapping("/userauth")
+    public ResponseEntity<String> userauth(@RequestBody UserRequestDTO userRequestDTO) {
+
+        boolean auth;
+        try {
+            auth = userService.userauth(userRequestDTO);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User Not Authenticated");
+        }
+
+        if (auth) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("User Authenticated");
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User Not Authenticated");
     }
 }
