@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
      * @throws NoSuchElementException if the user is not found
      */
     @Override
-    public boolean userauth(UserRequestDTO userRequestDTO) throws NoSuchElementException {
+    public UserEntity userauth(UserRequestDTO userRequestDTO) throws NoSuchElementException {
 
         if (!userExists(userRequestDTO.getEmail())) {
             throw new NoSuchElementException("User not found");
@@ -146,8 +146,8 @@ public class UserServiceImpl implements UserService {
 
         UserEntity user = usersRepository.findByEmail(userRequestDTO.getEmail()).orElseThrow();
         if (user.getPassword().equals(utility.encryptString(userRequestDTO.getPassword()))) {
-            return true;
+            return user;
         }
-        return false;
+        return null;
     }
 }

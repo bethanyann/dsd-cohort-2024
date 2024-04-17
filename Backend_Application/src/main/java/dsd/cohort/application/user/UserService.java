@@ -32,5 +32,5 @@ public interface UserService {
 
     List<UserEntity> getAll();
 
-    boolean userauth(UserRequestDTO userRequestDTO);
+    UserEntity userauth(UserRequestDTO userRequestDTO);
 }
