@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom"; // Import Navigate for redirection
 import Navbar from "../../components/navbar.component.jsx";
 import Grid from "@mui/material/Grid";
@@ -9,6 +9,7 @@ import useAuth from "../../auth-context/useAuth.jsx";
 
 function Dashboard(props) {
   const { user } = useAuth();
+  const { logout } = useAuth();
   const location = useLocation(); // Use useLocation hook to access location
   const [userData, setUserData] = useState(null);
 
@@ -41,7 +42,7 @@ function Dashboard(props) {
   return (
     <div style={dashboardStyle}>
       <Outlet />
-      <Navbar />
+      <Navbar isLoggedIn={true} logout={logout}/>
       <Grid container justifyContent='center' alignItems='center'>
         <Grid item>
           <Typography variant='h3' gutterBottom sx={{ p: 4 }}>
