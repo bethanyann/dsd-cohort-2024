@@ -154,6 +154,11 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Remove an ingredient to a users grocery list")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Ingredient removed from grocery list"),
+        @ApiResponse(responseCode = "500", description = "Ingredient not removed from grocery list")
+    })
     @DeleteMapping("/removefromgrocerylist")
     public ResponseEntity<String> removeFromGroceryList(UserDataRequestDTO userDataRequestDTO) {
         try{
@@ -164,16 +169,6 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not remove item " +
                     "from users grocery list.");
         }
-    }
-
-    @Operation(summary = "Remove an ingredient to a users grocery list")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Ingredient removed from grocery list"),
-        @ApiResponse(responseCode = "500", description = "Ingredient not removed from grocery list")
-    })
-    @DeleteMapping("/removefromgrocerylist/{email}/{foodId}")
-    public boolean removeFromGroceryList(@PathVariable String email, @PathVariable String foodId) {
-        return userService.removeFromGroceryList(email, foodId);
     }
 
     @Operation(summary = "User authentication")

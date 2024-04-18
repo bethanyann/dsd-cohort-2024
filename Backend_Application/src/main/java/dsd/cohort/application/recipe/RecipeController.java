@@ -40,7 +40,8 @@ public class RecipeController {
     })
     @GetMapping("/{recipeId}")
     public RecipeEntity getRecipeById(@PathVariable String recipeId) {
-        return recipeService.getRecipeByRecipeId(recipeId);
+        RecipeEntity recipe = recipeService.getRecipeByRecipeId(recipeId);
+        return recipe;
     }
 
     @Operation(summary = "Get all recipes by name partial")

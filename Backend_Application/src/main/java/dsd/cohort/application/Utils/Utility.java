@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dsd.cohort.application.ingredient.IngredientEntity;
 import dsd.cohort.application.ingredient.IngredientRepository;
+import dsd.cohort.application.ingredient.IngredientServiceImpl;
 import dsd.cohort.application.recipe.RecipeEntity;
 
 @Component
@@ -30,10 +31,13 @@ public class Utility {
 
     private IngredientRepository ingredientRepository;
 
+    private IngredientServiceImpl ingredientServiceImpl;
+
     private long lastCallTime;
 
-    public Utility(IngredientRepository ingredientRepository) {
+    public Utility(IngredientRepository ingredientRepository, IngredientServiceImpl ingredientServiceImpl) {
         this.ingredientRepository = ingredientRepository;
+        this.ingredientServiceImpl = ingredientServiceImpl;
         this.lastCallTime = System.currentTimeMillis() / 1000;
     }
 
@@ -99,18 +103,20 @@ public class Utility {
 
         RecipeEntity newRecipe = new RecipeEntity();
 
-        newRecipe.setName(jsonNode.findValue("label").textValue());
-        newRecipe.setDescription(jsonNode.findValue("label").textValue());
+        JsonNode recipeNode = jsonNode.findValue("recipe");
+
+        newRecipe.setName(recipeNode.findValue("label").textValue());
+        newRecipe.setDescription(recipeNode.findValue("label").textValue());
         newRecipe.setRecipeId(recipeId);
-        newRecipe.setImageUrl(jsonNode.findValue("image").textValue());
-        newRecipe.setUrl(jsonNode.findValue("url").textValue());
-        newRecipe.setYield(jsonNode.findValue("yield").intValue());
-        newRecipe.setTotalTime(jsonNode.findValue("totalTime").intValue());
+        newRecipe.setImageUrl(recipeNode.findValue("image").textValue());
+        newRecipe.setUrl(recipeNode.findValue("url").textValue());
+        newRecipe.setYield(recipeNode.findValue("yield").intValue());
+        newRecipe.setTotalTime(recipeNode.findValue("totalTime").intValue());
 
         // get nutrients from json
-        JsonNode nutrients = jsonNode.findValue("totalNutrients");
+        JsonNode nutrients = recipeNode.findValue("totalNutrients");
 
-        Double caloriesD = jsonNode.findValue("calories").doubleValue();
+        Double caloriesD = recipeNode.findValue("calories").doubleValue();
         newRecipe.setCalories(Double.parseDouble(df.format(caloriesD)));
 
         double fats = nutrients
@@ -132,7 +138,8 @@ public class Utility {
         newRecipe.setCarbs(Double.parseDouble(df.format(carbs)));
 
         // get ingredients from json
-        JsonNode ingredientsJson = jsonNode.findValue("ingredients");
+        JsonNode ingredientsJson = recipeNode.findValue("ingredients");
+        System.out.println("\n\nIngredients: " + ingredientsJson.toString());
         Set<IngredientEntity> ingredients = new HashSet<>();
 
         for (JsonNode ingredient : ingredientsJson) {
@@ -167,6 +174,8 @@ public class Utility {
 
         Double weight = ingredient.findValue("weight").doubleValue();
         newIngredient.setWeight(Double.parseDouble(df.format(weight)));
+
+        ingredientServiceImpl.createIngredient(newIngredient);
 
         return newIngredient;
 

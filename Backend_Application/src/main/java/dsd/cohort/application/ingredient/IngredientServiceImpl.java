@@ -1,5 +1,8 @@
 package dsd.cohort.application.ingredient;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -9,13 +12,15 @@ public class IngredientServiceImpl implements IngredientService {
 
     private final IngredientRepository ingredientRepository;
 
+    @Autowired
     public IngredientServiceImpl(final IngredientRepository ingredientRepository) {
         this.ingredientRepository = ingredientRepository;
     }
 
     @Override
     public IngredientEntity getIngredientByFoodId(String foodId) {
-        return ingredientExists(foodId);
+
+        return ingredientRepository.findByFoodId(foodId);
     }
 
     @Override
@@ -32,9 +37,12 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public IngredientEntity createIngredient(IngredientEntity ingredient) {
 
-        IngredientEntity ingredientEntity = new IngredientEntity();
+        ingredientRepository.save(ingredient);
+        return ingredient;
+    }
 
-        ingredientRepository.save(ingredientEntity);
-        return ingredientEntity;
+    @Override
+    public List<IngredientEntity> getAllIngredients() {
+        return ingredientRepository.findAll();
     }
 }

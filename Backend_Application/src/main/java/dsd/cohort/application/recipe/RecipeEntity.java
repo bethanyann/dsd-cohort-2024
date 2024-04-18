@@ -17,6 +17,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "recipes")
 public class RecipeEntity {
 
     @Id
@@ -58,11 +59,7 @@ public class RecipeEntity {
     @Column(name = "calories")
     private double calories;
 
-    @ManyToMany
-    @JoinTable( name = "recipe_ingredient",
-        joinColumns = @JoinColumn(name = "recipe_id"),
-        inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-    )
+    @OneToMany
     private Set<IngredientEntity> ingredients = new HashSet<>();
 
     @Override
