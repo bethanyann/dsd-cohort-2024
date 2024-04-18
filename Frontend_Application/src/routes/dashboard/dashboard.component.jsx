@@ -42,7 +42,7 @@ function Dashboard(props) {
   return (
     <div style={dashboardStyle}>
       <Outlet />
-      <Navbar isLoggedIn={true} logout={logout}/>
+      <Navbar isLoggedIn={true} logout={logout} />
       <Grid container justifyContent='center' alignItems='center'>
         <Grid item>
           <Typography variant='h3' gutterBottom sx={{ p: 4 }}>
