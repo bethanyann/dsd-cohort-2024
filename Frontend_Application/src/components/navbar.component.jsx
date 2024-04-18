@@ -1,31 +1,63 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import logo from "../assets/gaia_logo.png";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-function Navbar() {
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#00695c', // Set primary color for buttons
+        },
+        secondary: {
+            main: '#dd2c00', // Set secondary color for buttons
+        },
+    },
+});
+
+function Navbar({ isLoggedIn, logout }) {
     let navigate = useNavigate();
 
+    const handleSignInClick = () => {
+        navigate('/login');
+    };
+
+    const handleLogoClick = () => {
+        navigate('/');
+    };
+    const handleLogoutClick = () => {
+        navigate('/');
+    };
+
     return (
-        <AppBar position="fixed" style={{ width: '100%' }} sx={{ backgroundColor: 'transparent', zIndex: (theme) => theme.zIndex.drawer + 1  }}>
-            <Toolbar>
-                <Grid container alignItems="center" justifyContent="space-between">
-                    {/* Logo on the left-hand side */}
-                    <Grid item>
-                        <img src={logo} alt="Your Logo" style={{ height: 50 }} onClick={() => { navigate('/') }} />
+        <ThemeProvider theme={theme}>
+            <AppBar position="fixed" style={{ width: '100%' }} sx={{ backgroundColor: 'transparent', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+                <Toolbar>
+                    <Grid container alignItems="center" justifyContent="space-between">
+                        {/* Logo on the left-hand side */}
+                        <Grid item>
+                            <img src={logo} alt="Your Logo" style={{ height: 50, cursor: 'pointer' }} onClick={handleLogoClick} />
+                        </Grid>
+                        {/* Sign in button or logout button on the right-hand side */}
+                        <Grid item>
+                            {isLoggedIn ? (
+                                <Button variant="outlined" color="secondary" onClick={handleLogoutClick}>
+                                    Logout
+                                </Button>
+                            ) : (
+                                <Button variant="outlined" color="primary" onClick={handleSignInClick}>
+                                    Sign In
+                                </Button>
+                            )}
+                        </Grid>
                     </Grid>
-                    {/* Sign in button on the right-hand side */}
-                    <Grid item>
-                        <Button variant="outlined" color="primary" onClick={() => { navigate('/login') }}>Sign In</Button>
-                    </Grid>
-                </Grid>
-            </Toolbar>
-        </AppBar>
+                </Toolbar>
+            </AppBar>
+        </ThemeProvider>
     );
 }
 
 export default Navbar;
-
