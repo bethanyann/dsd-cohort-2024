@@ -31,4 +31,6 @@ public interface UserService {
     boolean removeFromGroceryList(String email, String foodId);
 
     List<UserEntity> getAll();
+
+    UserEntity userauth(UserRequestDTO userRequestDTO);
 }
