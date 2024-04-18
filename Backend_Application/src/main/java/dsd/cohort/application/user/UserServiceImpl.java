@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import dsd.cohort.application.Utils.Utility;
@@ -49,14 +47,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean addRecipe(String email, String recipeId) {
+    public boolean addRecipe(UserDataRequestDTO userDataRequestDTO) {
 
-        UserEntity user = usersRepository.findByEmail(email).orElseThrow();
-        RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
+        UserEntity user = usersRepository.findByEmail(userDataRequestDTO.getEmail()).orElseThrow();
+        RecipeEntity recipe = recipeRepository.findByRecipeId(userDataRequestDTO.getId());
 
-        if (userExists(email) && recipe != null) {
+        if (userExists(userDataRequestDTO.getEmail()) && recipe != null) {
             user.getFavoriteRecipes().add(recipe);
             usersRepository.save(user);
+            //Temporary add all recipe ingredients to Grocery List
+            this.addGroceryItems(user, recipe);
             return true;
         }
 
@@ -99,21 +99,38 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<Set<IngredientEntity>> getGroceryList(String email) {
+    public boolean addGroceryItem(UserDataRequestDTO userDataRequestDTO) {
 
-        UserEntity user = usersRepository.findByEmail(email).orElseThrow();
-        if (userExists(email)) {
-            return ResponseEntity.status(HttpStatus.OK).body(user.getGroceryList());
+        UserEntity user = usersRepository.findByEmail(userDataRequestDTO.getEmail()).orElseThrow();
+        IngredientEntity ingredient = ingredientRepository.findByFoodId(userDataRequestDTO.getId());
+        user.getGroceryList().add(ingredient);
+        usersRepository.save(user);
+
+        return user.getGroceryList().contains(ingredient);
+
+    }
+
+    public void addGroceryItems(UserEntity user, RecipeEntity recipe) {
+
+        for (IngredientEntity ingredient : recipe.getIngredients()) {
+            user.getGroceryList().add(ingredient);
         }
-        return null;
+        usersRepository.save(user);
     }
 
     @Override
-    public boolean removeFromGroceryList(String email, String foodId) {
-        UserEntity user = usersRepository.findByEmail(email).orElseThrow();
-        IngredientEntity ingredient = ingredientRepository.findByFoodId(foodId);
+    public Set<IngredientEntity> getGroceryList(String email) {
+        return usersRepository.findByEmail(email)
+                .orElseThrow()
+                .getGroceryList();
+    }
 
-        if (userExists(email) && ingredient != null) {
+    @Override
+    public boolean removeFromGroceryList(UserDataRequestDTO userDataRequestDTO) {
+        UserEntity user = usersRepository.findByEmail(userDataRequestDTO.getEmail()).orElseThrow();
+        IngredientEntity ingredient = ingredientRepository.findByFoodId(userDataRequestDTO.getId());
+
+        if (userExists(userDataRequestDTO.getEmail()) && ingredient != null) {
 
             if (!user.getGroceryList().contains(ingredient)) {
                 return false;

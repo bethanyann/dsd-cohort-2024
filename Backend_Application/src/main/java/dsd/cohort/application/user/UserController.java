@@ -71,9 +71,18 @@ public class UserController {
         @ApiResponse(responseCode = "500", description = "Recipe not added to favorites")
     })
     // add a recipe to a users favorites
-    @GetMapping("/addrecipe/{email}/{recipeId}")
-    public boolean addRecipe(@PathVariable String email, @PathVariable String recipeId) {
-        return userService.addRecipe(email, recipeId);
+    @PostMapping("/addrecipetofavorites")
+    public ResponseEntity<String> addRecipe(@RequestBody UserDataRequestDTO userDataRequestDTO) {
+        try {
+            userService.addRecipe(userDataRequestDTO);
+
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("Recipe added to user favorites");
+        }
+        catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Could not add recipe to user's favorites: " + e.getMessage());
+        }
     }
 
     @Operation(summary = "Delete a recipe from a users favorites")
@@ -82,9 +91,18 @@ public class UserController {
         @ApiResponse(responseCode = "500", description = "Recipe not deleted from favorites")
     })
     // delete a recipe from a users favorites
-    @DeleteMapping("/deleterecipe/{email}/{recipeId}")
-    public boolean deleteRecipe(@PathVariable String email, @PathVariable String recipeId) {
-        return userService.deleteRecipe(email, recipeId);
+    @DeleteMapping("/removerecipefromfavorites")
+    public ResponseEntity<String> deleteRecipe(@RequestBody UserDataRequestDTO userDataRequestDTO) {
+        try {
+            userService.deleteRecipe(userDataRequestDTO.getEmail(), userDataRequestDTO.getId());
+
+            return ResponseEntity.noContent().build();
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Could not remove from user's favorites: " + e.getMessage());
+        }
+
     }
 
     @Operation(summary = "Get a users favorites")
@@ -94,8 +112,30 @@ public class UserController {
     })
     // get a users favorites
     @GetMapping("/getuserfavorites/{email}")
-    public Set<RecipeEntity> getUserFavorites(@PathVariable String email) {
-        return userService.getUserFavorites(email);
+    public ResponseEntity<Set<RecipeEntity>> getUserFavorites(@PathVariable String email) {
+        try {
+            Set<RecipeEntity> userFavorites = userService.getUserFavorites(email);
+            return ResponseEntity.status(HttpStatus.OK).body(userFavorites);
+
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not get user's favorites.");
+        }
+    }
+
+    @PostMapping("/additemtogrocerylist")
+    public ResponseEntity<String> addItemToGroceryList(@RequestBody UserDataRequestDTO userDataRequestDTO) {
+
+        try {
+            userService.addGroceryItem(userDataRequestDTO);
+
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("Ingredient added to user's grocery list");
+        }
+        catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Could not add ingredient to user's grocery list: " + e.getMessage());
+        }
     }
 
     @Operation(summary = "Get a users grocery list")
@@ -105,7 +145,25 @@ public class UserController {
     })
     @GetMapping("/getgrocerylist/{email}")
     public ResponseEntity<Set<IngredientEntity>> getGroceryList(@PathVariable String email) {
-        return userService.getGroceryList(email);
+        try {
+            Set<IngredientEntity> userGroceryList = userService.getGroceryList(email);
+            return ResponseEntity.status(HttpStatus.OK).body(userGroceryList);
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not get user's grocery list");
+        }
+    }
+
+    @DeleteMapping("/removefromgrocerylist")
+    public ResponseEntity<String> removeFromGroceryList(UserDataRequestDTO userDataRequestDTO) {
+        try{
+            userService.removeFromGroceryList(userDataRequestDTO);
+            return ResponseEntity.status(HttpStatus.OK).body("Item removed from user's grocery list.");
+        }
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not remove item " +
+                    "from users grocery list.");
+        }
     }
 
     @Operation(summary = "Remove an ingredient to a users grocery list")

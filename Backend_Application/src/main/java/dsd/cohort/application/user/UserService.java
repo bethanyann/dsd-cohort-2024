@@ -3,7 +3,6 @@ package dsd.cohort.application.user;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import dsd.cohort.application.ingredient.IngredientEntity;
@@ -20,15 +19,17 @@ public interface UserService {
 
     UserEntity createUser(UserEntity user) throws HttpServerErrorException.InternalServerError;
 
-    boolean addRecipe(String email, String recipeId);
+    boolean addRecipe(UserDataRequestDTO userDataRequestDTO);
 
     boolean deleteRecipe(String email, String recipeId);
 
     Set<RecipeEntity> getUserFavorites(String email);
 
-    ResponseEntity<Set<IngredientEntity>> getGroceryList(String email);
+    Set<IngredientEntity> getGroceryList(String email);
 
-    boolean removeFromGroceryList(String email, String foodId);
+    boolean addGroceryItem(UserDataRequestDTO userDataRequestDTO);
+
+    boolean removeFromGroceryList(UserDataRequestDTO userDataRequestDTO);
 
     List<UserEntity> getAll();
 
