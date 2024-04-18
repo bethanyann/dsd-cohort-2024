@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class FavoriteRequestDTO {
+public class UserRequestDTO {
   
   private String email;
-  private String recipeId;
+  private String id;
   
 }

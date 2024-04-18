@@ -3,8 +3,6 @@ package dsd.cohort.application.user;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import dsd.cohort.application.ingredient.IngredientEntity;
@@ -41,14 +39,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean addRecipe(String email, String recipeId) {
+    public boolean addRecipe(UserRequestDTO userRequestDTO) {
 
-        UserEntity user = usersRepository.findByEmail(email).orElseThrow();
-        RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
+        UserEntity user = usersRepository.findByEmail(userRequestDTO.getEmail()).orElseThrow();
+        RecipeEntity recipe = recipeRepository.findByRecipeId(userRequestDTO.getId());
 
-        if (userExists(email) && recipe != null) {
+        if (userExists(userRequestDTO.getEmail()) && recipe != null) {
             user.getFavoriteRecipes().add(recipe);
             usersRepository.save(user);
+            //Temporary add all recipe ingredients to Grocery List
+            this.addGroceryItems(user, recipe);
             return true;
         }
 
@@ -91,6 +91,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean addGroceryItem(UserRequestDTO userRequestDTO) {
+
+        UserEntity user = usersRepository.findByEmail(userRequestDTO.getEmail()).orElseThrow();
+        IngredientEntity ingredient = ingredientRepository.findByFoodId(userRequestDTO.getId());
+        user.getGroceryList().add(ingredient);
+        usersRepository.save(user);
+
+        return user.getGroceryList().contains(ingredient);
+
+    }
+
+    public void addGroceryItems(UserEntity user, RecipeEntity recipe) {
+
+        for (IngredientEntity ingredient : recipe.getIngredients()) {
+            user.getGroceryList().add(ingredient);
+        }
+        usersRepository.save(user);
+    }
+
+    @Override
     public Set<IngredientEntity> getGroceryList(String email) {
         return usersRepository.findByEmail(email)
                 .orElseThrow()
@@ -98,11 +118,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean removeFromGroceryList(String email, String foodId) {
-        UserEntity user = usersRepository.findByEmail(email).orElseThrow();
-        IngredientEntity ingredient = ingredientRepository.findByFoodId(foodId);
+    public boolean removeFromGroceryList(UserRequestDTO userRequestDTO) {
+        UserEntity user = usersRepository.findByEmail(userRequestDTO.getEmail()).orElseThrow();
+        IngredientEntity ingredient = ingredientRepository.findByFoodId(userRequestDTO.getId());
 
-        if (userExists(email) && ingredient != null) {
+        if (userExists(userRequestDTO.getEmail()) && ingredient != null) {
 
             if (!user.getGroceryList().contains(ingredient)) {
                 return false;

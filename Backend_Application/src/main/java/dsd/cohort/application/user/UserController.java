@@ -54,9 +54,9 @@ public class UserController {
 
     // add a recipe to a users favorites
     @PostMapping("/addrecipetofavorites")
-    public ResponseEntity<String> addRecipe(@RequestBody FavoriteRequestDTO favoriteRequestDTO) {
+    public ResponseEntity<String> addRecipe(@RequestBody UserRequestDTO userRequestDTO) {
         try {
-            userService.addRecipe(favoriteRequestDTO.getEmail(), favoriteRequestDTO.getRecipeId());
+            userService.addRecipe(userRequestDTO);
 
             return ResponseEntity.status(HttpStatus.OK)
                     .body("Recipe added to user favorites");
@@ -69,9 +69,9 @@ public class UserController {
 
     // delete a recipe from a users favorites
     @DeleteMapping("/removerecipefromfavorites")
-    public ResponseEntity<String> deleteRecipe(@RequestBody FavoriteRequestDTO favoriteRequestDTO) {
+    public ResponseEntity<String> deleteRecipe(@RequestBody UserRequestDTO userRequestDTO) {
         try {
-            userService.deleteRecipe(favoriteRequestDTO.getEmail(), favoriteRequestDTO.getRecipeId());
+            userService.deleteRecipe(userRequestDTO.getEmail(), userRequestDTO.getId());
 
             return ResponseEntity.noContent().build();
         }
@@ -95,6 +95,20 @@ public class UserController {
         }
     }
 
+    @PostMapping("/additemtogrocerylist")
+    public ResponseEntity<String> addItemToGroceryList(@RequestBody UserRequestDTO userRequestDTO) {
+
+        try {
+            userService.addGroceryItem(userRequestDTO);
+
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("Ingredient added to user's grocery list");
+        }
+        catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Could not add ingredient to user's grocery list: " + e.getMessage());
+        }
+    }
     @GetMapping("/getgrocerylist/{email}")
     public ResponseEntity<Set<IngredientEntity>> getGroceryList(@PathVariable String email) {
         try {
@@ -106,10 +120,10 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/removefromgrocerylist/{email}/{foodId}")
-    public ResponseEntity<String> removeFromGroceryList(@PathVariable String email, @PathVariable String foodId) {
+    @DeleteMapping("/removefromgrocerylist")
+    public ResponseEntity<String> removeFromGroceryList(UserRequestDTO userRequestDTO) {
         try{
-            userService.removeFromGroceryList(email, foodId);
+            userService.removeFromGroceryList(userRequestDTO);
             return ResponseEntity.status(HttpStatus.OK).body("Item removed from user's grocery list.");
         }
         catch (Exception e) {

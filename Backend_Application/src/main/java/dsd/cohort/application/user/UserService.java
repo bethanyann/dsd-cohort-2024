@@ -20,7 +20,7 @@ public interface UserService {
 
     UserEntity createUser(UserEntity user) throws HttpServerErrorException.InternalServerError;
 
-    boolean addRecipe(String email, String recipeId);
+    boolean addRecipe(UserRequestDTO userRequestDTO);
 
     boolean deleteRecipe(String email, String recipeId);
 
@@ -28,7 +28,10 @@ public interface UserService {
 
     Set<IngredientEntity> getGroceryList(String email);
 
-    boolean removeFromGroceryList(String email, String foodId);
+    boolean addGroceryItem(UserRequestDTO userRequestDTO);
+
+    boolean removeFromGroceryList(UserRequestDTO userRequestDTO);
 
     List<UserEntity> getAll();
+
 }
