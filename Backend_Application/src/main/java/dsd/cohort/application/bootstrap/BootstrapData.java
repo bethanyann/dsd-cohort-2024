@@ -30,7 +30,7 @@ public class BootstrapData implements CommandLineRunner {
       user.setFirstName("Johnny");
       user.setLastName("Test");
       user.setEmail("test@test.com");
-      user.setPassword(utility.encryptString("testPassword"));
+      user.setPassword(utility.encryptString("testPassword@1"));
       userRepository.save(user);
 
       user = new UserEntity();
