@@ -59,7 +59,7 @@ public class RecipeServiceImpl implements RecipeService {
     // Return a recipe if it exists in the database by name
     @Override
     public List<RecipeEntity> getRecipeByName(String name) {
-        return null;
+        return recipeRepository.findByName(name);
     }
 
     @Override
