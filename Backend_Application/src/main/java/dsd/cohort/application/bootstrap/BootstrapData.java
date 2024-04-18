@@ -24,8 +24,12 @@ public class BootstrapData implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
+
+    System.out.println("Number of users: " + userRepository.count());
     
     if (userRepository.findAll().isEmpty()) {
+      System.out.println("Loading bootstrap data...");
+      
       UserEntity user = new UserEntity();
       user.setFirstName("Johnny");
       user.setLastName("Test");

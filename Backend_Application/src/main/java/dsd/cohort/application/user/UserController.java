@@ -171,7 +171,6 @@ public class UserController {
         }
     }
 
-
     @Operation(summary = "User authentication")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "User authenticated"),

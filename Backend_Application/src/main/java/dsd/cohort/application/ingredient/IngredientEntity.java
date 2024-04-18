@@ -1,11 +1,7 @@
 package dsd.cohort.application.ingredient;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import dsd.cohort.application.recipe.RecipeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "ingredients")
 public class IngredientEntity {
 
     @Id
@@ -51,8 +48,5 @@ public class IngredientEntity {
 
     @Column(name = "food_category")
     private String foodCategory;
-
-    @ManyToMany(mappedBy = "ingredients")
-    private Set<RecipeEntity> recipes = new HashSet<>();
         
 }

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,20 +18,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import dsd.cohort.application.Utils.Utility;
 import dsd.cohort.application.config.ApiDetailsImpl;
 import dsd.cohort.application.ingredient.IngredientEntity;
-import dsd.cohort.application.ingredient.IngredientRepository;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
     private RecipeRepository recipeRepository;
-    private IngredientRepository ingredientRepository;
     private ApiDetailsImpl apiDetails;
     private Utility utility;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository, IngredientRepository ingredientRepository,
-            ApiDetailsImpl apiDetails, Utility utility) {
+    @Autowired
+    public RecipeServiceImpl(RecipeRepository recipeRepository, ApiDetailsImpl apiDetails, Utility utility) {
         this.recipeRepository = recipeRepository;
-        this.ingredientRepository = ingredientRepository;
         this.apiDetails = apiDetails;
         this.utility = utility;
     }
@@ -39,6 +37,8 @@ public class RecipeServiceImpl implements RecipeService {
     // return all recipes from database
     @Override
     public List<RecipeEntity> getAllRecipes() {
+        System.out.println("Fetching all recipes...");
+        System.out.println("Number of recipes: " + recipeRepository.count());
         return recipeRepository.findAll();
     }
 
@@ -55,12 +55,19 @@ public class RecipeServiceImpl implements RecipeService {
         RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
 
         if (recipe == null) {
+            System.out.println("\nRecipe not found, fetching from API...");
+            RecipeEntity newRecipe;
             try {
-                recipe = createRecipe(recipeId);
+                newRecipe = createRecipe(recipeId);
             } catch (ResponseStatusException e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to fetch recipe.");
             }
+            System.out.println("\nRecipe fetched from API: " + newRecipe.getRecipeId());
+            recipeRepository.save(newRecipe);
+            return newRecipe;
         }
+
+        System.out.println("\nRecipe found in database: " + recipe.getRecipeId());
 
         return recipe;
     }
@@ -159,8 +166,6 @@ public class RecipeServiceImpl implements RecipeService {
 
                 ingredients.add(newIngredient);
 
-                ingredientRepository.save(newIngredient);
-
             }
         }
 
@@ -170,6 +175,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     /**
      * Queries the Edamam API for recipes based on a given name.
+     * This method is rate limited to 1 user per minute.
      *
      * @param name the name partial to query
      * @return a list of RecipeEntity objects
@@ -205,30 +211,25 @@ public class RecipeServiceImpl implements RecipeService {
         List<RecipeEntity> recipes = new ArrayList<>();
 
         if (jsonNode.isArray()) {
-            int i = 0;
             for (JsonNode recipe : jsonNode) {
-
-                if (i >= 5) {
-                    break;
-                }
 
                 String recipeId = recipe.findValue("uri").textValue().split("#")[1];
                 RecipeEntity existingRecipe = getRecipeByRecipeId(recipeId);
 
                 if (existingRecipe != null) {
                     recipes.add(existingRecipe);
-                    System.out.println("Recipe already exists: " + recipeId);
-                    i++;
+                    System.out.println("\nRecipe already exists: " + recipeId);
                     continue;
                 }
 
                 RecipeEntity newRecipe = utility.recipeHandler(recipe, recipeId);
 
-                recipeRepository.save(newRecipe);
+                RecipeEntity savedRecipe = recipeRepository.save(newRecipe);
+
+                System.out.println("\nRecipe saved: " + savedRecipe.getRecipeId());
 
                 recipes.add(newRecipe);
 
-                i++;
             }
         }
 
