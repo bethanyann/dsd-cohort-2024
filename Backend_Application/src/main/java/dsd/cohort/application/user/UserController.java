@@ -118,6 +118,11 @@ public class UserController {
         return userService.removeFromGroceryList(email, foodId);
     }
 
+    @Operation(summary = "User authentication")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User authenticated"),
+        @ApiResponse(responseCode = "500", description = "User not authenticated")
+    })
     @PostMapping("/auth")
     public ResponseEntity<UserEntity> userauth(@RequestBody UserRequestDTO userRequestDTO) {
 
