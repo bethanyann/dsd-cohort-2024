@@ -30,8 +30,11 @@ public class Utility {
 
     private IngredientRepository ingredientRepository;
 
+    private long lastCallTime;
+
     public Utility(IngredientRepository ingredientRepository) {
         this.ingredientRepository = ingredientRepository;
+        this.lastCallTime = System.currentTimeMillis() / 1000;
     }
 
     public String consolidateString(List<String> list) {
@@ -177,5 +180,15 @@ public class Utility {
         jsonNode = mapper.readTree(response);
 
         return jsonNode;
+    }
+
+    public boolean compareTime(long time) {
+
+        if (time - 60 > lastCallTime) {
+            lastCallTime = time;
+            return true;
+        }
+
+        return false;
     }
 }

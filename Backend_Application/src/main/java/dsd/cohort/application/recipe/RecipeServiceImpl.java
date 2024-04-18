@@ -182,6 +182,12 @@ public class RecipeServiceImpl implements RecipeService {
     public List<RecipeEntity> queryApi(String name)
             throws ResponseStatusException, JsonProcessingException, JsonMappingException {
 
+        // check if time has passed since last call
+        long currentTime = System.currentTimeMillis();
+        if (!utility.compareTime(currentTime)) {
+            throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "Too many requests. Please try again later.");
+        }
+
         // build url
         String baseUrl = "";
         baseUrl += "https://api.edamam.com/api/recipes/v2";
@@ -199,7 +205,12 @@ public class RecipeServiceImpl implements RecipeService {
         List<RecipeEntity> recipes = new ArrayList<>();
 
         if (jsonNode.isArray()) {
+            int i = 0;
             for (JsonNode recipe : jsonNode) {
+
+                if (i >= 5) {
+                    break;
+                }
 
                 String recipeId = recipe.findValue("uri").textValue().split("#")[1];
                 RecipeEntity existingRecipe = getRecipeByRecipeId(recipeId);
@@ -207,6 +218,7 @@ public class RecipeServiceImpl implements RecipeService {
                 if (existingRecipe != null) {
                     recipes.add(existingRecipe);
                     System.out.println("Recipe already exists: " + recipeId);
+                    i++;
                     continue;
                 }
 
@@ -215,6 +227,8 @@ public class RecipeServiceImpl implements RecipeService {
                 recipeRepository.save(newRecipe);
 
                 recipes.add(newRecipe);
+
+                i++;
             }
         }
 
