@@ -1,6 +1,6 @@
 package dsd.cohort.application.recipe;
 
-import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,8 +13,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
+import dsd.cohort.application.Utils.Utility;
 import dsd.cohort.application.config.ApiDetailsImpl;
 import dsd.cohort.application.ingredient.IngredientEntity;
 import dsd.cohort.application.ingredient.IngredientRepository;
@@ -25,12 +25,14 @@ public class RecipeServiceImpl implements RecipeService {
     private RecipeRepository recipeRepository;
     private IngredientRepository ingredientRepository;
     private ApiDetailsImpl apiDetails;
+    private Utility utility;
 
     public RecipeServiceImpl(RecipeRepository recipeRepository, IngredientRepository ingredientRepository,
-            ApiDetailsImpl apiDetails) {
+            ApiDetailsImpl apiDetails, Utility utility) {
         this.recipeRepository = recipeRepository;
         this.ingredientRepository = ingredientRepository;
         this.apiDetails = apiDetails;
+        this.utility = utility;
     }
 
     // TODO: add pagination
@@ -40,7 +42,14 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository.findAll();
     }
 
-    // Return a recipe if it exists in the database by id
+    /**
+     * Retrieves a recipe from the database based on the provided recipeId
+     *
+     * @param recipeId
+     * @return RecipeEntity object
+     * @throws ResponseStatusException if unable to fetch the recipe
+     */
+
     @Override
     public RecipeEntity getRecipeByRecipeId(String recipeId) throws ResponseStatusException {
         RecipeEntity recipe = recipeRepository.findByRecipeId(recipeId);
@@ -56,12 +65,34 @@ public class RecipeServiceImpl implements RecipeService {
         return recipe;
     }
 
-    // Return a recipe if it exists in the database by name
+    /**
+     * Retrieves a list of RecipeEntity objects based on the provided name.
+     *
+     * @param name the name of the recipes to retrieve
+     * @return a list of RecipeEntity objects
+     */
     @Override
     public List<RecipeEntity> getRecipeByName(String name) {
-        return null;
+
+        List<RecipeEntity> recipes = recipeRepository.findByName(name);
+
+        if (recipes.isEmpty()) {
+            try {
+                recipes = queryApi(name);
+            } catch (Exception e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to fetch recipes");
+            }
+        }
+
+        return recipes;
     }
 
+    /**
+     * Creates a new RecipeEntity object with the provided recipeId.
+     *
+     * @param recipeId
+     * @return a RecipeEntity object
+     */
     @Override
     public RecipeEntity createRecipe(String recipeId) {
 
@@ -81,14 +112,16 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * Fetches a recipe from the Edamam API by its ID and returns a RecipeEntity
-     * object.
+     * Fetches a recipe from the Edamam API based on the provided recipe ID.
      *
-     * @param recipeId the ID of the recipe to fetch
-     * @return a RecipeEntity object representing the fetched recipe
-     * @throws ResponseStatusException if unable to parse the recipe
+     * @param recipeId
+     * @return a RecipeEntity object
+     * @throws ResponseStatusException if there is an issue with the API response
+     * @throws JsonProcessingException if there is an issue with processing the JSON
+     *                                 response
+     * @throws JsonMappingException    if there is an issue with mapping the JSON
+     *                                 response to a RecipeEntity object
      */
-
     public RecipeEntity fetchRecipe(String recipeId)
             throws ResponseStatusException, JsonProcessingException, JsonMappingException {
 
@@ -101,53 +134,9 @@ public class RecipeServiceImpl implements RecipeService {
         RestTemplate restTemplate = new RestTemplate();
         String response = restTemplate.getForObject(baseUrl, String.class);
 
-        // declare variables for parsing
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonNode;
-        RecipeEntity newRecipe = new RecipeEntity();
-        // parse response to json
-        jsonNode = mapper.readTree(response);
+        JsonNode jsonNode = utility.stringToJson(response);
 
-        newRecipe.setName(jsonNode.findValue("label").textValue());
-        newRecipe.setDescription(jsonNode.findValue("label").textValue());
-        newRecipe.setRecipeId(recipeId);
-        newRecipe.setImageUrl(jsonNode.findValue("image").textValue());
-        newRecipe.setUrl(jsonNode.findValue("url").textValue());
-        newRecipe.setYield(jsonNode.findValue("yield").intValue());
-        newRecipe.setTotalTime(jsonNode.findValue("totalTime").intValue());
-
-        // create a formatter to round doubles to 2 decimal places
-        DecimalFormat df = new DecimalFormat("#.00");
-        // get nutrients from json
-        JsonNode nutrients = jsonNode.findValue("totalNutrients");
-
-        Double caloriesD = jsonNode.findValue("calories").doubleValue();
-        newRecipe.setCalories(Double.parseDouble(df.format(caloriesD)));
-
-        double fats = nutrients
-                .findValue("FAT")
-                .findValue("quantity")
-                .doubleValue();
-        newRecipe.setFat(Double.parseDouble(df.format(fats)));
-
-        double protein = nutrients
-                .findValue("PROCNT")
-                .findValue("quantity")
-                .doubleValue();
-        newRecipe.setProtein(Double.parseDouble(df.format(protein)));
-
-        double carbs = nutrients
-                .findValue("CHOCDF")
-                .findValue("quantity")
-                .doubleValue();
-        newRecipe.setCarbs(Double.parseDouble(df.format(carbs)));
-
-        // get ingredients from json
-        JsonNode ingredientsJson = jsonNode.findValue("ingredients");
-        Set<IngredientEntity> ingredients = parseIngredients(ingredientsJson, recipeId);
-        newRecipe.setIngredients(ingredients);
-
-        System.out.println("\n\nSuccessful parse\n\n");
+        RecipeEntity newRecipe = utility.recipeHandler(jsonNode, recipeId);
 
         return newRecipe;
 
@@ -157,36 +146,16 @@ public class RecipeServiceImpl implements RecipeService {
      * Parses the given JSON node representing ingredients and creates a Set of
      * IngredientEntity objects.
      *
-     * @param ingredientsJson the JSON node representing ingredients
-     * @return a Set of IngredientEntity objects parsed from the JSON node
+     * @param ingredientsJson the JSON node representing ingredients list to parse
+     * @return a Set of IngredientEntity objects
      */
-    public Set<IngredientEntity> parseIngredients(JsonNode ingredientsJson, String recipeId) {
+    public Set<IngredientEntity> parseIngredients(JsonNode ingredientsJson) {
         Set<IngredientEntity> ingredients = new HashSet<>();
-        DecimalFormat df = new DecimalFormat("#.00");
 
         if (ingredientsJson.isArray()) {
             for (JsonNode ingredient : ingredientsJson) {
 
-                String foodId = ingredient.findValue("foodId").textValue();
-                IngredientEntity existingIngredient = ingredientRepository.findByFoodId(foodId);
-
-                if (existingIngredient != null) {
-                    ingredients.add(existingIngredient);
-                    continue;
-                }
-
-                IngredientEntity newIngredient = new IngredientEntity();
-
-                newIngredient.setFoodId(ingredient.findValue("foodId").textValue());
-                newIngredient.setText(ingredient.findValue("text").textValue());
-                newIngredient.setQuantity(ingredient.findValue("quantity").intValue());
-                newIngredient.setMeasure(ingredient.findValue("measure").textValue());
-                newIngredient.setName(ingredient.findValue("food").textValue());
-                newIngredient.setFoodCategory(ingredient.findValue("foodCategory").textValue());
-                newIngredient.setImageUrl(ingredient.findValue("image").textValue());
-
-                Double weight = ingredient.findValue("weight").doubleValue();
-                newIngredient.setWeight(Double.parseDouble(df.format(weight)));
+                IngredientEntity newIngredient = utility.parseIngredient(ingredient);
 
                 ingredients.add(newIngredient);
 
@@ -198,4 +167,58 @@ public class RecipeServiceImpl implements RecipeService {
         return ingredients;
 
     }
+
+    /**
+     * Queries the Edamam API for recipes based on a given name.
+     *
+     * @param name the name partial to query
+     * @return a list of RecipeEntity objects
+     * @throws ResponseStatusException if there is an issue with the API response
+     * @throws JsonProcessingException if there is an issue with processing the JSON
+     *                                 response
+     * @throws JsonMappingException    if there is an issue with mapping the JSON
+     *                                 response to RecipeEntity objects
+     */
+    public List<RecipeEntity> queryApi(String name)
+            throws ResponseStatusException, JsonProcessingException, JsonMappingException {
+
+        // build url
+        String baseUrl = "";
+        baseUrl += "https://api.edamam.com/api/recipes/v2";
+        baseUrl += apiDetails.getApiDetails();
+        baseUrl += "&q=" + name;
+
+        RestTemplate restTemplate = new RestTemplate();
+        String response = restTemplate.getForObject(baseUrl, String.class);
+
+        // parse response to json
+        JsonNode jsonNode = utility.stringToJson(response);
+
+        jsonNode = jsonNode.findValue("hits");
+
+        List<RecipeEntity> recipes = new ArrayList<>();
+
+        if (jsonNode.isArray()) {
+            for (JsonNode recipe : jsonNode) {
+
+                String recipeId = recipe.findValue("uri").textValue().split("#")[1];
+                RecipeEntity existingRecipe = getRecipeByRecipeId(recipeId);
+
+                if (existingRecipe != null) {
+                    recipes.add(existingRecipe);
+                    System.out.println("Recipe already exists: " + recipeId);
+                    continue;
+                }
+
+                RecipeEntity newRecipe = utility.recipeHandler(recipe, recipeId);
+
+                recipeRepository.save(newRecipe);
+
+                recipes.add(newRecipe);
+            }
+        }
+
+        return recipes;
+    }
+
 }
