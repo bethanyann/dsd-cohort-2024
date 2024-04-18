@@ -30,35 +30,35 @@ public class BootstrapData implements CommandLineRunner {
       user.setFirstName("Johnny");
       user.setLastName("Test");
       user.setEmail("test@test.com");
-      user.setPassword(utility.encryptString("testPassword"));
+      user.setPassword(utility.encryptString("testPassword@1"));
       userRepository.save(user);
 
       user = new UserEntity();
       user.setFirstName("Jane");
       user.setLastName("Test");
       user.setEmail("test2@test.com");
-      user.setPassword(utility.encryptString("testPassword"));
+      user.setPassword(utility.encryptString("testPassword@1"));
       userRepository.save(user);
 
       user = new UserEntity();
       user.setFirstName("Mittens");
       user.setLastName("Gato");
       user.setEmail("definitelynotacat@feline.online");
-      user.setPassword("FancyFeast");
+      user.setPassword(utility.encryptString("FancyFe@st9"));
       userRepository.save(user);
 
       user = new UserEntity();
       user.setFirstName("Kitsune");
       user.setLastName("Gato");
       user.setEmail("finef3line@cat.naps");
-      user.setPassword("AfetrnoonNapper");
+      user.setPassword(utility.encryptString("Afet3rnoonN@pper"));
       userRepository.save(user);
 
       user = new UserEntity();
       user.setFirstName("Harrison");
       user.setLastName("Couturiaux");
       user.setEmail("bestboi@pawsome.com");
-      user.setPassword("theMailmanKn0ws");
+      user.setPassword(utility.encryptString("theM@ilmanKn0ws"));
       userRepository.save(user);
 
       System.out.println("Bootstrap Data Loaded: Users - " + userRepository.count());

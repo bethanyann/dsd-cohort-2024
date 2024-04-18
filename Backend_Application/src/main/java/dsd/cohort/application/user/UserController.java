@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import dsd.cohort.application.ingredient.IngredientEntity;
 import dsd.cohort.application.recipe.RecipeEntity;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -27,6 +31,11 @@ public class UserController {
         return userService.getAll();
     }
 
+    @Operation(summary = "Get all users")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "All users returned"),
+        @ApiResponse(responseCode = "500", description = "Could not create user")
+    })
     @PostMapping("/createuser")
     public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
 
@@ -39,6 +48,11 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Get a user by email")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User found"),
+        @ApiResponse(responseCode = "500", description = "User not found")
+    })
     @GetMapping("/finduserbyemail")
     public ResponseEntity<UserEntity> findUserByEmail(@RequestParam String email) {
         try {
@@ -51,6 +65,11 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Add a recipe to a users favorites")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Recipe added to favorites"),
+        @ApiResponse(responseCode = "500", description = "Recipe not added to favorites")
+    })
     // add a recipe to a users favorites
     @PostMapping("/addrecipetofavorites")
     public ResponseEntity<String> addRecipe(@RequestBody UserDataRequestDTO userDataRequestDTO) {
@@ -66,6 +85,11 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Delete a recipe from a users favorites")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Recipe deleted from favorites"),
+        @ApiResponse(responseCode = "500", description = "Recipe not deleted from favorites")
+    })
     // delete a recipe from a users favorites
     @DeleteMapping("/removerecipefromfavorites")
     public ResponseEntity<String> deleteRecipe(@RequestBody UserDataRequestDTO userDataRequestDTO) {
@@ -81,6 +105,11 @@ public class UserController {
 
     }
 
+    @Operation(summary = "Get a users favorites")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Users favorites returned"),
+        @ApiResponse(responseCode = "500", description = "Could not get users favorites")
+    })
     // get a users favorites
     @GetMapping("/getuserfavorites/{email}")
     public ResponseEntity<Set<RecipeEntity>> getUserFavorites(@PathVariable String email) {
@@ -108,6 +137,12 @@ public class UserController {
                     "Could not add ingredient to user's grocery list: " + e.getMessage());
         }
     }
+
+    @Operation(summary = "Get a users grocery list")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Users grocery list returned"),
+        @ApiResponse(responseCode = "500", description = "Could not get users grocery list")
+    })
     @GetMapping("/getgrocerylist/{email}")
     public ResponseEntity<Set<IngredientEntity>> getGroceryList(@PathVariable String email) {
         try {
@@ -131,6 +166,21 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Remove an ingredient to a users grocery list")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Ingredient removed from grocery list"),
+        @ApiResponse(responseCode = "500", description = "Ingredient not removed from grocery list")
+    })
+    @DeleteMapping("/removefromgrocerylist/{email}/{foodId}")
+    public boolean removeFromGroceryList(@PathVariable String email, @PathVariable String foodId) {
+        return userService.removeFromGroceryList(email, foodId);
+    }
+
+    @Operation(summary = "User authentication")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User authenticated"),
+        @ApiResponse(responseCode = "500", description = "User not authenticated")
+    })
     @PostMapping("/auth")
     public ResponseEntity<UserEntity> userauth(@RequestBody UserRequestDTO userRequestDTO) {
 
