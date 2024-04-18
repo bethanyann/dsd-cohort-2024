@@ -53,9 +53,9 @@ public class UserController {
 
     // add a recipe to a users favorites
     @PostMapping("/addrecipetofavorites")
-    public ResponseEntity<String> addRecipe(@RequestBody UserRequestDTO userRequestDTO) {
+    public ResponseEntity<String> addRecipe(@RequestBody UserDataRequestDTO userDataRequestDTO) {
         try {
-            userService.addRecipe(userRequestDTO);
+            userService.addRecipe(userDataRequestDTO);
 
             return ResponseEntity.status(HttpStatus.OK)
                     .body("Recipe added to user favorites");
@@ -68,9 +68,9 @@ public class UserController {
 
     // delete a recipe from a users favorites
     @DeleteMapping("/removerecipefromfavorites")
-    public ResponseEntity<String> deleteRecipe(@RequestBody UserRequestDTO userRequestDTO) {
+    public ResponseEntity<String> deleteRecipe(@RequestBody UserDataRequestDTO userDataRequestDTO) {
         try {
-            userService.deleteRecipe(userRequestDTO.getEmail(), userRequestDTO.getId());
+            userService.deleteRecipe(userDataRequestDTO.getEmail(), userDataRequestDTO.getId());
 
             return ResponseEntity.noContent().build();
         }
@@ -95,10 +95,10 @@ public class UserController {
     }
 
     @PostMapping("/additemtogrocerylist")
-    public ResponseEntity<String> addItemToGroceryList(@RequestBody UserRequestDTO userRequestDTO) {
+    public ResponseEntity<String> addItemToGroceryList(@RequestBody UserDataRequestDTO userDataRequestDTO) {
 
         try {
-            userService.addGroceryItem(userRequestDTO);
+            userService.addGroceryItem(userDataRequestDTO);
 
             return ResponseEntity.status(HttpStatus.OK)
                     .body("Ingredient added to user's grocery list");
@@ -120,9 +120,9 @@ public class UserController {
     }
 
     @DeleteMapping("/removefromgrocerylist")
-    public ResponseEntity<String> removeFromGroceryList(UserRequestDTO userRequestDTO) {
+    public ResponseEntity<String> removeFromGroceryList(UserDataRequestDTO userDataRequestDTO) {
         try{
-            userService.removeFromGroceryList(userRequestDTO);
+            userService.removeFromGroceryList(userDataRequestDTO);
             return ResponseEntity.status(HttpStatus.OK).body("Item removed from user's grocery list.");
         }
         catch (Exception e) {

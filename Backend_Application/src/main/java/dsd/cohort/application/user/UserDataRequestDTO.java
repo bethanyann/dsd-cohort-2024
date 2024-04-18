@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UserRequestDTO {
+public class UserDataRequestDTO {
 
-  private String email;
-  private String password;
+    private String email;
+    private String id;
+
 }
-
