@@ -81,27 +81,46 @@ const Register = () => {
       setErrorSnackbarOpen(true);
     } else {
       // Send data to backend
-      console.log('Form submitted:', formData);
-      // Reset form and errors
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
+      fetch('http://localhost:8080/api/v0/users/createuser', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Form submitted successfully:', data);
+        // Reset form and errors
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+        });
+        setErrors({
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+        });
+        setSnackbarMessage('Registration successful!');
+        setSnackbarOpen(true);
+      })
+      .catch((error) => {
+        console.error('Error sending form data:', error);
+        setErrorSnackbarMessage('Error sending form data');
+        setErrorSnackbarOpen(true);
       });
-      setErrors({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-      });
-      setSnackbarMessage('Registration successful!');
-      setSnackbarOpen(true);
     }
   };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
