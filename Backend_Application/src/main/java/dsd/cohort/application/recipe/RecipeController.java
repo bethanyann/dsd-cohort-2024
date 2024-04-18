@@ -2,6 +2,8 @@ package dsd.cohort.application.recipe;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +30,13 @@ public class RecipeController {
     }
 
     @GetMapping("/search/{name}")
-    public String getRecipeByName(@PathVariable String name) {
-        return recipeService.getRecipeByName(name).toString();
+    public ResponseEntity<List<RecipeEntity>> getRecipeByName(@PathVariable String name) {
+        List<RecipeEntity> recipes = recipeService.getRecipeByName(name);
+
+        if (recipes.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(recipes);
     }
 }
