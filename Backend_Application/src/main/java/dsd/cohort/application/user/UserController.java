@@ -37,7 +37,7 @@ public class UserController {
         @ApiResponse(responseCode = "500", description = "Could not create user")
     })
     @PostMapping("/createuser")
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
+    public ResponseEntity<UserEntity> createUser(@RequestBody UserRegisterDTO user) {
 
         try {
             UserEntity newUser = userService.createUser(user);

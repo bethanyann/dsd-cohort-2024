@@ -6,11 +6,13 @@ import Navbar from "../../components/navbar.component.jsx";
 import Menu from "../../components/menu.component";
 import MyRecipesCardContainer from "../../components/MyRecipesCardContainer.component.jsx";
 import SearchMyRecipesBar from "../../components/search-my-recipes-bar.component.jsx";
-import { AuthContext } from '../../auth-context/AuthContext.jsx';
+import { AuthContext } from "../../auth-context/AuthContext.jsx";
 
-const MyRecipes = () => {
+const MyRecipes = (props) => {
   const { user } = useContext(AuthContext);
+  const userInfo = props.userInfo;
 
+  console.log(userInfo, "myreceipes");
   const recipeStyles = {
     marginLeft: "220px", // Adjust to fit the width of the menu
     padding: "20px",
@@ -28,17 +30,17 @@ const MyRecipes = () => {
             </Typography>
           </Grid>
           <Grid item marginBottom={2}>
-            <SearchMyRecipesBar></SearchMyRecipesBar>
+            <SearchMyRecipesBar />
           </Grid>
-          <Grid item >
-            <MyRecipesCardContainer></MyRecipesCardContainer>
+          <Grid item>
+            <MyRecipesCardContainer type="remove" userInfo={userInfo} />
           </Grid>
         </Grid>
         <Grid item>
           <Menu />
         </Grid>
       </Grid>
-      </div>
+    </div>
   );
 };
 

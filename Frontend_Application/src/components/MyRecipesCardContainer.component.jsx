@@ -4,6 +4,7 @@ import { Stack } from "@mui/material";
 
 function MyRecipesCardContainer(props) {
   const [myRecipes, setMyRecipes] = useState([]);
+  const userInfo = props.userInfo;
 
   useEffect(() => {
     console.log("Fetching recipes...");
@@ -23,7 +24,7 @@ function MyRecipesCardContainer(props) {
   return (
     <Stack direction="row" spacing={2} useFlexGap flexWrap="wrap">
       {myRecipes.map((recipe) => (
-        <RecipeCard key={recipe.recipeId} recipe={recipe} />
+        <RecipeCard key={recipe.recipeId} recipe={recipe} type={props.type} userInfo={userInfo} />
       ))}
     </Stack>
   );

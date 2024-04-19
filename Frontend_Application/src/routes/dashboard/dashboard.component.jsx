@@ -12,25 +12,28 @@ function Dashboard(props) {
   const { logout } = useAuth();
   const location = useLocation(); // Use useLocation hook to access location
   const [userData, setUserData] = useState(null);
+  const userInfo = props.userInfo;
 
+  console.log(userInfo, "dash");
   useEffect(() => {
-    if (location.state.email) { // Access location.state.email directly
-      retrieveUserData(location.state.email);
+    if (userInfo.email) {
+      // Access location.state.email directly
+      retrieveUserData(userInfo);
     }
   }, [user, location]);
 
-  async function retrieveUserData(email) {
+  async function retrieveUserData(userInfo) {
     try {
-      const response = await fetch(`http://localhost:8080/api/v0/users/finduserbyemail?email=${email}`);
+      const response = await fetch(`http://localhost:8080/api/v0/users/finduserbyemail?email=${userInfo.email}`);
       if (response.ok) {
         const userData = await response.json();
         setUserData(userData);
         console.log(`response: ${userData}`);
       } else {
-        console.error('Failed to retrieve user data:', response.status);
+        console.error("Failed to retrieve user data:", response.status);
       }
     } catch (err) {
-      console.error('Error retrieving user data:', err);
+      console.error("Error retrieving user data:", err);
     }
   }
 
@@ -43,10 +46,10 @@ function Dashboard(props) {
     <div style={dashboardStyle}>
       <Outlet />
       <Navbar isLoggedIn={true} logout={logout} />
-      <Grid container justifyContent='center' alignItems='center'>
+      <Grid container justifyContent="center" alignItems="center">
         <Grid item>
-          <Typography variant='h3' gutterBottom sx={{ p: 4 }}>
-            Welcome, {userData ? userData.firstName : location.state.email} to Your Dashboard
+          <Typography variant="h3" gutterBottom sx={{ p: 4 }}>
+            Welcome, {userData ? userData.firstName : userInfo.email} to Your Dashboard
           </Typography>
           <SearchRecipesBar />
         </Grid>
