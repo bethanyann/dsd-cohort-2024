@@ -4,7 +4,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import logo from "../assets/gaia_logo.png";
+import logo from "../assets/gaia_logo_white.png";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -34,7 +34,7 @@ function Navbar({ isLoggedIn, logout }) {
 
     return (
         <ThemeProvider theme={theme}>
-            <AppBar position="fixed" style={{ width: '100%' }} sx={{ backgroundColor: 'transparent', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+            <AppBar position="fixed" style={{ width: '100%' }} sx={{ backgroundColor: '#ACE1AF', zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                 <Toolbar>
                     <Grid container alignItems="center" justifyContent="space-between">
                         {/* Logo on the left-hand side */}
@@ -44,11 +44,11 @@ function Navbar({ isLoggedIn, logout }) {
                         {/* Sign in button or logout button on the right-hand side */}
                         <Grid item>
                             {isLoggedIn ? (
-                                <Button variant="outlined" color="secondary" onClick={handleLogoutClick}>
+                                <Button variant="outlined" color="secondary" onClick={handleLogoutClick} sx={{backgroundColor: "white"}}>
                                     Logout
                                 </Button>
                             ) : (
-                                <Button variant="outlined" color="primary" onClick={handleSignInClick}>
+                                <Button variant="outlined" color="primary" onClick={handleSignInClick} sx={{backgroundColor: "white"}}>
                                     Sign In
                                 </Button>
                             )}
