@@ -12,9 +12,9 @@ function Dashboard(props) {
   const { logout } = useAuth();
   const location = useLocation(); // Use useLocation hook to access location
   const [userData, setUserData] = useState(null);
-  const userEmail = props.userEmail;
+  const userInfo = props.userInfo;
 
-  console.log(userEmail, "dash");
+  console.log(userInfo, "dash");
   useEffect(() => {
     if (location.state.email) {
       // Access location.state.email directly

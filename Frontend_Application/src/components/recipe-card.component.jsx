@@ -19,12 +19,12 @@ const PlusIcon = createSvgIcon(
 function RecipeCard(props) {
   const { name, receipeId, description, imageUrl, protein, fat, carbs, calories } = props.recipe;
   const type = props.type;
-  const userEmail = props.userEmail;
+  const userInfo = props.userInfo;
 
   const handleAdd = () => {
     axios
       .post("http://localhost:8080/api/v0/users/addrecipetofavorites/", {
-        email: userEmail,
+        email: userInfo.email,
         id: receipeId,
       })
       .then(function (response) {
@@ -37,10 +37,10 @@ function RecipeCard(props) {
 
   const handleRemove = () => {
     console.log("removing");
-    console.log(userEmail);
+    console.log(userInfo);
     axios
       .delete("http://localhost:8080/api/v0/users/addrecipetofavorites/", {
-        email: userEmail,
+        email: userInfo.email,
         id: receipeId,
       })
       .then(function (response) {

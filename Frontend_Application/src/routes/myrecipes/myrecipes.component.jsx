@@ -10,9 +10,9 @@ import { AuthContext } from "../../auth-context/AuthContext.jsx";
 
 const MyRecipes = (props) => {
   const { user } = useContext(AuthContext);
-  const userEmail = props.userEmail;
+  const userInfo = props.userInfo;
 
-  console.log(userEmail, "myreceipes");
+  console.log(userInfo, "myreceipes");
   const recipeStyles = {
     marginLeft: "220px", // Adjust to fit the width of the menu
     padding: "20px",
@@ -33,7 +33,7 @@ const MyRecipes = (props) => {
             <SearchMyRecipesBar />
           </Grid>
           <Grid item>
-            <MyRecipesCardContainer type="remove" userEmai={userEmail} />
+            <MyRecipesCardContainer type="remove" userInfo={userInfo} />
           </Grid>
         </Grid>
         <Grid item>

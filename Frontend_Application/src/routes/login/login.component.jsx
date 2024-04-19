@@ -31,7 +31,7 @@ const Login = (props) => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
   const [errorSnackbarMessage, setErrorSnackbarMessage] = useState("");
-  const setUserEmail = props.setUserEmail;
+  const setUserInfo = props.setUserInfo;
 
   const validateEmail = (email) => {
     // Regular expression for email validation
@@ -76,7 +76,7 @@ const Login = (props) => {
           setSnackbarMessage("Login successful!");
           setSnackbarOpen(true);
           // Redirect to dashboard after successful login
-          setUserEmail(formData.email);
+          setUserInfo(response.data);
           navigate("/dashboard", { state: { email: formData.email } });
         })
         .catch((error) => {

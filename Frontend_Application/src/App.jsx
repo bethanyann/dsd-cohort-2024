@@ -12,7 +12,7 @@ import { AuthProvider } from "./auth-context/AuthContext.jsx"; // Import AuthPro
 import { useState } from "react";
 
 function App() {
-  const [userEmail, setUserEmail] = useState("");
+  const [userInfo, setUserInfo] = useState({});
 
   return (
     <AuthProvider>
@@ -20,12 +20,12 @@ function App() {
       {/* Wrap routes with AuthProvider */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login setUserEmail={setUserEmail} />} />
+        <Route path="/login" element={<Login setUserInfo={setUserInfo} />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard userEmail={userEmail} />} />
-        <Route path="/myrecipes" element={<MyRecipes userEmail={userEmail} />} />
-        <Route path="/mygrocerylist" element={<MyGroceryList userEmail={userEmail} />} />
-        <Route path="/settings" element={<Settings userEmail={userEmail} />} />
+        <Route path="/dashboard" element={<Dashboard userInfo={userInfo} />} />
+        <Route path="/myrecipes" element={<MyRecipes userInfo={userInfo} />} />
+        <Route path="/mygrocerylist" element={<MyGroceryList setUserInfo={setUserInfo} />} />
+        <Route path="/settings" element={<Settings userInfo={userInfo} />} />
       </Routes>
     </AuthProvider>
   );
