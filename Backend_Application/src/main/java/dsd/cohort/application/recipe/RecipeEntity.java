@@ -59,7 +59,7 @@ public class RecipeEntity {
     @Column(name = "calories")
     private double calories;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<IngredientEntity> ingredients = new HashSet<>();
 
     @Override
