@@ -16,13 +16,13 @@ function Dashboard(props) {
 
   console.log(userInfo, "dash");
   useEffect(() => {
-    if (location.state.email) {
+    if (userInfo.email) {
       // Access location.state.email directly
-      retrieveUserData(location.state.email);
+      retrieveUserData(userInfo);
     }
   }, [user, location]);
 
-  async function retrieveUserData(email) {
+  async function retrieveUserData(userInfo) {
     try {
       const response = await fetch(`http://localhost:8080/api/v0/users/finduserbyemail?email=${userInfo.email}`);
       if (response.ok) {
@@ -49,7 +49,7 @@ function Dashboard(props) {
       <Grid container justifyContent="center" alignItems="center">
         <Grid item>
           <Typography variant="h3" gutterBottom sx={{ p: 4 }}>
-            Welcome, {userData ? userData.firstName : location.state.email} to Your Dashboard
+            Welcome, {userData ? userData.firstName : userInfo.email} to Your Dashboard
           </Typography>
           <SearchRecipesBar />
         </Grid>
