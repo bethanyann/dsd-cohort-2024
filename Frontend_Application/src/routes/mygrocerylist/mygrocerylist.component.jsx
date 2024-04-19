@@ -30,9 +30,7 @@ function MyGroceryList(props) {
             <SearchIngredientBar />
           </Grid>
           <Grid item>
-            <IngredientCardContainer>
-              <IngredientCard />
-            </IngredientCardContainer>
+            <IngredientCardContainer></IngredientCardContainer>
           </Grid>
         </Grid>
         <Grid item>

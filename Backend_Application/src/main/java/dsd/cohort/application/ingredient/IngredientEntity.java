@@ -1,5 +1,8 @@
 package dsd.cohort.application.ingredient;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import dsd.cohort.application.recipe.RecipeEntity;
@@ -27,7 +30,7 @@ public class IngredientEntity {
     @Column(name = "food_id", unique = true)
     private String foodId;
 
-    @Column(name = "food")
+    @Column(name = "name")
     private String name;
 
     // represents the name of the ingredient
@@ -49,8 +52,25 @@ public class IngredientEntity {
 
     @Column(name = "food_category")
     private String foodCategory;
-
+  
     @ManyToOne
     @JoinColumn(name = "recipe_id")
     private RecipeEntity recipe;
+
+    @Override
+    public String toString() {
+        return "IngredientEntity{" +
+                "id=" + id +
+                ", foodId='" + foodId + '\'' +
+                ", name='" + name + '\'' +
+                ", text='" + text + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", quantity='" + quantity + '\'' +
+                ", measure=" + measure +
+                ", weight=" + weight +
+                ", foodCategory=" + foodCategory +
+                '}';
+    }
+
 }
+
