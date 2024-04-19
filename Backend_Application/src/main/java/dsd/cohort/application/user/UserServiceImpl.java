@@ -34,13 +34,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity createUser(UserEntity user) {
+    public UserEntity createUser(UserRegisterDTO user) {
 
         usersRepository.findByEmail(user.getEmail()).orElseThrow();
 
-        user.setPassword(utility.encryptString(user.getPassword()));
+        UserEntity newUser = new UserEntity();
 
-        return usersRepository.save(user);
+        newUser.setFirstName(user.getFirstName());
+        newUser.setLastName(user.getLastName());
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(utility.encryptString(user.getPassword()));
+
+        return usersRepository.save(newUser);
     }
 
     @Override

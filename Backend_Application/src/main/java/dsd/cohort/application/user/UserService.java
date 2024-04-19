@@ -15,7 +15,7 @@ public interface UserService {
 
     boolean userExists(String email);
 
-    UserEntity createUser(UserEntity user) throws HttpServerErrorException.InternalServerError;
+    UserEntity createUser(UserRegisterDTO user) throws HttpServerErrorException.InternalServerError;
 
     boolean addRecipe(UserDataRequestDTO userDataRequestDTO);
 
