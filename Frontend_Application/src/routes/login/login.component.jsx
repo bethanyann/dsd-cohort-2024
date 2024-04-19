@@ -77,7 +77,7 @@ const Login = (props) => {
           setSnackbarOpen(true);
           // Redirect to dashboard after successful login
           setUserInfo(response.data);
-          navigate("/dashboard", { state: { email: formData.email } });
+          navigate("/dashboard");
         })
         .catch((error) => {
           console.error("Error logging in:", error);
