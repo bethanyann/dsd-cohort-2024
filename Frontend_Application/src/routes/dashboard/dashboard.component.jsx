@@ -24,7 +24,7 @@ function Dashboard(props) {
 
   async function retrieveUserData(email) {
     try {
-      const response = await fetch(`http://localhost:8080/api/v0/users/finduserbyemail?email=${userEmail}`);
+      const response = await fetch(`http://localhost:8080/api/v0/users/finduserbyemail?email=${userInfo.email}`);
       if (response.ok) {
         const userData = await response.json();
         setUserData(userData);
