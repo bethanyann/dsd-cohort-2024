@@ -2,8 +2,32 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function SearchRecipesBar(props) {
+  // on load, get all recipes names from the backend
+  const [recipes, setRecipes] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/v0/recipes/names"
+        );
+        const recipeArray = response.data;
+        recipeArray.push(...testRecipes)
+
+        setRecipes(response.data); // Assuming the response data is an array
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+
+    console.log(recipes);
+  }, []);
+
   const setSearchedRecipes = props.setSearchedRecipes;
 
   const handleSearch = (event) => {
@@ -22,7 +46,7 @@ export default function SearchRecipesBar(props) {
     <Autocomplete
       id="recipe-search-bar"
       disableClearable
-      options={recipes.map((recipe) => recipe.title)}
+      options={recipes}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -43,23 +67,15 @@ export default function SearchRecipesBar(props) {
 }
 
 // Test recipes
-const recipes = [
-  { title: "Chicken Rice", ingredients: ["chicken", "rice"] },
-  {
-    title: "Spaghetti and Meatballs",
-    ingredients: ["spaghetti", "meatballs", "sauce"],
-  },
-  {
-    title: "Vanilla Ice Cream",
-    ingredients: ["milk", "sugar", "vanilla extract"],
-  },
-  { title: "Quesadilla", ingredients: ["tortilla", "cheese"] },
-  {
-    title: "Korean Fried Chicken",
-    ingredients: ["chicken", "flour", "gochujang"],
-  },
-  {
-    title: "Omelette",
-    ingredients: ["egg", "spinach", "tomato"],
-  },
+const testRecipes = [
+  "Chicken Rice",
+  "Spaghetti and Meatballs",
+  "Vanilla Ice Cream",
+  "Quesadilla",
+  "Korean Fried Chicken",
+  "Omelette",
+  "Miso soup",
+  "Sushi",
+  "Ramen",
+  "Risotto",
 ];
