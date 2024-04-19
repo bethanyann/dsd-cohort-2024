@@ -9,7 +9,7 @@ import useAuth from "../../auth-context/useAuth.jsx";
 import MyRecipesCardContainer from "../../components/MyRecipesCardContainer.component.jsx";
 
 function Dashboard({ userInfo }) {
-
+  const [searchedRecipes, setSearchedRecipes] = useState([]);
   console.log(userInfo, "dash");
 
   const dashboardStyle = {
