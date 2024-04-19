@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Menu from "../../components/menu.component.jsx";
 import SearchRecipesBar from "../../components/search-recipes-bar.component.jsx";
 import useAuth from "../../auth-context/useAuth.jsx";
+import MyRecipesCardContainer from "../../components/MyRecipesCardContainer.component.jsx";
 
 function Dashboard({ userInfo }) {
 
@@ -25,7 +26,8 @@ function Dashboard({ userInfo }) {
           <Typography variant="h3" gutterBottom sx={{ p: 4 }}>
             Welcome, {userInfo ? userInfo.firstName : userInfo.email} to Your Dashboard
           </Typography>
-          <SearchRecipesBar />
+          <SearchRecipesBar setSearchedRecipes={setSearchedRecipes} />
+          <MyRecipesCardContainer recipes={searchedRecipes} />
         </Grid>
         <Grid item>
           <Menu />

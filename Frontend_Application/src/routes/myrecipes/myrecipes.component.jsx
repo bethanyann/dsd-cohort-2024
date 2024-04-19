@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -11,12 +11,29 @@ import { AuthContext } from "../../auth-context/AuthContext.jsx";
 const MyRecipes = (props) => {
   const { user } = useContext(AuthContext);
   const userInfo = props.userInfo;
+  const [myRecipes, setMyRecipes] = useState([]);
 
   console.log(userInfo, "myreceipes");
   const recipeStyles = {
     marginLeft: "220px", // Adjust to fit the width of the menu
     padding: "20px",
   };
+
+  useEffect(() => {
+    console.log("Fetching recipes...");
+    const fetchRecipes = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/v0/users/getuserfavorites/" + userInfo.email);
+        const data = await response.json();
+        setMyRecipes(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching recipes:", error);
+      }
+    };
+
+    fetchRecipes();
+  }, []);
 
   return (
     <div style={recipeStyles}>
@@ -33,7 +50,7 @@ const MyRecipes = (props) => {
             <SearchMyRecipesBar />
           </Grid>
           <Grid item>
-            <MyRecipesCardContainer type="remove" userInfo={userInfo} />
+            <MyRecipesCardContainer type="remove" userInfo={userInfo} recipes={myRecipes} />
           </Grid>
         </Grid>
         <Grid item>
