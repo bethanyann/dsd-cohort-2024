@@ -5,7 +5,9 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import { createSvgIcon } from "@mui/material/utils";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Stack from "@mui/material/Stack";
+import axios from "axios";
 
 const PlusIcon = createSvgIcon(
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-6 w-6">
@@ -15,7 +17,39 @@ const PlusIcon = createSvgIcon(
 );
 
 function RecipeCard(props) {
-  const { name, description, imageUrl, protein, fat, carbs, calories } = props.recipe;
+  const { name, receipeId, description, imageUrl, protein, fat, carbs, calories } = props.recipe;
+  const type = props.type;
+  const userInfo = props.userInfo;
+
+  const handleAdd = () => {
+    axios
+      .post("http://localhost:8080/api/v0/users/addrecipetofavorites/", {
+        email: userInfo.email,
+        id: receipeId,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const handleRemove = () => {
+    console.log("removing");
+    console.log(userInfo);
+    axios
+      .delete("http://localhost:8080/api/v0/users/addrecipetofavorites/", {
+        email: userInfo.email,
+        id: receipeId,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
@@ -30,7 +64,8 @@ function RecipeCard(props) {
             </Typography>
           </div>
           <Stack direction="row" alignItems="center">
-            <PlusIcon fontSize="large" />
+            {type === "add" && <PlusIcon fontSize="large" onClick={handleAdd} />}
+            {type === "remove" && <DeleteIcon fontSize="large" onClick={handleRemove} />}
           </Stack>
         </CardContent>
       </CardActionArea>
