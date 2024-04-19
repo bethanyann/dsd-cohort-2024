@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import dsd.cohort.application.recipe.RecipeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -51,7 +52,11 @@ public class IngredientEntity {
 
     @Column(name = "food_category")
     private String foodCategory;
-    
+  
+    @ManyToOne
+    @JoinColumn(name = "recipe_id")
+    private RecipeEntity recipe;
+
     @Override
     public String toString() {
         return "IngredientEntity{" +
@@ -66,5 +71,6 @@ public class IngredientEntity {
                 ", foodCategory=" + foodCategory +
                 '}';
     }
+
 }
 

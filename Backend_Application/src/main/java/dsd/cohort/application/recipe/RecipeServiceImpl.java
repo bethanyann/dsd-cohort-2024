@@ -85,7 +85,9 @@ public class RecipeServiceImpl implements RecipeService {
 
         if (recipes.isEmpty()) {
             try {
+                System.out.println("\nSearch partial not found, fetching from API...");
                 recipes = queryApi(name);
+                recipeRepository.saveAll(recipes);
             } catch (Exception e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to fetch recipes");
             }
@@ -226,24 +228,28 @@ public class RecipeServiceImpl implements RecipeService {
         List<RecipeEntity> recipes = new ArrayList<>();
 
         if (jsonNode.isArray()) {
+
+            int i = 0;
             for (JsonNode recipe : jsonNode) {
 
+                if (i == 5) {
+                    break;
+                }
                 String recipeId = recipe.findValue("uri").textValue().split("#")[1];
+                System.out.println("Recipe ID: " + "recipeId");
                 RecipeEntity existingRecipe = getRecipeByRecipeId(recipeId);
 
                 if (existingRecipe != null) {
                     recipes.add(existingRecipe);
                     System.out.println("\nRecipe already exists: " + recipeId);
+                    i++;
                     continue;
                 }
 
                 RecipeEntity newRecipe = utility.recipeHandler(recipe, recipeId);
 
-                RecipeEntity savedRecipe = recipeRepository.save(newRecipe);
-
-                System.out.println("\nRecipe saved: " + savedRecipe.getRecipeId());
-
                 recipes.add(newRecipe);
+                i++;
 
             }
         }
