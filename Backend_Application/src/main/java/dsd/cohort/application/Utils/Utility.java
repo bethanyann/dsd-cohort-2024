@@ -148,7 +148,7 @@ public class Utility {
 
         newRecipe.setIngredients(ingredients);
 
-        System.out.println("\n\nSuccessful parse\n\n");
+        System.out.println("\n\nSuccessful recipe parse\n\n");
 
         return newRecipe;
     }
@@ -176,6 +176,8 @@ public class Utility {
         newIngredient.setWeight(Double.parseDouble(df.format(weight)));
 
         ingredientServiceImpl.createIngredient(newIngredient);
+
+        System.out.println("\n\nSuccessful ingredient parse\n\n");
 
         return newIngredient;
 
