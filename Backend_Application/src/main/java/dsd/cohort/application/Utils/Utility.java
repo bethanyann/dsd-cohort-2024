@@ -139,7 +139,7 @@ public class Utility {
 
         // get ingredients from json
         JsonNode ingredientsJson = recipeNode.findValue("ingredients");
-        System.out.println("\n\nIngredients: " + ingredientsJson.toString());
+
         Set<IngredientEntity> ingredients = new HashSet<>();
 
         for (JsonNode ingredient : ingredientsJson) {
