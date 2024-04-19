@@ -16,4 +16,6 @@ public interface RecipeService {
 
     List<RecipeEntity> getAllRecipes(); // TODO: add pagination
 
+    List<String> getRecipeNames();
+
 }

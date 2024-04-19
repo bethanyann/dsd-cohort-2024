@@ -59,4 +59,21 @@ public class RecipeController {
 
         return ResponseEntity.status(HttpStatus.OK).body(recipes);
     }
+
+    @Operation(summary = "Get all recipe names")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Recipe names returned"),
+        @ApiResponse(responseCode = "500", description = "Could not get recipe names")
+    })
+    @GetMapping("/names")
+    public ResponseEntity<List<String>> getRecipeNames() {
+        List<String> recipeNames = recipeService.getRecipeNames();
+        
+        if (recipeNames.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(recipeNames);
+
+    }
 }

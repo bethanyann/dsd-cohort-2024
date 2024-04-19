@@ -29,17 +29,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity findUserByEmail(String email) {
-        return usersRepository.findByEmail(email).orElseThrow();
-    }
-
-    @Override
     public boolean userExists(String email) {
         return usersRepository.findByEmail(email).isPresent();
     }
 
     @Override
     public UserEntity createUser(UserEntity user) {
+
+        usersRepository.findByEmail(user.getEmail()).orElseThrow();
 
         user.setPassword(utility.encryptString(user.getPassword()));
 

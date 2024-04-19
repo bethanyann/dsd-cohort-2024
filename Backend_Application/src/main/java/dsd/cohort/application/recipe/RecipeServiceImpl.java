@@ -95,6 +95,21 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
+     * Creates a list of all recipes names from the database.
+     *
+     * @return a list of recipe names
+     */
+    @Override
+    public List<String> getRecipeNames() {
+        List<String> recipeNames = new ArrayList<String>();
+        List<RecipeEntity> recipes = getAllRecipes();
+        for (RecipeEntity recipe : recipes) {
+            recipeNames.add(recipe.getName());
+        }
+        return recipeNames;
+    }
+
+    /**
      * Creates a new RecipeEntity object with the provided recipeId.
      *
      * @param recipeId

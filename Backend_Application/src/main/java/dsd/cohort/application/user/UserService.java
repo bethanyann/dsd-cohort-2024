@@ -13,8 +13,6 @@ import org.springframework.web.client.HttpServerErrorException;
 @Service
 public interface UserService {
 
-    UserEntity findUserByEmail(String email);
-
     boolean userExists(String email);
 
     UserEntity createUser(UserEntity user) throws HttpServerErrorException.InternalServerError;
