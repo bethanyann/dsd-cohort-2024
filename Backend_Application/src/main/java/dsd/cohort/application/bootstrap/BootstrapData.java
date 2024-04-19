@@ -107,5 +107,19 @@ public class BootstrapData implements CommandLineRunner {
 
       System.out.println("Bootstrap Data Loaded: Recipes - " + recipeRepository.count());
     }
+    
+    if (ingredientRepository.findAll().isEmpty()) {
+      IngredientEntity ingredient = new IngredientEntity();
+
+      ingredient.setName("Chicken");
+      ingredient.setText("Chicken");
+      ingredient.setFoodId("chicken");
+      ingredient.setImageUrl(null);
+      ingredient.setQuantity(0);
+      ingredient.setWeight(0);
+      ingredient.setMeasure(null);
+      ingredient.setFoodCategory("Meat");
+      ingredientRepository.save(ingredient);
+    }
   }
 }

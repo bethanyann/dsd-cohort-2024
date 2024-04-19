@@ -27,8 +27,16 @@ const PlusIcon = createSvgIcon(
 );
 
 function IngredientCard(props) {
-  const { name, description, imageUrl, protein, fat, carbs, calories } =
-    props.ingredient;
+  const {
+    foodId,
+    name,
+    text,
+    imageUrl,
+    quantity,
+    measure,
+    weight,
+    foodCategory,
+  } = props.ingredient;
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
@@ -42,10 +50,11 @@ function IngredientCard(props) {
         >
           <div style={{ width: "80%" }}>
             <Typography gutterBottom variant='h5' component='div'>
-              {name}
+              {name} | {text}
             </Typography>
             <Typography variant='body2' color='text.secondary'>
-              Carb: {carbs} | Protein: {protein} | Fat: {fat}
+              Quantity: {quantity} | Measure: {measure} | Weight: {weight} |
+              Category: {foodCategory}
             </Typography>
           </div>
           <Stack direction='row' alignItems='center'>
