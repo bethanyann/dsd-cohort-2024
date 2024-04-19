@@ -31,7 +31,7 @@ public class UserController {
         return userService.getAll();
     }
 
-    @Operation(summary = "Get all users")
+    @Operation(summary = "Create a new user")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "All users returned"),
         @ApiResponse(responseCode = "500", description = "Could not create user")
@@ -41,27 +41,15 @@ public class UserController {
 
         try {
             UserEntity newUser = userService.createUser(user);
+
+            if (newUser == null) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(newUser);
         } catch (Exception exception) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Couldn't Create User");
-        }
-    }
-
-    @Operation(summary = "Get a user by email")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User found"),
-        @ApiResponse(responseCode = "500", description = "User not found")
-    })
-    @GetMapping("/finduserbyemail")
-    public ResponseEntity<UserEntity> findUserByEmail(@RequestParam String email) {
-        try {
-            UserEntity user = userService.findUserByEmail(email);
-
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(user);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User not found");
         }
     }
 
@@ -123,6 +111,11 @@ public class UserController {
         }
     }
 
+    @Operation(summary = "Add an ingredient to a users grocery list")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Ingredient added to user's grocery list"),
+        @ApiResponse(responseCode = "500", description = "Could not add ingredient to user's grocery list.")
+    })
     @PostMapping("/additemtogrocerylist")
     public ResponseEntity<String> addItemToGroceryList(@RequestBody UserDataRequestDTO userDataRequestDTO) {
 
@@ -141,7 +134,7 @@ public class UserController {
     @Operation(summary = "Get a users grocery list")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Users grocery list returned"),
-        @ApiResponse(responseCode = "500", description = "Could not get users grocery list")
+        @ApiResponse(responseCode = "500", description = "Could not get user's grocery list")
     })
     @GetMapping("/getgrocerylist/{email}")
     public ResponseEntity<Set<IngredientEntity>> getGroceryList(@PathVariable String email) {
@@ -166,7 +159,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body("Item removed from user's grocery list.");
         }
         catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not remove item " +
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Could not remove item " + userDataRequestDTO.getId() +
                     "from users grocery list.");
         }
     }
@@ -187,7 +180,7 @@ public class UserController {
                         .body(auth);
             }
         } catch (NoSuchElementException e) {
-            System.out.println("User not found");
+            System.out.println("User not found: " + e.getMessage());
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
