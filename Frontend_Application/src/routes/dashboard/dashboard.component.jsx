@@ -26,8 +26,12 @@ function Dashboard({ userInfo }) {
           <Typography variant="h3" gutterBottom sx={{ p: 4 }}>
             Welcome, {userInfo ? userInfo.firstName : userInfo.email} to Your Dashboard
           </Typography>
-          <SearchRecipesBar setSearchedRecipes={setSearchedRecipes} />
-          <MyRecipesCardContainer recipes={searchedRecipes} />
+          <Grid item marginBottom={2}>
+            <SearchRecipesBar setSearchedRecipes={setSearchedRecipes} />
+          </Grid>
+          <Grid item>
+            <MyRecipesCardContainer recipes={searchedRecipes} />
+          </Grid>
         </Grid>
         <Grid item>
           <Menu />
