@@ -8,38 +8,33 @@ export default function SearchRecipesBar(props) {
   // on load, get all recipes names from the backend
   const [recipes, setRecipes] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/api/v0/recipes/names"
-        );
-        const recipeArray = response.data;
-        recipeArray.push(...testRecipes)
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get("http://localhost:8080/api/v0/recipes/search");
+  //       console.log(response);
+  //       const recipeArray = response.data;
 
-        setRecipes(response.data); // Assuming the response data is an array
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  //       console.log(recipeArray);
+  //       setRecipes(recipeArray); // Assuming the response data is an array
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
 
-    fetchData();
+  //   fetchData();
 
-    console.log(recipes);
-  }, []);
+  //   console.log(recipes);
+  // }, []);
 
   const setSearchedRecipes = props.setSearchedRecipes;
 
-  const handleSearch = (event) => {
+  const handleSearch = async (event) => {
     console.log(event.target.value);
-    axios
-      .get("http://localhost:8080/api/v0/recipes/search/" + event.target.value)
-      .then((response) => {
-        response.data;
-        console.log(response.data);
-      })
-      .then((data) => setSearchedRecipes(data))
-      .catch((error) => console.log(error));
+    const response = await axios.get("http://localhost:8080/api/v0/recipes/search/" + event.target.value);
+    const data = await response.data;
+    console.log(data);
+    setSearchedRecipes(data);
   };
 
   return (
