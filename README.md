@@ -12,7 +12,7 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-<!-- [![MIT License][license-shield]][license-url] -->
+[![MIT License][license-shield]][license-url]
 
 
 <br />
@@ -122,18 +122,19 @@ Use this space to show useful examples of how a project can be used. Additional 
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
-## Roadmap
+## Timeline
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+1. Project scope and goals, ie. User Stories and Feature List
+2. Design, UI, UX
+3. Hachathon
+4. Review and revision
+5. Presentation
 
 See the [open issues](https://github.com/bethanyann/dsd-cohort-2024/issues) for a full list of proposed features (and known issues).
 
 ## License
 
-Distributed under the {{Chosen License}}. See `LICENSE.txt` for more information.
+Distributed under the [MIT License][license-url]. See `LICENSE.txt` for more information.
 
 ## Acknowledgments
 
