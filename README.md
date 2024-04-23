@@ -141,6 +141,7 @@ Distributed under the [MIT License][license-url]. See `LICENSE.txt` for more inf
 * [Badges4README](https://github.com/alexandresanlim/Badges4-README.md-Profile)
 * [Edamam](https://edamam.com)
 * [Material UI](https://mui.com)
+### Huge shoutout to the community that made this project possible!
 * [Dallas Software Developer Community](https://www.meetup.com/dallas-software-developers-meetup/)
 
 <p align="right">(<a href="#about-the-project">back to top</a>)</p>
