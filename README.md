@@ -24,7 +24,7 @@
 <h3 align="center">GAIA</h3>
 
   <p align="center">
-    A grocery app <!-- TODO: make a better one-liner -->
+    A Recipe-First Grocery App <!-- TODO: make a better one-liner -->
     <br />
     <a href="https://gotanotheringredientapp.xyz">View Demo</a>
     ·
@@ -59,7 +59,7 @@
 
 ## About The Project
 
--- Add project description here --
+GAIA is a recipe-first grocery app that allows users to search for recipes and add them to their favorites. The app then colates all of the ingredients needed to make the recipe into a shopping list.
 
 
 ## The Team
