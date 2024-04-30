@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../../components/navbar.component.jsx";
 import Grid from "@mui/material/Grid";
@@ -9,9 +9,10 @@ import IngredientCardContainer from "../../components/ingredient-card-container.
 import IngredientCard from "../../components/ingredient-card.component.jsx";
 import { AuthContext } from "../../auth-context/AuthContext.jsx";
 
-function MyGroceryList(props) {
-  const { user } = useContext(AuthContext);
-  const userEmail = props.userEmail;
+function MyGroceryList({userInfo}) {
+
+  const [myIngredients, setMyIngredients] = useState([]);
+
   const groceryStyle = {
     marginLeft: "220px", // Adjust to fit the width of the menu
     padding: "20px",
@@ -20,7 +21,7 @@ function MyGroceryList(props) {
   return (
     <div style={groceryStyle}>
       <Outlet />
-      <Navbar />
+      <Navbar isLoggedIn={true} />
       <Grid container justifyContent="center" alignItems="center">
         <Grid item>
           <Typography variant="h3" gutterBottom sx={{ p: 4 }}>
@@ -30,7 +31,7 @@ function MyGroceryList(props) {
             <SearchIngredientBar />
           </Grid>
           <Grid item>
-            <IngredientCardContainer></IngredientCardContainer>
+            <IngredientCardContainer userInfo={userInfo}></IngredientCardContainer>
           </Grid>
         </Grid>
         <Grid item>

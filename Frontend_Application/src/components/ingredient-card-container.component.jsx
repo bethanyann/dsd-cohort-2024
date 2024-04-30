@@ -43,7 +43,7 @@ import { useEffect, useState } from "react";
 import IngredientCard from "./ingredient-card.component.jsx";
 import { Stack } from "@mui/material";
 
-function IngredientCardContainer(props) {
+function IngredientCardContainer({userInfo}) {
   const [myIngredient, setMyIngredient] = useState([]);
 
   useEffect(() => {
@@ -51,9 +51,12 @@ function IngredientCardContainer(props) {
     const fetchIngredients = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8080/api/v0/ingredients/"
+          "http://localhost:8080/api/v0/users/getgrocerylist/" + userInfo.email
         );
         const data = await response.json();
+
+        console.log("fetched ingredients: ",data);
+
         setMyIngredient(data);
         console.log(data);
       } catch (error) {

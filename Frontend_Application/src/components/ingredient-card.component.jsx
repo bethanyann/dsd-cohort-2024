@@ -50,7 +50,7 @@ function IngredientCard(props) {
         >
           <div style={{ width: "80%" }}>
             <Typography gutterBottom variant='h5' component='div'>
-              {name} | {text}
+              {name}
             </Typography>
             <Typography variant='body2' color='text.secondary'>
               Quantity: {quantity} | Measure: {measure} | Weight: {weight} |

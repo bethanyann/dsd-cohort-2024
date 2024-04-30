@@ -8,9 +8,7 @@ import MyRecipesCardContainer from "../../components/MyRecipesCardContainer.comp
 import SearchMyRecipesBar from "../../components/search-my-recipes-bar.component.jsx";
 import { AuthContext } from "../../auth-context/AuthContext.jsx";
 
-const MyRecipes = (props) => {
-  const { user } = useContext(AuthContext);
-  const userInfo = props.userInfo;
+const MyRecipes = ({userInfo}) => {
   const [myRecipes, setMyRecipes] = useState([]);
 
   console.log(userInfo, "myreceipes");
@@ -25,6 +23,9 @@ const MyRecipes = (props) => {
       try {
         const response = await fetch("http://localhost:8080/api/v0/users/getuserfavorites/" + userInfo.email);
         const data = await response.json();
+
+        console.log("fetched recipes: ", data);
+
         setMyRecipes(data);
         console.log(data);
       } catch (error) {
@@ -38,7 +39,7 @@ const MyRecipes = (props) => {
   return (
     <div style={recipeStyles}>
       <Outlet />
-      <Navbar />
+      <Navbar isLoggedIn={true} />
       <Grid container justifyContent="center" alignItems="center" marginTop={5}>
         <Grid item>
           <Grid item>

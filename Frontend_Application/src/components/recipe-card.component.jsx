@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions } from "@mui/material";
+import { Button, CardActionArea, CardActions, IconButton } from "@mui/material";
 import { createSvgIcon } from "@mui/material/utils";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Stack from "@mui/material/Stack";
@@ -16,12 +16,14 @@ const PlusIcon = createSvgIcon(
   "Plus"
 );
 
-function RecipeCard(props) {
-  const { name, receipeId, description, imageUrl, protein, fat, carbs, calories } = props.recipe;
-  const type = props.type;
-  const userInfo = props.userInfo;
+function RecipeCard({ recipe, userInfo }) {
+  const { name, receipeId, description, imageUrl, protein, fat, carbs, calories } = recipe;
 
-  const handleAdd = () => {
+  console.log("the recipe: ", recipe);
+
+  const handleAdd = (receipeId) => {
+    console.log(userInfo);
+    console.log("adding to favorites: ", receipeId);
     axios
       .post("http://localhost:8080/api/v0/users/addrecipetofavorites/", {
         email: userInfo.email,
@@ -41,7 +43,7 @@ function RecipeCard(props) {
     axios
       .delete("http://localhost:8080/api/v0/users/addrecipetofavorites/", {
         email: userInfo.email,
-        id: receipeId,
+        id: recipe.receipeId,
       })
       .then(function (response) {
         console.log(response);
@@ -64,8 +66,11 @@ function RecipeCard(props) {
             </Typography>
           </div>
           <Stack direction="row" alignItems="center">
-            {type === "add" && <PlusIcon fontSize="large" onClick={handleAdd} />}
-            {type === "remove" && <DeleteIcon fontSize="large" onClick={handleRemove} />}
+            {/* {type === "add" && <PlusIcon fontSize="large" onClick={handleAdd(receipeId)} />} */}
+            {/* {type === "remove" && <DeleteIcon fontSize="large" onClick={handleRemove} />} */}
+            <IconButton onClick={() => handleAdd(receipeId)} aria-label="add to favorites">
+              <PlusIcon fontSize="large" />
+            </IconButton>
           </Stack>
         </CardContent>
       </CardActionArea>
