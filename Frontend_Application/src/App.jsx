@@ -24,7 +24,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard userInfo={userInfo} />} />
         <Route path="/myrecipes" element={<MyRecipes userInfo={userInfo} />} />
-        <Route path="/mygrocerylist" element={<MyGroceryList setUserInfo={setUserInfo} />} />
+        <Route path="/mygrocerylist" element={<MyGroceryList userInfo={userInfo} />} />
         <Route path="/settings" element={<Settings userInfo={userInfo} />} />
       </Routes>
     </AuthProvider>

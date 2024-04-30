@@ -24,13 +24,13 @@ function Dashboard({ userInfo }) {
       <Grid container justifyContent="center" alignItems="center">
         <Grid item>
           <Typography variant="h3" gutterBottom sx={{ p: 4 }}>
-            Welcome, {userInfo ? userInfo.firstName : userInfo.email} to Your Dashboard
+            Welcome, {userInfo ? userInfo.firstName + " " + userInfo.lastName : userInfo.email} to Your Dashboard
           </Typography>
           <Grid item marginBottom={2}>
             <SearchRecipesBar setSearchedRecipes={setSearchedRecipes} />
           </Grid>
           <Grid item>
-            <MyRecipesCardContainer recipes={searchedRecipes} />
+            <MyRecipesCardContainer recipes={searchedRecipes} userInfo={userInfo} />
           </Grid>
         </Grid>
         <Grid item>

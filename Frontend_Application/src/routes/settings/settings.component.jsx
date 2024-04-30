@@ -5,11 +5,11 @@ import Navbar from "../../components/navbar.component.jsx";
 import Menu from "../../components/menu.component";
 import DietaryPrefSwitchboard from "../../components/dietary-pref-switchboard.component.jsx";
 
-const Settings = () => {
+const Settings = ({userInfo}) => {
   return (
     <>
       <Outlet />
-      <Navbar />
+      <Navbar isLoggedIn={true} />
       <Grid container justifyContent='center' alignItems='center'>
         <Grid item>
           <Typography variant='h3' gutterBottom sx={{ p: 4 }}>

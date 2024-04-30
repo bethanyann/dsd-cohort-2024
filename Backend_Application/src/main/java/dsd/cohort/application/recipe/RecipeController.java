@@ -42,8 +42,10 @@ public class RecipeController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Recipe found",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = RecipeDTO.class))),
-        @ApiResponse(responseCode = "500", description = "Recipe not found",
+        @ApiResponse(responseCode = "404", description = "Recipe not found",
             content = @Content),
+        @ApiResponse(responseCode = "418", description = "This is a teapot, a truly genuine teapot",
+            content = @Content(mediaType = "teapot")),
     })
     @GetMapping("/{recipeId}")
     public RecipeEntity getRecipeById(@PathVariable String recipeId) {
@@ -55,7 +57,7 @@ public class RecipeController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Recipes found",
             content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = RecipeDTO.class)))),
-        @ApiResponse(responseCode = "500", description = "No recipes found with that name",
+        @ApiResponse(responseCode = "404", description = "No recipes found with that name",
             content = @Content),
     })
     @GetMapping("/search/{name}")
